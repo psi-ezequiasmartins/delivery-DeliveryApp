@@ -7,12 +7,12 @@ function Destaques() {
           <div className="row">
           	<center>
               <h1>Aplicação Web (100% online)</h1>
-              <h3>Gestão Pedidos, Clientes, Fornecedores, Produtos, Estoque e Financeiro,<br/>tudo em um único lugar!</h3>
+              <h3>Gestão Pedidos, Clientes, Fornecedores, Estoque e Financeiro,<br/>tudo em um único lugar!</h3>
             </center>
             <div className="col-lg-4 box">
               <i className="icon fas fa-heart fa-4x vermelho"></i>
               <h3>Fácil de usar</h3>
-              <p>O sistema possui uma interface simples, intuitiva e muito prática de acessar e usar.</p>
+              <p>O sistema possui uma interface simples, prática e intuitiva. É muito fácil de configurar e usá-la.</p>
             </div>
             <div className="col-lg-4 box">
             <i className="icon fas fa-globe-americas fa-4x azul"></i>

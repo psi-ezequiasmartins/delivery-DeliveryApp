@@ -20,7 +20,7 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 0,00</h2>  
-                  <p>Até 10 produtos</p>
+                  <p>de 03 a 09 produtos</p>
                   <p>Degustação (demo)<br/>sem suporte.</p>
                   <button className="btn btn-lg btn-outline-primary">Assine Agora</button>
                 </div>
@@ -34,8 +34,8 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 49,90</h2>  
-                  <p>Até 99 produtos</p>
-                  <p>Suporte Offline (e-mail)+<br/>Tutoriais Online</p>
+                  <p>Até 30 produtos</p>
+                  <p>Suporte Offline (por e-mail)+<br/>Tutoriais Online</p>
                   <button className="btn btn-lg btn-outline-primary">Assinar Agora</button>
                 </div>
               </div>
@@ -48,8 +48,8 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 99,90</h2>  
-                  <p>Produtos ilimitados</p>
-                  <p>Suporte Online (remoto)+<br/> Google Ads*</p>
+                  <p>Até 50 produtos</p>
+                  <p>Suporte Online (acesso remoto)+<br/>Google Ads*</p>
                   <button className="btn btn-lg btn-outline-primary">Assinar Agora</button>
                 </div>
               </div>
@@ -59,7 +59,7 @@ function Planos() {
           <div className="row text-center">
             <div className="titulo">
               <h3>(*) Google Ads</h3>
-              <p>Promova seu Delivery em sua região através do nosso Plano de Markting c/ Google Ads.<br/>Entre em contato conosco para maiores informações</p>
+              <p>Promova o seu delivery em sua região através do nosso Plano de Markting c/ Google Ads.<br/>Outros planos e informações, por favor entre em contato conosco.</p>
             </div>
           </div>
 
