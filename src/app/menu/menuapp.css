@@ -1,0 +1,7 @@
+/* MENUAPP */
+.navbar {
+  background-color: darkslategrey;
+}
+.navbar .logout {
+  cursor: pointer;
+}
