@@ -50,7 +50,7 @@ function Editar(props) {
     })
   }, [props.match.params.id])
 
-  function AlterarDados() {
+  async function AlterarDados() {
 
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
@@ -65,27 +65,9 @@ function Editar(props) {
           "cnpj": cnpj, "cpf": cpf
         }
         console.log(json);
-        api.put('/delivery/update/', json).then(response => {
+        await api.put('/delivery/update/', json).then(response => {
           console.log(response.data);
-          let delivery = {
-            categoria: response.data.id_categoria,
-            nome: response.data.nome,
-            responsavel: response.data.responsavel,
-            email: response.data.email,
-            telefone: response.data.telefone,
-            endereco: response.data.endereco,
-            complemento: response.data.complemento,
-            bairro: response.data.bairro,
-            cidade: response.data.cidade,
-            uf: response.data.uf,
-            cep: response.data.cep,
-            marcador: response.data.marcador,
-            horario: response.data.horario,
-            cnpj: response.data.cnpj,
-            cpf: response.data.cpf 
-          }
           alert('Dados atualizados com sucesso!');
-          console.log(delivery);
         }).then(() => {
           setMsg('');
           setSuccess('S');
