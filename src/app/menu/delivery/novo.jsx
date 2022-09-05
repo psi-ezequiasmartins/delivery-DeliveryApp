@@ -88,7 +88,7 @@ function NovoDelivery(props) {
       <div className="container-fluid titulo">
 
 <div className="offset-lg-3 col-lg-6">
-  <h1>DADOS DO DELIVERY</h1>
+  <h1>CADASTRAR DADOS DO DELIVERY</h1>
   <form>
 
     <div className="mb-3">
