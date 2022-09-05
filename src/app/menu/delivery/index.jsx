@@ -23,7 +23,7 @@ function Index() {
     const [selecionado, setSelecionado] = useState('');
 
     function deleteByID(id) {
-      api.get(`/delivery/delete/${id}`).then(async(result) => {
+      api.delete(`/delivery/delete/${id}`).then(async(result) => {
       setExcluido(id);
       setConfirma(false);
       })

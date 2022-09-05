@@ -6,8 +6,8 @@ import './editar.css';
 import api from '../../config/api_mysql';
 
 function Editar(props) {
-  const [id, setId] = useState(0);
-  const [categoria, setCategoria] = useState(0);
+  const [id_delivery, setIdDelivery] = useState(0);
+  const [id_categoria, setIdCategoria] = useState(0);
   const [nome, setNome] = useState('');
   const [responsavel, setResponsavel] = useState('');
   const [email, setEmail] = useState('');
@@ -31,8 +31,8 @@ function Editar(props) {
     api.get(`/delivery/${props.match.params.id}`)
     .then(result => {
       console.log(result.data[0]);
-      setId(result.data[0].id_delivery);
-      setCategoria(result.data[0].id_categoria);
+      setIdDelivery(result.data[0].id_delivery);
+      setIdCategoria(result.data[0].id_categoria);
       setNome(result.data[0].nome);
       setResponsavel(result.data[0].responsavel);
       setEmail(result.data[0].email);
@@ -51,23 +51,20 @@ function Editar(props) {
   }, [props.match.params.id])
 
   async function AlterarDados() {
-
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
     } else if (email.length === 0) {
       setMsg('Favor preencher o campo E-mail.');
     } else {
         const json = { 
-          "id_delivery": id, "id_categoria": categoria,
+          "id_delivery": id_delivery, "id_categoria": id_categoria,
           "nome": nome, "responsavel": responsavel, "email": email, "telefone": telefone,
           "endereco": endereco, "complemento": complemento, "bairro": bairro,  "cidade": cidade, "uf": UF, "cep": CEP,
           "marcador": marcador, "horario": horario, 
           "cnpj": cnpj, "cpf": cpf
         }
-        console.log(json);
-        await api.put('/delivery/update/', json).then(response => {
+        await api.put(`/delivery/update/${id_delivery}`, json).then(response => {
           console.log(response.data);
-          alert('Dados atualizados com sucesso!');
         }).then(() => {
           setMsg('');
           setSuccess('S');
@@ -94,8 +91,7 @@ function Editar(props) {
     
     <div className="mb-3">
       <label htmlFor="categoria" className="form-label">Categoria</label>
-
-      <select onChange={e => setCategoria(e.target.value)} class="form-select" value={categoria} id="categoria"> 
+      <select onChange={e => setIdCategoria(e.target.value)} class="form-select" value={id_categoria} id="categoria"> 
         <option value="1">OFERTAS</option>
         <option value="2">SANDUICHES</option>
         <option value="3">HOTDOGS</option>
@@ -150,7 +146,35 @@ function Editar(props) {
       </div>
       <div className="col-sm-4">
         <label htmlFor="UF" className="form-label">UF</label>
-        <input onChange={e => setUf(e.target.value)} value={UF} type="text" className="form-control" id="UF" />
+        <select onChange={e => setUf(e.target.value)} value={UF} class="form-select" id="UF">
+          <option value="AC">ACRE</option>
+          <option value="AL">ALAGOAS</option>
+          <option value="AP">AMAPA</option>
+          <option value="AM">AMAZONAS</option>
+          <option value="BA">BAHIA</option>
+          <option value="CE">CEARA</option>
+          <option value="DF">DISTRITO FEDERAL</option>
+          <option value="ES">ESP.SANTO</option>
+          <option value="GO">GOIAS</option>
+          <option value="MA">MARANHAO</option>
+          <option value="MT">MATO GROSSO</option>
+          <option value="MS">MATO GROSSO SUL</option>
+          <option value="MG" selected="selected">MINAS GERAIS</option>
+          <option value="PA">PARA</option>
+          <option value="PB">PARAIBA</option>
+          <option value="PR">PARANA</option>
+          <option value="PE">PERNAMBUCO</option>
+          <option value="PI">PIAUI</option>
+          <option value="RJ">RIO DE JANEIRO</option>
+          <option value="RN">RIO GRANDE DO NORTE</option>
+          <option value="RS">RIO GRANDE DO SUL</option>
+          <option value="RO">RONDONIA</option>
+          <option value="RR">RORAIMA</option>
+          <option value="SC">SANTA CATARINA</option>
+          <option value="SP">SAO PAULO</option>
+          <option value="SE">SERGIPE</option>
+          <option value="TO">TOCANTINS</option>
+        </select>
       </div>
       <div className="col-sm-3">
         <label htmlFor="CEP" className="form-label">CEP</label>

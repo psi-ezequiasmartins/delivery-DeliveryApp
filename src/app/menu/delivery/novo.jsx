@@ -7,7 +7,8 @@ import api from '../../config/api_mysql';
 
 function NovoDelivery(props) {
 
-  const [categoria, setCategoria] = useState(null);
+  const [id_delivery, setIdDelivery] = useState(null);
+  const [id_categoria, setIdCategoria] = useState(null);
   const [nome, setNome] = useState('');
   const [responsavel, setResponsavel] = useState('');
   const [email, setEmail] = useState('');
@@ -33,8 +34,8 @@ function NovoDelivery(props) {
       setMsg('Favor preencher o campo E-mail.');
     } else {
         const json = {
-          "id_delivery": props.id_delivery,
-          "id_categoria": categoria,
+          "id_delivery": null,
+          "id_categoria": id_categoria,
           "nome": nome,
           "responsavel": responsavel,
           "email": email,
@@ -52,7 +53,8 @@ function NovoDelivery(props) {
         }
         api.post('/delivery/add/', json).then(response => {
           let delivery = {
-            categoria: response.data.id_categoria,
+            id_delivery: response.data.id_delivery,
+            id_categoria: response.data.id_categoria,
             nome: response.data.nome,
             responsavel: response.data.responsavel,
             email: response.data.email,
@@ -86,32 +88,31 @@ function NovoDelivery(props) {
       <div className="container-fluid titulo">
 
 <div className="offset-lg-3 col-lg-6">
-  <h1>NOVO DELIVERY</h1>
+  <h1>DADOS DO DELIVERY</h1>
   <form>
 
     <div className="mb-3">
       <label htmlFor="nome" className="form-label">Nome do Delivery</label>
       <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
     </div>
-    
+
     <div className="mb-3">
       <label htmlFor="categoria" className="form-label">Categoria</label>
-        <select class="form-control" id="categoria">
-          <option value="01" selected="selected">OFERTAS</option>
-          <option value="02">SANDUICHES</option>
-          <option value="03">HOTDOGS</option>
-          <option value="04">BEBIDAS</option>
-          <option value="05">PRATOS & PORÇÕES</option>
-          <option value="06">SUPERMERCADO</option>
-          <option value="07">FRUTAS & VERDURAS</option>
-          <option value="08">MEDICAMENTOS</option>
-          <option value="09">GÁS DE COZINHA</option>
-          <option value="10">FLORICULTURA</option>
-          <option value="11">ÁGUA MINERAL</option>
-          <option value="12">PEÇAS E SERVIÇOS</option>
-          <option value="13">DISTRIBUIDORAS</option>
-        </select>
-        <input onChange={e => setCategoria(e.target.value)} type="hidden" id="categoria" />
+      <select onChange={e => setIdCategoria(e.target.value)} class="form-select" id="categoria" placeholder="Selecione a categoria"> 
+        <option value="1">OFERTAS</option>
+        <option value="2">SANDUICHES</option>
+        <option value="3">HOTDOGS</option>
+        <option value="4">BEBIDAS</option>
+        <option value="5">PRATOS & PORÇÕES</option>
+        <option value="6">SUPERMERCADO</option>
+        <option value="7">FRUTAS & VERDURAS</option>
+        <option value="8">MEDICAMENTOS</option>
+        <option value="9">GÁS DE COZINHA</option>
+        <option value="10">FLORICULTURA</option>
+        <option value="11">ÁGUA MINERAL</option>
+        <option value="12">PEÇAS E SERVIÇOS</option>
+        <option value="13">DISTRIBUIDORAS</option>
+      </select>
     </div>
 
     <div className="mb-3">
@@ -145,14 +146,14 @@ function NovoDelivery(props) {
       </div>
     </div>
 
-    <div className="row">     
+    <div className="row">
       <div className="col-sm-5">
         <label htmlFor="cidade" className="form-label">Cidade</label>
-        <input onChange={e => setCidade(e.target.value)} value={cidade} type="text" className="form-control" id="cidade" />
+        <input onChange={e => setCidade(e.target.value)} type="text" className="form-control" id="cidade" />
       </div>
       <div className="col-sm-4">
         <label htmlFor="UF" className="form-label">UF</label>
-        <select class="form-control" id="UF">
+        <select onChange={e => setUf(e.target.value)} class="form-select" id="UF">
           <option value="AC">ACRE</option>
           <option value="AL">ALAGOAS</option>
           <option value="AP">AMAPA</option>
@@ -181,23 +182,28 @@ function NovoDelivery(props) {
           <option value="SE">SERGIPE</option>
           <option value="TO">TOCANTINS</option>
         </select>
-        <input onChange={e => setUf(e.target.value)} value={UF} type="hidden" id="UF" />
       </div>
       <div className="col-sm-3">
         <label htmlFor="CEP" className="form-label">CEP</label>
-        <input onChange={e => setCep(e.target.value)} value={CEP} type="text" className="form-control" id="CEP" />
+        <input onChange={e => setCep(e.target.value)} type="text" className="form-control" id="CEP" />
       </div>
     </div>
-   
-    <div className="row">
-      <div className="col-sm-8">
-        <label htmlFor="marcador" className="form-label">Marcador</label>
-        <input onChange={e => setMarcador(e.target.value)} type="text" className="form-control" id="marcador" />
-      </div>
-      <div className="col-sm-4">
-        <label htmlFor="horario" className="form-label">Horário</label>
-        <input onChange={e => setHorario(e.target.value)} type="text" className="form-control" id="horario" />
-      </div>
+
+    <div className="mb-3">
+      <label htmlFor="marcador" className="form-label">Marcador (Coordenadas Google Maps)*</label>
+      <input onChange={e => setMarcador(e.target.value)} type="text" className="form-control" id="marcador" />
+      <p>Como obter as suas coordenadas no Google Maps:</p>
+      <p>
+        1. No computador, abra o Google Maps.<br/>
+        2. Clique com o botão direito do mouse no lugar ou na área no mapa. Uma janela pop-up será aberta. A latitude e a longitude vão aparecer no formato decimal na parte superior.<br/>
+        3. Para copiar as coordenadas automaticamente, clique na latitude e longitude.
+      </p>
+      <p>* <a href="https://maps.google.com/" target="_blank">Clique aqui</a> para acessar o Google Maps</p>
+    </div>
+    
+    <div className="mb-3">
+      <label htmlFor="horario" className="form-label">Horário</label>
+      <input onChange={e => setHorario(e.target.value)} type="text" className="form-control" id="horario" />
     </div>
 
     <div className="row">
