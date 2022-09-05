@@ -34,43 +34,18 @@ function NovoDelivery(props) {
       setMsg('Favor preencher o campo E-mail.');
     } else {
         const json = {
-          "id_delivery": null,
-          "id_categoria": id_categoria,
-          "nome": nome,
-          "responsavel": responsavel,
-          "email": email,
-          "telefone": telefone,
-          "endereco": endereco,
-          "complemento": complemento,
-          "bairro": bairro,
-          "cidade": cidade,
-          "uf": UF,
-          "cep": CEP,
-          "marcador": marcador,
-          "horario": horario,
-          "cnpj": cnpj,
-          "cpf": cpf
+          "id_delivery": null, "id_categoria": id_categoria,
+          "nome": nome, "responsavel": responsavel, "email": email, "telefone": telefone,
+          "endereco": endereco, "complemento": complemento, "bairro": bairro, "cidade": cidade, "uf": UF, "cep": CEP,
+          "marcador": marcador, "horario": horario, "cnpj": cnpj, "cpf": cpf
         }
         api.post('/delivery/add/', json).then(response => {
           let delivery = {
-            id_delivery: response.data.id_delivery,
-            id_categoria: response.data.id_categoria,
-            nome: response.data.nome,
-            responsavel: response.data.responsavel,
-            email: response.data.email,
-            telefone: response.data.telefone,
-            endereco: response.data.endereco,
-            complemento: response.data.complemento,
-            bairro: response.data.bairro,
-            cidade: response.data.cidade,
-            uf: response.data.uf,
-            cep: response.data.cep,
-            marcador: response.data.marcador,
-            horario: response.data.horario,
-            cnpj: response.data.cnpj,
-            cpf: response.data.cpf 
+            id_delivery: response.data.id_delivery,  id_categoria: response.data.id_categoria,
+            nome: response.data.nome, responsavel: response.data.responsavel, email: response.data.email, telefone: response.data.telefone,
+            endereco: response.data.endereco, complemento: response.data.complemento, bairro: response.data.bairro, cidade: response.data.cidade, uf: response.data.uf, cep: response.data.cep,
+            marcador: response.data.marcador, horario: response.data.horario, cnpj: response.data.cnpj, cpf: response.data.cpf 
           }
-          alert('Dados adicionados com sucesso!');
           console.log(delivery);
       }).then(() => {
         setMsg('');

@@ -27,26 +27,17 @@ function Editar(props) {
   const [success, setSuccess] = useState('N');
 
   useEffect(() => {
-    console.log(props.match.params.id);
+    // console.log(props.match.params.id);
     api.get(`/delivery/${props.match.params.id}`)
     .then(result => {
-      console.log(result.data[0]);
-      setIdDelivery(result.data[0].id_delivery);
-      setIdCategoria(result.data[0].id_categoria);
-      setNome(result.data[0].nome);
-      setResponsavel(result.data[0].responsavel);
-      setEmail(result.data[0].email);
-      setTelefone(result.data[0].telefone);
-      setEndereco(result.data[0].endereco);
-      setComplemento(result.data[0].complemento);
-      setBairro(result.data[0].bairro);
-      setCidade(result.data[0].cidade);
-      setUf(result.data[0].uf);
-      setCep(result.data[0].cep);
-      setMarcador(result.data[0].marcador);
-      setHorario(result.data[0].horario);
-      setCnpj(result.data[0].cnpj);
-      setCpf(result.data[0].cpf);
+      // console.log(result.data[0]);
+      setIdDelivery(result.data[0].id_delivery); setIdCategoria(result.data[0].id_categoria);
+      setNome(result.data[0].nome); setResponsavel(result.data[0].responsavel);
+      setEmail(result.data[0].email); setTelefone(result.data[0].telefone);
+      setEndereco(result.data[0].endereco); setComplemento(result.data[0].complemento); setBairro(result.data[0].bairro);
+      setCidade(result.data[0].cidade); setUf(result.data[0].uf); setCep(result.data[0].cep);
+      setMarcador(result.data[0].marcador); setHorario(result.data[0].horario); 
+      setCnpj(result.data[0].cnpj); setCpf(result.data[0].cpf);
     })
   }, [props.match.params.id])
 
