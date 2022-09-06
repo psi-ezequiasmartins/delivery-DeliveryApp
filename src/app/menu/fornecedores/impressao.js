@@ -12,15 +12,15 @@ export class Impressao {
 
   CriaCorpoDocumento() {
     const header = [
-      { text: 'Delivery', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'Nome', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
       { text: 'E-mail', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      { text: 'Telefone', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'Telefone', bold: true, fontSize: 9, margin: [0, 4, 0, 0] }
     ];
-    const body = this.dadosParaImpressao.map((delivery) => {
+    const body = this.dadosParaImpressao.map((fornecedor) => {
       return [
-        { text: delivery.nome, fontSize: 8 },
-        { text: delivery.email, fontSize: 8 },
-        { text: delivery.telefone, fontSize: 8 },
+        { text: fornecedor.nome, fontSize: 8 },
+        { text: fornecedor.email, fontSize: 8 },
+        { text: fornecedor.telefone, fontSize: 8 },
       ];
     });
     const lineHeader = [
@@ -52,7 +52,7 @@ export class Impressao {
               widths: ['*'],
               body: [
                 [
-                  { text: 'LISTAGEM DE DELIVERYS', style: 'reportName' }
+                  { text: 'LISTAGEM DE FORNECEDORES', style: 'reportName' }
                 ]
               ],
             },

@@ -31,13 +31,13 @@ function MenuApp() {
               <Link to="/app/menu/pedidos/" className="nav-link" aria-current="page">Pedidos</Link>
             </li>
             <li className="nav-item">
-              <Link to="#" className="nav-link" aria-current="page">Clientes</Link>
+              <Link to="/app/menu/clientes/" className="nav-link" aria-current="page">Clientes</Link>
             </li>
             <li className="nav-item">
-              <Link to="#" className="nav-link" aria-current="page">Fornecedores</Link>
+              <Link to="/app/menu/fornecedores/" className="nav-link" aria-current="page">Fornecedores</Link>
             </li>
             <li className="nav-item">
-              <Link to="#" className="nav-link" aria-current="page">Produtos</Link>
+              <Link to="/app/menu/produtos" className="nav-link" aria-current="page">Produtos</Link>
             </li>
             <li className="nav-item">
               <Link to="#" className="nav-link" aria-current="page">Estoque</Link>

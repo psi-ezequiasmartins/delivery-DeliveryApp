@@ -9,18 +9,20 @@ export class Impressao {
     const documento = this.GerarDocumento(corpoDocumento);
     return documento;
   }
-
+  
   CriaCorpoDocumento() {
     const header = [
-      { text: 'Delivery', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      { text: 'E-mail', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      { text: 'Telefone', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'Produto', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'Categoria', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'Vr. Custo', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'Vr. Unitário', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
     ];
-    const body = this.dadosParaImpressao.map((delivery) => {
+    const body = this.dadosParaImpressao.map((produto) => {
       return [
-        { text: delivery.nome, fontSize: 8 },
-        { text: delivery.email, fontSize: 8 },
-        { text: delivery.telefone, fontSize: 8 },
+        { text: produto.nome, fontSize: 8 },
+        { text: produto.id_categoria, fontSize: 8 },
+        { text: produto.vr_custo, fontSize: 8 },
+        { text: produto.vr_unitario, fontSize: 8 },
       ];
     });
     const lineHeader = [
@@ -52,8 +54,8 @@ export class Impressao {
               widths: ['*'],
               body: [
                 [
-                  { text: 'LISTAGEM DE DELIVERYS', style: 'reportName' }
-                ]
+                  { text: 'LISTAGEM DE PRODUTOS', style: 'reportName' }
+                ]              
               ],
             },
           };
@@ -63,7 +65,7 @@ export class Impressao {
             layout: 'noBorders',
             table: {
               headerRows: 1,
-              widths: ['*', 150, 150],
+              widths: ['*', 150, 150, 150],
       
               body: corpoDocumento
             }
