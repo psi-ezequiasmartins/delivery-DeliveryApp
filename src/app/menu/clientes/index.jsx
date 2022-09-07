@@ -199,7 +199,7 @@ function Index() {
                       </div>
                       <div className="col-sm-4">
                         <label htmlFor="UF" className="form-label">UF</label>
-                        <select onChange={e => setUf(e.target.value)} class="form-select" id="UF">
+                        <select onChange={e => setUf(e.target.value)} className="form-select" data-size="6" id="UF">
                           <option value="AC">ACRE</option>
                           <option value="AL">ALAGOAS</option>
                           <option value="AP">AMAPA</option>
