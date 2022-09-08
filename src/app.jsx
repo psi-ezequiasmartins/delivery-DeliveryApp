@@ -13,8 +13,6 @@ import Delivery from './app/menu/delivery';
 import addDelivery from './app/menu/delivery/novo.jsx';
 import edtDelivery from './app/menu/delivery/editar.jsx';
 import Clientes from './app/menu/clientes';
-import addCliente from './app/menu/clientes/novo.jsx';
-import edtCliente from './app/menu/clientes/editar.jsx';
 import Fornecedores from './app/menu/fornecedores';
 import addFornecedor from './app/menu/fornecedores/novo.jsx';
 import edtFornecedor from './app/menu/fornecedores/editar.jsx';
@@ -51,8 +49,6 @@ function App() {
         <SecureRoute exact path='/app/menu/delivery/novo' component={addDelivery} />
         <SecureRoute exact path='/app/menu/delivery/editar/:id' component={edtDelivery}/>
         <SecureRoute exact path='/app/menu/clientes' component={Clientes} />
-        <SecureRoute exact path='/app/menu/clientes/novo' component={addCliente} />
-        <SecureRoute exact path='/app/menu/clientes/editar/:id' component={edtCliente}/>
         <SecureRoute exact path='/app/menu/fornecedores' component={Fornecedores} />
         <SecureRoute exact path='/app/menu/fornecedores/novo' component={addFornecedor} />
         <SecureRoute exact path='/app/menu/fornecedores/editar/:id' component={edtFornecedor}/>
