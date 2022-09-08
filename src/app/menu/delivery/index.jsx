@@ -190,7 +190,7 @@ function Index() {
                   <td>{delivery.telefone}</td>
                   <td>{delivery.email}</td>
                   <td>
-                    <Link to="#" onClick={()=>props.select(delivery.id_delivery)} title="EDITAR DELIVERY" data-bs-toggle="modal" data-bs-target="#md_editarcliente"><i className="fas fa-user-edit icon-action"></i></Link>
+                    <Link to="#" onClick={()=>props.select(delivery.id_delivery)} title="EDITAR DELIVERY" data-bs-toggle="modal" data-bs-target="#md_editardelivery"><i className="fas fa-user-edit icon-action"></i></Link>
                     <Link to="#" onClick={()=>props.delete(delivery.id_delivery)} title="EXCLUIR DELIVERY"><i className="fas fa-trash-alt icon-action red"></i></Link>
                   </td>
                 </tr>
@@ -247,13 +247,13 @@ function Index() {
         }
       </div>
 
-      {/* -- md_novocliente -- */}
-      <div className="modal fade" id="md_novocliente" tabindex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
+      {/* -- md_novodelivery -- */}
+      <div className="modal fade" id="md_novodelivery" tabindex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
         <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
 
             <div className="modal-header">
-              <h5 className="modal-title" id="titulo_modal">NOVO CLIENTE</h5>
+              <h5 className="modal-title" id="titulo_modal">NOVO DELIVERY</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
 
