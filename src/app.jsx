@@ -10,15 +10,9 @@ import ResetPassword from './app/login/reset.jsx';
 
 import Pedidos from './app/menu/pedidos';
 import Delivery from './app/menu/delivery';
-import addDelivery from './app/menu/delivery/novo.jsx';
-import edtDelivery from './app/menu/delivery/editar.jsx';
 import Clientes from './app/menu/clientes';
 import Fornecedores from './app/menu/fornecedores';
-import addFornecedor from './app/menu/fornecedores/novo.jsx';
-import edtFornecedor from './app/menu/fornecedores/editar.jsx';
 import Produtos from './app/menu/produtos';
-import addProduto from './app/menu/produtos/novo.jsx';
-import edtProduto from './app/menu/produtos/editar.jsx';
 
 /*
 import Estoque from './app/menu/estoque/home.jsx';
@@ -46,15 +40,9 @@ function App() {
         {/* ---------------------------------------------------------------------------- */}
         <SecureRoute exact path='/app/menu/pedidos' component={Pedidos} />
         <SecureRoute exact path='/app/menu/delivery' component={Delivery} />
-        <SecureRoute exact path='/app/menu/delivery/novo' component={addDelivery} />
-        <SecureRoute exact path='/app/menu/delivery/editar/:id' component={edtDelivery}/>
         <SecureRoute exact path='/app/menu/clientes' component={Clientes} />
         <SecureRoute exact path='/app/menu/fornecedores' component={Fornecedores} />
-        <SecureRoute exact path='/app/menu/fornecedores/novo' component={addFornecedor} />
-        <SecureRoute exact path='/app/menu/fornecedores/editar/:id' component={edtFornecedor}/>
         <SecureRoute exact path='/app/menu/produtos' component={Produtos} />
-        <SecureRoute exact path='/app/menu/produtos/novo' component={addProduto} />
-        <SecureRoute exact path='/app/menu/produtos/editar/:id' component={edtProduto}/>
         {/* ---------------------------------------------------------------------------- */}
       </Switch>
     </BrowserRouter>
