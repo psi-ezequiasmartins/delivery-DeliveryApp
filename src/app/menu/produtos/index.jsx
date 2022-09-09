@@ -7,7 +7,7 @@ import { Link, Redirect } from 'react-router-dom';
 import MenuApp from '../menuapp.jsx';
 import './index.css';
 
-import firebase from '../../config/api_firebase';
+import { storage } from '../../config/api_firebase';
 import api from '../../config/api_mysql';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -44,6 +44,7 @@ function Index() {
         if (doc.nome.indexOf(busca) >=0) {
           listagem.push({
             id_produto: doc.id_produto,
+            id_categoria: doc.id_categoria,
             nome: doc.nome,
             descricao: doc.descricao,
             vr_custo: doc.vr_custo,
@@ -55,7 +56,7 @@ function Index() {
       setProdutos(listagem);
       console.log(listagem);
     })
-  }, [busca, excluido, success]);
+  }, [busca, excluido, success, url_imagem]);
 
   function Cadastrar() {
     if (nome.length === 0) {
@@ -141,14 +142,32 @@ function Index() {
     pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
   }
 
+  
   function Listagem(props) {
+    function categoria(option) {
+      if (option === 1 ) { return "OFERTAS" } else    
+      if (option === 2 ) { return "SANDUICHES" } else
+      if (option === 3 ) { return "HOTDOGS" } else
+      if (option === 4 ) { return "BEBIDAS" } else
+      if (option === 5 ) { return "PRATOS E PORÇÕES" } else
+      if (option === 6 ) { return "SUPERMERCADO" } else
+      if (option === 7 ) { return "FRUTAS E VERDURAS" } else
+      if (option === 8 ) { return "MEDICAMENTOS" } else
+      if (option === 9 ) { return "GÁS DE COZINHA" } else
+      if (option === 10) { return "FLORICULTURA" } else
+      if (option === 11) { return "ÁGUA MINERAL" } else
+      if (option === 12) { return "PEÇAS E SERVIÇOS" } else
+      if (option === 13) { return "DISTRIBUIDORAS" }
+    }
+  
     return (
       <table className="table table-hover table-bordered">
         <thead>
           <tr className="table-secondary">
             <th scope="col">ID</th>
+            <th scope="col">Imagem</th>
             <th scope="col">Produto</th>
-            <th scope="col">Vr. Custo</th>
+            <th scope="col">Categoria</th>
             <th scope="col">Vr. Unitário</th>
             <th scope="col" className="col-action"></th>
           </tr>
@@ -159,8 +178,11 @@ function Index() {
               return (
                 <tr key={produto.id_produto}>
                   <th scope="row">{produto.id_produto}</th>
+                  <td align="center">
+                    <img src={produto.url_imagem || "https://via.placeholder.com/50x50"} alt="imagem" width="50" />
+                  </td>
                   <td>{produto.nome}</td>
-                  <td>{produto.vr_custo}</td>
+                  <td>{categoria(produto.id_categoria)}</td>
                   <td>{produto.vr_unitario}</td>
                   <td>
                     <Link to="#" onClick={()=>props.select(produto.id_produto)} title="EDITAR PRODUTO" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
@@ -175,61 +197,20 @@ function Index() {
     );
   }
 
-  function ChangeImg(e) {
+  function ImgChange(e) {
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
     }
   }
-    
-  function UploadImg() {
-    // Create the file metadata
-    var metadata = {
-      contentType: 'image/jpeg'
-    };
-    // Upload file and metadata to the object 'images/mountains.jpg'
-    var storage = firebase.storage();
-    var uploadTask = storage.ref(`images/${file.name}`).put(file, metadata);
-    // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-      (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log('Upload is paused');
-            break;
-          case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log('Upload is running');
-            break;
-        }
-      },
-      (error) => {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case 'storage/unauthorized':
-            // User doesn't have permission to access the object
-            break;
-          case 'storage/canceled':
-            // User canceled the upload
-            break;
-            // ...
-          case 'storage/unknown':
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-        }
-      },
-      () => {
-        // Upload completed successfully, now we can get the download URL
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          console.log('File available at', downloadURL);
-          setUrlImagem(downloadURL);
-        });
-      }
-    ); 
-  }
   
+  async function ImgUpload(e) {
+    e.preventDefault();
+    const path = `/images/${file.name}`; const ref = storage.ref(path); await ref.put(file);
+    const url = await ref.getDownloadURL();
+    setUrlImagem(url);
+    setFile(null);
+  }
+ 
   return (
     <div>
       <MenuApp/>
@@ -286,82 +267,70 @@ function Index() {
 
             <div className="modal-body">
                 <form>
-                  <div className="mb-3">
-                    <label htmlFor="nome" className="form-label">Nome do Produto</label>
-                    <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="descricao" className="form-label">Descrição</label>
-                    <textarea onChange={e => setDescricao(e.target.value)} class="form-control" rows="2" id="descricao" ></textarea>
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="categoria" className="form-label">Categoria</label>
-                    <select onChange={e => setIdCategoria(e.target.value)} class="form-select" id="categoria" placeholder="Selecione a categoria"> 
-                      <option value="1">OFERTAS</option>
-                      <option value="2">SANDUICHES</option>
-                      <option value="3">HOTDOGS</option>
-                      <option value="4">BEBIDAS</option>
-                      <option value="5">PRATOS & PORÇÕES</option>
-                      <option value="6">SUPERMERCADO</option>
-                      <option value="7">FRUTAS & VERDURAS</option>
-                      <option value="8">MEDICAMENTOS</option>
-                      <option value="9">GÁS DE COZINHA</option>
-                      <option value="10">FLORICULTURA</option>
-                      <option value="11">ÁGUA MINERAL</option>
-                      <option value="12">PEÇAS E SERVIÇOS</option>
-                      <option value="13">DISTRIBUIDORAS</option>
-                    </select>
-                  </div>
-
                   <div className="row">
                     <div className="col-sm-6">
-                      <label htmlFor="fornecedor" className="form-label">Fornecedor</label>
-                      <select onChange={e => setIdFornecedor(e.target.value)} class="form-select" id="fornecedor" placeholder="Selecione o Fornecedor"> 
-                        <option value="1">Fornecedor "A"</option>
-                        <option value="2">Fornecedor "B</option>
-                        <option value="3">Fornecedor "C"</option>
-                      </select>
+                      <div className="mb-2">
+                        <label htmlFor="nome" className="form-label">Nome do Produto</label>
+                        <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
+                      </div>
+                      <div className="mb-2">
+                        <label htmlFor="descricao" className="form-label">Descrição</label>
+                        <textarea onChange={e => setDescricao(e.target.value)} class="form-control" rows="2" id="descricao" ></textarea>
+                      </div>
+                      <div className="mb-2">
+                        <label htmlFor="categoria" className="form-label">Categoria</label>
+                        <select onChange={e => setIdCategoria(e.target.value)} class="form-select" id="categoria" placeholder="Selecione a categoria"> 
+                          <option value="1">OFERTAS</option>
+                          <option value="2">SANDUICHES</option>
+                          <option value="3">HOTDOGS</option>
+                          <option value="4">BEBIDAS</option>
+                          <option value="5">PRATOS E PORÇÕES</option>
+                          <option value="6">SUPERMERCADO</option>
+                          <option value="7">FRUTAS E VERDURAS</option>
+                          <option value="8">MEDICAMENTOS</option>
+                          <option value="9">GÁS DE COZINHA</option>
+                          <option value="10">FLORICULTURA</option>
+                          <option value="11">ÁGUA MINERAL</option>
+                          <option value="12">PEÇAS E SERVIÇOS</option>
+                          <option value="13">DISTRIBUIDORAS</option>
+                        </select>
+                      </div>
+                      <div className="mb-2">
+                        <label htmlFor="fornecedor" className="form-label">Fornecedor</label>
+                        <select onChange={e => setIdFornecedor(e.target.value)} value={id_fornecedor} class="form-select" id="fornecedor" placeholder="Selecione o Fornecedor"> 
+                          <option value="1">Fornecedor "A"</option>
+                          <option value="2">Fornecedor "B</option>
+                          <option value="3">Fornecedor "C"</option>
+                        </select>
+                      </div>
+                      <div className="row mb-2">
+                        <div className="col">
+                          <label htmlFor="vr_custo" className="form-label">Valor Custo</label>
+                          <input onChange={e => setVrCusto(e.target.value)} value={vr_custo} type="text" className="form-control" id="vr_custo" />
+                        </div>
+                        <div className="col">
+                          <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
+                          <input onChange={e => setVrUnitario(e.target.value)} value={vr_unitario} type="text" className="form-control" id="vr_unitario" />
+                        </div>
+                      </div>
                     </div>
-                    <div className="col-sm-3">
-                      <label htmlFor="vr_custo" className="form-label">Valor Custo</label>
-                      <input onChange={e => setVrCusto(e.target.value)} type="text" className="form-control" id="vr_custo" />
-                    </div>
-                    <div className="col-sm-3">
-                      <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
-                      <input onChange={e => setVrUnitario(e.target.value)} type="text" className="form-control" id="vr_unitario" />
-                    </div>
-                  </div>
-
-                  {/* <div className="mb-3">
-                    <label htmlFor="url_imagem" className="form-label">URL/Imagem</label>
-                    <input onChange={e => setUrlImagem(e.target.value)} type="text" className="form-control" id="url_imagem" />
-                  </div> */}
-
-                  <p></p>
-                  <div className="row">
                     <div className="col-sm-6">
-                      <p>Selecione um arquivo de imagem para enviar, e clique em Upload</p>
-                      <input type="file" onChange={ChangeImg}/> 
+                      <div className="mb-2">
+                        <img src={url_imagem || "https://via.placeholder.com/260"} alt="Imagem do Produto" width="260" />
+                        <p></p>
+                        <form onSubmit={ImgUpload}>
+                          <input type="file" onChange={ImgChange} /><br/>
+                          <button type="button" className="btn btn-primary" disabled={!file}><i className="fas fa-image"></i> ENVIAR IMAGEM</button>                         
+                        </form>
+                      </div>
                     </div>
-                    <div className='col-sm-6'>
-                      <img
-                        src={url_imagem || "https://via.placeholder.com/150"}
-                        alt="Uploaded Image"
-                        width="150"
-                      />
-                    </div>
+                    {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
+                    {success === 'S' ? <Redirect to='/app/menu/produtos/'/> : null}
                   </div>
-
-                  {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                  {success === 'S' ? <Redirect to='/app/menu/produtos/'/> : null}
-
                 </form>
               </div>
 
               <div className="modal-footer">
-                <button type="button" className="btn btn-primary" onClick={UploadImg}><i className="fas fa-image"></i> UPLOAD DE IMAGEM</button>
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
                 <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar}>SALVAR</button>
               </div>
@@ -381,81 +350,70 @@ function Index() {
 
               <div className="modal-body">
                 <form>
-                <div className="mb-3">
-                    <label htmlFor="nome" className="form-label">Nome do Produto</label>
-                    <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="descricao" className="form-label">Descrição</label>
-                    <textarea onChange={e => setDescricao(e.target.value)} value={descricao} class="form-control" rows="2" id="descricao" ></textarea>
-                  </div>
-
-                  <div className="mb-3">
-                    <label htmlFor="categoria" className="form-label">Categoria</label>
-                    <select onChange={e => setIdCategoria(e.target.value)} value={id_categoria} class="form-select" id="categoria"> 
-                      <option value="1">OFERTAS</option>
-                      <option value="2">SANDUICHES</option>
-                      <option value="3">HOTDOGS</option>
-                      <option value="4">BEBIDAS</option>
-                      <option value="5">PRATOS & PORÇÕES</option>
-                      <option value="6">SUPERMERCADO</option>
-                      <option value="7">FRUTAS & VERDURAS</option>
-                      <option value="8">MEDICAMENTOS</option>
-                      <option value="9">GÁS DE COZINHA</option>
-                      <option value="10">FLORICULTURA</option>
-                      <option value="11">ÁGUA MINERAL</option>
-                      <option value="12">PEÇAS E SERVIÇOS</option>
-                      <option value="13">DISTRIBUIDORAS</option>
-                    </select>
-                  </div>
-
                   <div className="row">
                     <div className="col-sm-6">
-                      <label htmlFor="fornecedor" className="form-label">Fornecedor</label>
-                      <select onChange={e => setIdFornecedor(e.target.value)} value={id_fornecedor} class="form-select" id="fornecedor" placeholder="Selecione o Fornecedor"> 
-                        <option value="1">Fornecedor "A"</option>
-                        <option value="2">Fornecedor "B</option>
-                        <option value="3">Fornecedor "C"</option>
-                      </select>
+                      <div className="mb-2">
+                        <label htmlFor="nome" className="form-label">Nome do Produto</label>
+                        <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
+                      </div>
+                      <div className="mb-2">
+                        <label htmlFor="descricao" className="form-label">Descrição</label>
+                        <textarea onChange={e => setDescricao(e.target.value)} value={descricao} class="form-control" rows="2" id="descricao" ></textarea>
+                      </div>
+                      <div className="mb-2">
+                        <label htmlFor="categoria" className="form-label">Categoria</label>
+                        <select onChange={e => setIdCategoria(e.target.value)} value={id_categoria} class="form-select" id="categoria"> 
+                          <option value="1">OFERTAS</option>
+                          <option value="2">SANDUICHES</option>
+                          <option value="3">HOTDOGS</option>
+                          <option value="4">BEBIDAS</option>
+                          <option value="5">PRATOS E PORÇÕES</option>
+                          <option value="6">SUPERMERCADO</option>
+                          <option value="7">FRUTAS E VERDURAS</option>
+                          <option value="8">MEDICAMENTOS</option>
+                          <option value="9">GÁS DE COZINHA</option>
+                          <option value="10">FLORICULTURA</option>
+                          <option value="11">ÁGUA MINERAL</option>
+                          <option value="12">PEÇAS E SERVIÇOS</option>
+                          <option value="13">DISTRIBUIDORAS</option>
+                        </select>
+                      </div>
+                      <div className="mb-2">
+                          <label htmlFor="fornecedor" className="form-label">Fornecedor</label>
+                          <select onChange={e => setIdFornecedor(e.target.value)} value={id_fornecedor} class="form-select" id="fornecedor" placeholder="Selecione o Fornecedor"> 
+                            <option value="1">Fornecedor "A"</option>
+                            <option value="2">Fornecedor "B</option>
+                            <option value="3">Fornecedor "C"</option>
+                          </select>
+                        </div>
+                      <div className="row mb-2">
+                        <div className="col">
+                          <label htmlFor="vr_custo" className="form-label">Valor Custo</label>
+                          <input onChange={e => setVrCusto(e.target.value)} value={vr_custo} type="text" className="form-control" id="vr_custo" />
+                        </div>
+                        <div className="col">
+                          <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
+                          <input onChange={e => setVrUnitario(e.target.value)} value={vr_unitario} type="text" className="form-control" id="vr_unitario" />
+                        </div>
+                      </div>
                     </div>
-                    <div className="col-sm-3">
-                      <label htmlFor="vr_custo" className="form-label">Valor Custo</label>
-                      <input onChange={e => setVrCusto(e.target.value)} value={vr_custo} type="text" className="form-control" id="vr_custo" />
-                    </div>
-                    <div className="col-sm-3">
-                      <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
-                      <input onChange={e => setVrUnitario(e.target.value)} value={vr_unitario} type="text" className="form-control" id="vr_unitario" />
-                    </div>
-                  </div>
-
-                  {/* <div className="mb-3">
-                    <label htmlFor="imagem" className="form-label">Imagem</label>
-                    <input onChange={e => setImagem(e.target.value)} value={imagem} type="text" className="form-control" id="imagem" />
-                  </div> */}
-
-                  <p></p>
-                  <div className="row">
                     <div className="col-sm-6">
-                      <p>Selecione um arquivo de imagem para enviar, e clique em Upload</p>
-                      <input type="file" onChange={ChangeImg}/> 
+                      <div className="mb-2">
+                        <img src={url_imagem || "https://via.placeholder.com/260"} alt="Imagem do Produto" width="260" />
+                        <p></p>
+                        <form onSubmit={ImgUpload}>
+                          <input type="file" onChange={ImgChange} /><br/>
+                          <button type="button" className="btn btn-primary" disabled={!file}><i className="fas fa-image"></i> ENVIAR IMAGEM</button>                         
+                        </form>
+                      </div>
                     </div>
-                    <div className='col-sm-6'>
-                      <img
-                        src={url_imagem || "https://via.placeholder.com/150"}
-                        alt="Uploaded Image"
-                        width="150"
-                      />
-                    </div>
+                    {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
+                    {success === 'S' ? <Redirect to='/app/menu/produtos/'/> : null}
                   </div>
-
-                  {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                  {success === 'S' ? <Redirect to='/app/menu/produtos/'/> : null}
-
                 </form>
               </div>
+
               <div className="modal-footer">
-                <button type="button" className="btn btn-primary" onClick={UploadImg}><i className="fas fa-image"></i> UPLOAD DE IMAGEM</button>
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
                 <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Editar}>SALVAR</button>
               </div>

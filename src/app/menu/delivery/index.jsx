@@ -155,9 +155,9 @@ function Index() {
       if (option === 2 ) { return "SANDUICHES" } else
       if (option === 3 ) { return "HOTDOGS" } else
       if (option === 4 ) { return "BEBIDAS" } else
-      if (option === 5 ) { return "PRATOS & PORÇÕES" } else
+      if (option === 5 ) { return "PRATOS E PORÇÕES" } else
       if (option === 6 ) { return "SUPERMERCADO" } else
-      if (option === 7 ) { return "FRUTAS & VERDURAS" } else
+      if (option === 7 ) { return "FRUTAS E VERDURAS" } else
       if (option === 8 ) { return "MEDICAMENTOS" } else
       if (option === 9 ) { return "GÁS DE COZINHA" } else
       if (option === 10) { return "FLORICULTURA" } else
@@ -271,9 +271,9 @@ function Index() {
                     <option value="2">SANDUICHES</option>
                     <option value="3">HOTDOGS</option>
                     <option value="4">BEBIDAS</option>
-                    <option value="5">PRATOS & PORÇÕES</option>
+                    <option value="5">PRATOS E PORÇÕES</option>
                     <option value="6">SUPERMERCADO</option>
-                    <option value="7">FRUTAS & VERDURAS</option>
+                    <option value="7">FRUTAS E VERDURAS</option>
                     <option value="8">MEDICAMENTOS</option>
                     <option value="9">GÁS DE COZINHA</option>
                     <option value="10">FLORICULTURA</option>
@@ -423,9 +423,9 @@ function Index() {
                     <option value="2">SANDUICHES</option>
                     <option value="3">HOTDOGS</option>
                     <option value="4">BEBIDAS</option>
-                    <option value="5">PRATOS & PORÇÕES</option>
+                    <option value="5">PRATOS E PORÇÕES</option>
                     <option value="6">SUPERMERCADO</option>
-                    <option value="7">FRUTAS & VERDURAS</option>
+                    <option value="7">FRUTAS E VERDURAS</option>
                     <option value="8">MEDICAMENTOS</option>
                     <option value="9">GÁS DE COZINHA</option>
                     <option value="10">FLORICULTURA</option>
