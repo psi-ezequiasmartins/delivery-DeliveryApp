@@ -7,6 +7,7 @@ import { Link, Redirect } from 'react-router-dom';
 import MenuApp from '../menuapp.jsx';
 import './index.css';
 
+import { storage } from '../../config/api_firebase';
 import api from '../../config/api_mysql';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -27,10 +28,13 @@ function Index() {
   const [cidade, setCidade] = useState('');
   const [UF, setUf] = useState('');
   const [CEP, setCep] = useState('');
+  const [logomarca, setLogomarca] = useState('');
   const [marcador, setMarcador] = useState('');
   const [horario, setHorario] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [cpf, setCpf] = useState('');
+
+  const [file, setFile] = useState(null);
 
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');
@@ -49,6 +53,7 @@ function Index() {
           listagem.push({
             id_delivery: doc.id_delivery,
             id_categoria: doc.id_categoria,
+            logomarca: doc.logomarca,
             nome: doc.nome,
             telefone: doc.telefone,
             email: doc.email
@@ -70,6 +75,7 @@ function Index() {
           "id_delivery": null, "id_categoria": id_categoria,
           "nome": nome, "responsavel": responsavel, "email": email, "telefone": telefone,
           "endereco": endereco, "complemento": complemento, "bairro": bairro, "cidade": cidade, "uf": UF, "cep": CEP,
+          "logomarca": logomarca,
           "marcador": marcador, "horario": horario, "cnpj": cnpj, "cpf": cpf
         }
         api.post('/delivery/add/', json).then(response => {
@@ -77,6 +83,7 @@ function Index() {
             id_delivery: response.data.id_delivery,  id_categoria: response.data.id_categoria,
             nome: response.data.nome, responsavel: response.data.responsavel, email: response.data.email, telefone: response.data.telefone,
             endereco: response.data.endereco, complemento: response.data.complemento, bairro: response.data.bairro, cidade: response.data.cidade, uf: response.data.uf, cep: response.data.cep,
+            logomarca: response.logomarca,
             marcador: response.data.marcador, horario: response.data.horario, cnpj: response.data.cnpj, cpf: response.data.cpf 
           }
           console.log(delivery);
@@ -100,6 +107,7 @@ function Index() {
         "id_delivery": id_delivery, "id_categoria": id_categoria,
         "nome": nome, "responsavel": responsavel, "email": email, "telefone": telefone,
         "endereco": endereco, "complemento": complemento, "bairro": bairro,  "cidade": cidade, "uf": UF, "cep": CEP,
+        "logomarca": logomarca,
         "marcador": marcador, "horario": horario, 
         "cnpj": cnpj, "cpf": cpf
       }
@@ -123,6 +131,7 @@ function Index() {
       setEmail(result.data[0].email); setTelefone(result.data[0].telefone);
       setEndereco(result.data[0].endereco); setComplemento(result.data[0].complemento); setBairro(result.data[0].bairro);
       setCidade(result.data[0].cidade); setUf(result.data[0].uf); setCep(result.data[0].cep);
+      setLogomarca(result.data[0].logomarca);
       setMarcador(result.data[0].marcador); setHorario(result.data[0].horario); 
       setCnpj(result.data[0].cnpj); setCpf(result.data[0].cpf);
     }) 
@@ -172,6 +181,7 @@ function Index() {
         <thead>
           <tr className="table-secondary">
             <th scope="col">ID</th>
+            <th scope="col">Logo</th>
             <th scope="col">Delivery</th>
             <th scope="col">Categoria</th>
             <th scope="col">Telefone</th>
@@ -185,6 +195,9 @@ function Index() {
               return (
                 <tr key={delivery.id_delivery}>
                   <th scope="row">{delivery.id_delivery}</th>
+                  <td align="center">
+                    <img src={delivery.logomarca || "https://via.placeholder.com/50x50"} alt="imagem" width="50" />
+                  </td>
                   <td>{delivery.nome}</td>
                   <td>{categoria(delivery.id_categoria)}</td>
                   <td>{delivery.telefone}</td>
@@ -200,6 +213,20 @@ function Index() {
         </tbody>
       </table>
     )
+  }
+
+  function ImgChange(e) {
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  }
+  
+  async function ImgUpload(e) {
+    e.preventDefault();
+    const path = `/deliverys/${file.name}`; const ref = storage.ref(path); await ref.put(file);
+    const url = await ref.getDownloadURL();
+    setLogomarca(url);
+    setFile(null);
   }
 
   return (
@@ -258,34 +285,47 @@ function Index() {
             </div>
 
             <div className="modal-body">
-              <form>
-                <div className="mb-3">
-                  <label htmlFor="nome" className="form-label">Nome do Delivery</label>
-                  <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
-                </div>
+            <form>
+                <div className="row">
+                  <div className="col-sm-6">
+                    <div className="mb-2">
+                      <label htmlFor="nome" className="form-label">Nome do Delivery</label>
+                      <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
+                    </div>
+                    <div className="mb-2">
+                      <label htmlFor="categoria" className="form-label">Categoria</label>
+                      <select onChange={e => setIdCategoria(e.target.value)} class="form-select" id="categoria"> 
+                        <option value="1">OFERTAS</option>
+                        <option value="2">SANDUICHES</option>
+                        <option value="3">HOTDOGS</option>
+                        <option value="4">BEBIDAS</option>
+                        <option value="5">PRATOS E PORÇÕES</option>
+                        <option value="6">SUPERMERCADO</option>
+                        <option value="7">FRUTAS E VERDURAS</option>
+                        <option value="8">MEDICAMENTOS</option>
+                        <option value="9">GÁS DE COZINHA</option>
+                        <option value="10">FLORICULTURA</option>
+                        <option value="11">ÁGUA MINERAL</option>
+                        <option value="12">PEÇAS E SERVIÇOS</option>
+                        <option value="13">DISTRIBUIDORAS</option>
+                      </select>
+                    </div>
+                    <div className="mb-2">
+                      <label htmlFor="responsavel" className="form-label">Responsável</label>
+                      <input onChange={e => setResponsavel(e.target.value)} type="text" className="form-control" id="responsavel" />
+                    </div>
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="categoria" className="form-label">Categoria</label>
-                  <select onChange={e => setIdCategoria(e.target.value)} class="form-select" id="categoria" placeholder="Selecione a categoria"> 
-                    <option value="1">OFERTAS</option>
-                    <option value="2">SANDUICHES</option>
-                    <option value="3">HOTDOGS</option>
-                    <option value="4">BEBIDAS</option>
-                    <option value="5">PRATOS E PORÇÕES</option>
-                    <option value="6">SUPERMERCADO</option>
-                    <option value="7">FRUTAS E VERDURAS</option>
-                    <option value="8">MEDICAMENTOS</option>
-                    <option value="9">GÁS DE COZINHA</option>
-                    <option value="10">FLORICULTURA</option>
-                    <option value="11">ÁGUA MINERAL</option>
-                    <option value="12">PEÇAS E SERVIÇOS</option>
-                    <option value="13">DISTRIBUIDORAS</option>
-                  </select>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="responsavel" className="form-label">Responsável</label>
-                  <input onChange={e => setResponsavel(e.target.value)} type="text" className="form-control" id="responsavel" />
+                  <div className="col-sm-6">
+                    <div className="mb-2">
+                      <img src={logomarca || "https://via.placeholder.com/100"} alt="Logomarca" width="100" />
+                      <p></p>
+                      <form onSubmit={ImgUpload}>
+                        <input type="file" onChange={ImgChange} /><br/>
+                        <button type="button" className="btn btn-primary" disabled={!file}><i className="fas fa-image"></i> ENVIAR IMAGEM</button>                         
+                      </form>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="row">
@@ -298,28 +338,28 @@ function Index() {
                     <input onChange={e => setTelefone(e.target.value)} type="text" className="form-control" id="telefone" />
                   </div>
                 </div>
-            
+
                 <div className="row">
                   <div className="col-sm-6">
                     <label htmlFor="endereco" className="form-label">Endereço</label>
                     <input onChange={e => setEndereco(e.target.value)} type="text" className="form-control" id="endereco" />
                   </div>
-                  <div className="col-sm-3">
+                  <div className="col-sm-2">
                     <label htmlFor="complemento" className="form-label">Complemento</label>
                     <input onChange={e => setComplemento(e.target.value)} type="text" className="form-control" id="complemento" />
                   </div>
-                  <div className="col-sm-3">
-                    <label htmlFor="bairro" className="form-label">Bairro</label>
-                    <input onChange={e => setBairro(e.target.value)} type="text" className="form-control" id="bairro" />
-                  </div>
+                  <div className="col-sm-4">
+                      <label htmlFor="bairro" className="form-label">Bairro</label>
+                      <input onChange={e => setBairro(e.target.value)} type="text" className="form-control" id="bairro" />
+                    </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-sm-5">
+                  <div className="col">
                     <label htmlFor="cidade" className="form-label">Cidade</label>
                     <input onChange={e => setCidade(e.target.value)} type="text" className="form-control" id="cidade" />
                   </div>
-                  <div className="col-sm-4">
+                  <div className="col">
                     <label htmlFor="UF" className="form-label">UF</label>
                     <select onChange={e => setUf(e.target.value)} class="form-select" id="UF">
                       <option value="AC">ACRE</option>
@@ -351,13 +391,13 @@ function Index() {
                       <option value="TO">TOCANTINS</option>
                     </select>
                   </div>
-                  <div className="col-sm-3">
+                  <div className="col">
                     <label htmlFor="CEP" className="form-label">CEP</label>
                     <input onChange={e => setCep(e.target.value)} type="text" className="form-control" id="CEP" />
                   </div>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="marcador" className="form-label">Marcador (Coordenadas Google Maps)*</label>
                   <input onChange={e => setMarcador(e.target.value)} type="text" className="form-control" id="marcador" />
                   <p>Como obter as suas coordenadas no Google Maps:</p>
@@ -368,8 +408,8 @@ function Index() {
                   </p>
                   <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
                 </div>
-
-                <div className="mb-3">
+    
+                <div className="mb-2">
                   <label htmlFor="horario" className="form-label">Horário</label>
                   <input onChange={e => setHorario(e.target.value)} type="text" className="form-control" id="horario" />
                 </div>
@@ -386,8 +426,8 @@ function Index() {
                 </div>
 
                 {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                {success === 'S' ? <Redirect to='/app/menu/delivery/'/> : null}
-                
+                {success === 'S' ? <Redirect to='/app/menu/delivery'/> : null}
+
               </form>
             </div>
 
@@ -411,33 +451,46 @@ function Index() {
 
             <div className="modal-body">
               <form>
-                <div className="mb-3">
-                  <label htmlFor="nome" className="form-label">Nome do Delivery</label>
-                  <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
-                </div>
+                <div className="row">
+                  <div className="col-sm-6">
+                    <div className="mb-2">
+                      <label htmlFor="nome" className="form-label">Nome do Delivery</label>
+                      <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
+                    </div>
+                    <div className="mb-2">
+                      <label htmlFor="categoria" className="form-label">Categoria</label>
+                      <select onChange={e => setIdCategoria(e.target.value)} class="form-select" value={id_categoria} id="categoria"> 
+                        <option value="1">OFERTAS</option>
+                        <option value="2">SANDUICHES</option>
+                        <option value="3">HOTDOGS</option>
+                        <option value="4">BEBIDAS</option>
+                        <option value="5">PRATOS E PORÇÕES</option>
+                        <option value="6">SUPERMERCADO</option>
+                        <option value="7">FRUTAS E VERDURAS</option>
+                        <option value="8">MEDICAMENTOS</option>
+                        <option value="9">GÁS DE COZINHA</option>
+                        <option value="10">FLORICULTURA</option>
+                        <option value="11">ÁGUA MINERAL</option>
+                        <option value="12">PEÇAS E SERVIÇOS</option>
+                        <option value="13">DISTRIBUIDORAS</option>
+                      </select>
+                    </div>
+                    <div className="mb-2">
+                      <label htmlFor="responsavel" className="form-label">Responsável</label>
+                      <input onChange={e => setResponsavel(e.target.value)} value={responsavel} type="text" className="form-control" id="responsavel" />
+                    </div>
+                  </div>
 
-                <div className="mb-3">
-                  <label htmlFor="categoria" className="form-label">Categoria</label>
-                  <select onChange={e => setIdCategoria(e.target.value)} class="form-select" value={id_categoria} id="categoria"> 
-                    <option value="1">OFERTAS</option>
-                    <option value="2">SANDUICHES</option>
-                    <option value="3">HOTDOGS</option>
-                    <option value="4">BEBIDAS</option>
-                    <option value="5">PRATOS E PORÇÕES</option>
-                    <option value="6">SUPERMERCADO</option>
-                    <option value="7">FRUTAS E VERDURAS</option>
-                    <option value="8">MEDICAMENTOS</option>
-                    <option value="9">GÁS DE COZINHA</option>
-                    <option value="10">FLORICULTURA</option>
-                    <option value="11">ÁGUA MINERAL</option>
-                    <option value="12">PEÇAS E SERVIÇOS</option>
-                    <option value="13">DISTRIBUIDORAS</option>
-                  </select>
-                </div>
-
-                <div className="mb-3">
-                  <label htmlFor="responsavel" className="form-label">Responsável</label>
-                  <input onChange={e => setResponsavel(e.target.value)} value={responsavel} type="text" className="form-control" id="responsavel" />
+                  <div className="col-sm-6">
+                    <div className="mb-2">
+                      <img src={logomarca || "https://via.placeholder.com/100"} alt="Logomarca" width="100" />
+                      <p></p>
+                      <form onSubmit={ImgUpload}>
+                        <input type="file" onChange={ImgChange} /><br/>
+                        <button type="button" className="btn btn-primary" disabled={!file}><i className="fas fa-image"></i> ENVIAR IMAGEM</button>                         
+                      </form>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="row">
@@ -450,28 +503,28 @@ function Index() {
                     <input onChange={e => setTelefone(e.target.value)} value={telefone} type="text" className="form-control" id="telefone" />
                   </div>
                 </div>
-              
+
                 <div className="row">
                   <div className="col-sm-6">
                     <label htmlFor="endereco" className="form-label">Endereço</label>
                     <input onChange={e => setEndereco(e.target.value)} value={endereco} type="text" className="form-control" id="endereco" />
                   </div>
-                  <div className="col-sm-3">
+                  <div className="col-sm-2">
                     <label htmlFor="complemento" className="form-label">Complemento</label>
                     <input onChange={e => setComplemento(e.target.value)} value={complemento} type="text" className="form-control" id="complemento" />
                   </div>
-                  <div className="col-sm-3">
-                    <label htmlFor="bairro" className="form-label">Bairro</label>
-                    <input onChange={e => setBairro(e.target.value)} value={bairro} type="text" className="form-control" id="bairro" />
-                  </div>
+                  <div className="col-sm-4">
+                      <label htmlFor="bairro" className="form-label">Bairro</label>
+                      <input onChange={e => setBairro(e.target.value)} value={bairro} type="text" className="form-control" id="bairro" />
+                    </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-sm-5">
+                  <div className="col">
                     <label htmlFor="cidade" className="form-label">Cidade</label>
                     <input onChange={e => setCidade(e.target.value)} value={cidade} type="text" className="form-control" id="cidade" />
                   </div>
-                  <div className="col-sm-4">
+                  <div className="col">
                     <label htmlFor="UF" className="form-label">UF</label>
                     <select onChange={e => setUf(e.target.value)} value={UF} class="form-select" id="UF">
                       <option value="AC">ACRE</option>
@@ -503,13 +556,13 @@ function Index() {
                       <option value="TO">TOCANTINS</option>
                     </select>
                   </div>
-                  <div className="col-sm-3">
+                  <div className="col">
                     <label htmlFor="CEP" className="form-label">CEP</label>
                     <input onChange={e => setCep(e.target.value)} value={CEP} type="text" className="form-control" id="CEP" />
                   </div>
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="marcador" className="form-label">Marcador (Coordenadas Google Maps)*</label>
                   <input onChange={e => setMarcador(e.target.value)} value={marcador} type="text" className="form-control" id="marcador" />
                   <p>Como obter as suas coordenadas no Google Maps:</p>
@@ -521,7 +574,7 @@ function Index() {
                   <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
                 </div>
     
-                <div className="mb-3">
+                <div className="mb-2">
                   <label htmlFor="horario" className="form-label">Horário</label>
                   <input onChange={e => setHorario(e.target.value)} value={horario} type="text" className="form-control" id="horario" />
                 </div>
