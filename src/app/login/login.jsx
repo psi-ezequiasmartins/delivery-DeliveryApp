@@ -21,7 +21,7 @@ function Login() {
         setLogged(false);
         setResult('N');
       });
-  } 
+  }
 
   function ChangeMail(event) {
     setEmail(event.target.value);

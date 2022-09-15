@@ -22,7 +22,7 @@ function Novo() {
     firebase.auth().createUserWithEmailAndPassword(email, password).then(result => {
       setResult('S');
     }).catch(error => {
-      setResult('N');    
+      setResult('N');
       if (error.message === 'Password should be at least 6 characters') {
         setMessage('A senha deverá conter pelo menos 6 caracteres'); 
       } else 
@@ -36,7 +36,7 @@ function Novo() {
       }
     })
   }
-  
+
   var ano = new Date().getFullYear();
 
   return (
@@ -64,7 +64,7 @@ function Novo() {
         {message.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{message}</div> : null}
         {result === 'S' ? <Redirect to='/app/menu/pedidos/' /> : null}
         <p>&copy; 1999-{ano} PSI-SOFTWARE</p>
-      </form>      
+      </form>
     </div>
   );
 }

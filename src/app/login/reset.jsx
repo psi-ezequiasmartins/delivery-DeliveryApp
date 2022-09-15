@@ -38,7 +38,7 @@ function Reset() {
         </div>
         <button onClick={ChangePassword} className="w-150 btn btn-lg btn-dark" type="submit">ENVIAR</button>
         <p>&copy; 1999-{ano} PSI-SOFTWARE</p>
-      </form>      
+      </form>
     </div>
   );
 }

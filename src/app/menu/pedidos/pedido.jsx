@@ -12,7 +12,6 @@ export default function Pedido(props){
       status: status
     })
     .then((response) => {
-      // console.log('ok');
       setStatus(status);
       if (status === 'F') {
         setVisible(false)
@@ -51,7 +50,7 @@ export default function Pedido(props){
 
     <div className="d-flex me-4">
       <div className="dropdown">
-        <a className="btn btn-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        <a className="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
           Status do Pedido
         </a>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">

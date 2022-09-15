@@ -202,9 +202,9 @@ function Index() {
               </div>
             </div>
           </div>
-          
+
           <Listagem array={clientes} select={selectById} delete={confirmaExclusao} />
-          
+
           {
             confirma ? <SweetAlert
               warning

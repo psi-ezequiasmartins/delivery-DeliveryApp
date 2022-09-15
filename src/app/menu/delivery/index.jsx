@@ -93,7 +93,7 @@ function Index() {
       }).catch((erro) => {
         setMsg(erro);
         setSuccess("N");
-      })  
+      })
     }
   }
 
@@ -103,12 +103,12 @@ function Index() {
     } else if (email.length === 0) {
       setMsg('Favor preencher o campo E-mail.');
     } else {
-      const json = { 
+      const json = {
         "id_delivery": id_delivery, "id_categoria": id_categoria,
         "nome": nome, "responsavel": responsavel, "email": email, "telefone": telefone,
         "endereco": endereco, "complemento": complemento, "bairro": bairro,  "cidade": cidade, "uf": UF, "cep": CEP,
         "logomarca": logomarca,
-        "marcador": marcador, "horario": horario, 
+        "marcador": marcador, "horario": horario,
         "cnpj": cnpj, "cpf": cpf
       }
       await api.put(`/delivery/update/${id_delivery}`, json).then(response => {
@@ -160,7 +160,7 @@ function Index() {
 
   function Listagem(props) {
     function categoria(option) {
-      if (option === 1 ) { return "OFERTAS" } else    
+      if (option === 1 ) { return "OFERTAS" } else
       if (option === 2 ) { return "SANDUICHES" } else
       if (option === 3 ) { return "HOTDOGS" } else
       if (option === 4 ) { return "BEBIDAS" } else
@@ -174,7 +174,7 @@ function Index() {
       if (option === 12) { return "PEÇAS E SERVIÇOS" } else
       if (option === 13) { return "DISTRIBUIDORAS" }
     }
-  
+
     return (
 
       <table className="table table-hover table-bordered">
@@ -190,7 +190,7 @@ function Index() {
           </tr>
         </thead>
         <tbody>
-          {  
+          {
             props.array.map((delivery) => {
               return (
                 <tr key={delivery.id_delivery}>

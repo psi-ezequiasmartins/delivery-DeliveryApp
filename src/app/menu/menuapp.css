@@ -5,3 +5,7 @@
 .navbar .logout {
   cursor: pointer;
 }
+.header {
+  justify-content: space-between;
+  align-items: center;
+}

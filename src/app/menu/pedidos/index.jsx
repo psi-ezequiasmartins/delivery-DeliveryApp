@@ -20,7 +20,7 @@ export default function Pedidos() {
 
   useEffect(()=>{
     ListarPedidos();
-  }, [])
+  }, [pedidos])
 
   return  <>
     <MenuApp/>

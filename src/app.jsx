@@ -9,15 +9,9 @@ import NewAccount from './app/login/novo.jsx';
 import ResetPassword from './app/login/reset.jsx';
 
 import Pedidos from './app/menu/pedidos';
-import Delivery from './app/menu/delivery';
-import Clientes from './app/menu/clientes';
-import Fornecedores from './app/menu/fornecedores';
 import Produtos from './app/menu/produtos';
-
-/*
-import Estoque from './app/menu/estoque/home.jsx';
-import Financeiro from './app/menu/financeiro/home.jsx';
-*/
+import Clientes from './app/menu/clientes';
+import Delivery from './app/menu/delivery';
 
 function App() {
   const {logged} = useContext(AuthContext);
@@ -39,10 +33,9 @@ function App() {
         <Route exact path='/app/login/reset' component={ResetPassword} />
         {/* ---------------------------------------------------------------------------- */}
         <SecureRoute exact path='/app/menu/pedidos' component={Pedidos} />
-        <SecureRoute exact path='/app/menu/delivery' component={Delivery} />
-        <SecureRoute exact path='/app/menu/clientes' component={Clientes} />
-        <SecureRoute exact path='/app/menu/fornecedores' component={Fornecedores} />
         <SecureRoute exact path='/app/menu/produtos' component={Produtos} />
+        <SecureRoute exact path='/app/menu/clientes' component={Clientes} />
+        <SecureRoute exact path='/app/menu/delivery' component={Delivery} />
         {/* ---------------------------------------------------------------------------- */}
       </Switch>
     </BrowserRouter>
