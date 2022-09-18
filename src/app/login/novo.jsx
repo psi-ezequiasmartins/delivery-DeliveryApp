@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import firebase from '../config/api_firebase';
+import firebase from '../config/firebase';
 import 'firebase/auth';
+
 import './novo.css';
 
 function Novo() {

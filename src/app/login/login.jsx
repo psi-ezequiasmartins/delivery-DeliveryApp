@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthContext } from '../context/auth';
-import firebase from '../config/api_firebase';
+import firebase from '../config/firebase';
+
 import './login.css';
 
 function Login() {

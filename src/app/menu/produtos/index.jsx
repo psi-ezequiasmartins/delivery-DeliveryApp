@@ -7,13 +7,20 @@ import { Link, Redirect } from 'react-router-dom';
 import MenuApp from '../menuapp.jsx';
 import './index.css';
 
-import { storage } from '../../config/api_firebase';
-
-import api from '../../config/api_mysql';
+import { storage } from '../../config/firebase';
+import api from '../../config/mysql';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 function Index() {
+  const [busca, setBusca] = useState('');
+  const [excluido, setExcluido] = useState('');
+  const [confirma, setConfirma] = useState(false);
+  const [confirmaId, setConfirmaId] = useState('');
+  const [selecionado, setSelecionado] = useState('');
+  const [success, setSuccess] = useState('N');
+  const [msg, setMsg] = useState('');
+
   const [produtos, setProdutos] = useState([]);
 
   const [id_produto, setIdProduto] = useState(null);
@@ -23,73 +30,36 @@ function Index() {
   const [vr_unitario, setVrUnitario] = useState(0.00);
   const [url_imagem, setUrlImagem] = useState('');
 
-  const [busca, setBusca] = useState('');
-  const [excluido, setExcluido] = useState('');
-  const [confirma, setConfirma] = useState(false);
-  const [confirmaId, setConfirmaId] = useState('');   
-  const [selecionado, setSelecionado] = useState('');
-
-  const [success, setSuccess] = useState('N');
-  const [msg, setMsg] = useState('');
-
-  const [img_upload, setImgUpload] = useState(null);
-  const [img_progress, setImgProgress] = useState(0);
-  const [img_url, setImgUrl] = useState('');
+  const [file, setFile] = useState("https://via.placeholder.com/50x50");
 
   function imgChange(e) {
-    console.log(e.target.files);
-    setImgUpload(e.target.files[0]);
-    setImgUrl(URL.createObjectURL(e.target.files[0]));
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
+      setUrlImagem(URL.createObjectURL(e.target.files[0]));
+    }
   }
 
   async function imgUpload() {
-    var uploadTask = storage.ref(`produtos/${img_upload.name}`).put(img_upload);
-    uploadTask.on('state_changed', 
-      (snapshot) => {
-        // progress function...
-        var transf_progress = Math.round((snapshot.bytesTrasferred / snapshot.totalBytes) * 100);
-        setImgProgress(transf_progress);
-        console.log(img_progress);
-      },
-      (error) => {
-        // error function ...
-        console.log(error);
-      },
-    () => {
-        // complete function ...
-        storage.ref('produtos').child(img_upload.name).getDownloadURL().then(url => {
-          setImgUrl(url);
-          console.log(img_url);
-        });
-    });
+    if (file == null)
+      return;
+
+    const storageRef = storage.ref(`produtos/${file.name}`);
+    storageRef.put(file).on("state_changed", alert('File uploaded success!'), alert);
+    // get the public download img url
+    const downloadUrl = await storageRef.getDownloadURL();
+    // save the url to local state
+    setUrlImagem(downloadUrl);
   }
 
-  async function ImgUpdate() {
-    if (img_url.length === 0) {
-      setMsg('Selecione um arquivo para atualizar imagem do Produto.');
-    } else {
-      const json = { 
-        "id_produto": id_produto, 
-        "url_imagem": url_imagem
-      }
-      await api.put(`/produto/img/update/${id_produto}`, json).then(response => {
-        console.log(response.data);
-      }).then(() => {
-        setMsg('');
-        setSuccess('S');
-      }).catch((erro) =>{
-        setMsg(erro);
-        setSuccess('N');
-      })
-    }
+  function img_reset() {
+    setUrlImagem(null);
+    setFile(null);
   }
 
   useEffect(() => {
     let listagem = []; 
     api.get('/produtos').then(async result => {
       result.data.forEach(doc => {
-        // find in between two fields:
-        // if ((doc.nome.indexOf(busca) >=0) || (doc.data().descricao.indexOf(busca) >= 0)) {
         if (doc.nome.indexOf(busca) >=0) {
           listagem.push({
             id_produto: doc.id_produto,
@@ -98,12 +68,11 @@ function Index() {
             descricao: doc.descricao,
             vr_custo: doc.vr_custo,
             vr_unitario: doc.vr_unitario,
-            url_imagem: (doc.url_imagem === '') ? "https://via.placeholder.com/300" : doc.url_imagem
+            url_imagem: doc.url_imagem
           })
         }
       })
       setProdutos(listagem);
-      console.log(listagem);
     })
   }, [busca, excluido, success, url_imagem]);
 
@@ -113,9 +82,11 @@ function Index() {
     } else {
       const json = {
         "id_produto": null, 
-        "id_categoria": id_categoria, "nome": nome, "descricao": descricao, 
+        "id_categoria": id_categoria, 
+        "nome": nome, 
+        "descricao": descricao, 
         "vr_unitario": vr_unitario,
-        "url_imagem": ''
+        "url_imagem": url_imagem
       }
       api.post('/produto/add/', json).then(response => {
         let produto = {
@@ -143,7 +114,8 @@ function Index() {
       const json = { 
         "id_produto": id_produto, 
         "id_categoria": id_categoria, 
-        "nome": nome, "descricao": descricao, 
+        "nome": nome, 
+        "descricao": descricao, 
         "vr_unitario": vr_unitario,
         "url_imagem": url_imagem
       }
@@ -228,14 +200,11 @@ function Index() {
               return (
                 <tr key={produto.id_produto}>
                   <th scope="row">{produto.id_produto}</th>
-                  <td align="center">
-                    <img src={produto.url_imagem || "https://via.placeholder.com/50x50"} alt="imagem" width="50" />
-                  </td>
+                  <td><img src={produto.url_imagem} alt="imagem" width="50" /></td>
                   <td>{produto.nome}</td>
                   <td>{categoria(produto.id_categoria)}</td>
                   <td>{produto.vr_unitario}</td>
                   <td>
-                    <Link to="#" onClick={()=>props.select(produto.id_produto)} title="ATUALIZAR IMAGEM" data-bs-toggle="modal" data-bs-target="#md_imagem"><i className="fas fa-image icon-action green"></i></Link>
                     <Link to="#" onClick={()=>props.select(produto.id_produto)} title="EDITAR PRODUTO" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
                     <Link to="#" onClick={()=>props.delete(produto.id_produto)} title="EXCLUIR PRODUTO"><i className="fas fa-trash-alt icon-action red"></i></Link>
                   </td>
@@ -257,11 +226,10 @@ function Index() {
 
           <div className="col-6">
             <div className="mt-2">
-              {/* -- Button trigger modal -- */}
               <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novoproduto">
                 <i className="fas fa-address-book"></i> NOVO PRODUTO
               </button>
-              <button onClick={VisualizarPDF} className="btn btn-warning"><i class="fas fa-file-pdf"></i> PDF</button>
+              <button onClick={VisualizarPDF} className="btn btn-warning"><i className="fas fa-file-pdf"></i> PDF</button>
             </div>
           </div>
           <div className="col-6">
@@ -293,7 +261,7 @@ function Index() {
       </div>
 
       {/* -- md_novoproduto -- */}
-      <div className="modal fade" id="md_novoproduto" tabindex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
+      <div className="modal fade" id="md_novoproduto" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
         <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
 
@@ -312,24 +280,24 @@ function Index() {
                       </div>
                       <div className="mb-2">
                         <label htmlFor="descricao" className="form-label">Descrição</label>
-                        <textarea onChange={e => setDescricao(e.target.value)} class="form-control" rows="2" id="descricao" ></textarea>
+                        <textarea onChange={e => setDescricao(e.target.value)} className="form-control" rows="2" id="descricao" ></textarea>
                       </div>
                       <div className="mb-2">
                         <label htmlFor="categoria" className="form-label">Categoria</label>
-                        <select onChange={e => setIdCategoria(e.target.value)} class="form-select" id="categoria" placeholder="Selecione a categoria"> 
-                          <option value="1">OFERTAS</option>
-                          <option value="2">SANDUICHES</option>
-                          <option value="3">HOTDOGS</option>
-                          <option value="4">BEBIDAS</option>
-                          <option value="5">PRATOS E PORÇÕES</option>
-                          <option value="6">SUPERMERCADO</option>
-                          <option value="7">FRUTAS E VERDURAS</option>
-                          <option value="8">MEDICAMENTOS</option>
-                          <option value="9">GÁS DE COZINHA</option>
-                          <option value="10">FLORICULTURA</option>
-                          <option value="11">ÁGUA MINERAL</option>
-                          <option value="12">PEÇAS E SERVIÇOS</option>
-                          <option value="13">DISTRIBUIDORAS</option>
+                        <select onChange={e => setIdCategoria(e.target.value)} className="form-select" id="categoria" placeholder="Selecione a categoria"> 
+                          <option value="101">OFERTAS</option>
+                          <option value="102">SANDUICHES</option>
+                          <option value="103">HOTDOGS</option>
+                          <option value="104">BEBIDAS</option>
+                          <option value="105">PRATOS E PORÇÕES</option>
+                          <option value="106">SUPERMERCADO</option>
+                          <option value="107">FRUTAS E VERDURAS</option>
+                          <option value="108">MEDICAMENTOS</option>
+                          <option value="109">GÁS DE COZINHA</option>
+                          <option value="110">FLORICULTURA</option>
+                          <option value="111">ÁGUA MINERAL</option>
+                          <option value="112">PEÇAS E SERVIÇOS</option>
+                          <option value="113">DISTRIBUIDORAS</option>
                         </select>
                       </div>
                       <div className="mb-2">
@@ -339,7 +307,11 @@ function Index() {
                     </div>
 
                     <div className="col-sm-6">
-                      <img src={ url_imagem || "https://via.placeholder.com/350" } alt="Imagem do Produto" width="350" />
+                      Adicionar uma imagem:<br/>
+                      <img className="ref" src={ url_imagem || "https://via.placeholder.com/200" } alt="Imagem do Produto" width="200" />
+                      <p></p>
+                      <input type="file" id="file" onChange={imgChange}/>
+                      <button type="button" className="btn btn-primary btn-action" onClick={imgUpload} disabled={!file}>ENVIAR ARQUIVO DE IMAGEM</button>
                     </div>
 
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -349,7 +321,7 @@ function Index() {
               </div>
 
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>CANCELAR</button>
                 <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar}>SALVAR</button>
               </div>
             </div>
@@ -357,7 +329,7 @@ function Index() {
         </div>
 
         {/* -- md_editarproduto -- */}
-        <div className="modal fade" id="md_editarproduto" tabindex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
+        <div className="modal fade" id="md_editarproduto" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
           <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div className="modal-content">
 
@@ -376,24 +348,24 @@ function Index() {
                       </div>
                       <div className="mb-2">
                         <label htmlFor="descricao" className="form-label">Descrição</label>
-                        <textarea onChange={e => setDescricao(e.target.value)} value={descricao} class="form-control" rows="2" id="descricao" ></textarea>
+                        <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" rows="2" id="descricao" ></textarea>
                       </div>
                       <div className="mb-2">
                         <label htmlFor="categoria" className="form-label">Categoria</label>
-                        <select onChange={e => setIdCategoria(e.target.value)} value={id_categoria} class="form-select" id="categoria"> 
-                          <option value="1">OFERTAS</option>
-                          <option value="2">SANDUICHES</option>
-                          <option value="3">HOTDOGS</option>
-                          <option value="4">BEBIDAS</option>
-                          <option value="5">PRATOS E PORÇÕES</option>
-                          <option value="6">SUPERMERCADO</option>
-                          <option value="7">FRUTAS E VERDURAS</option>
-                          <option value="8">MEDICAMENTOS</option>
-                          <option value="9">GÁS DE COZINHA</option>
-                          <option value="10">FLORICULTURA</option>
-                          <option value="11">ÁGUA MINERAL</option>
-                          <option value="12">PEÇAS E SERVIÇOS</option>
-                          <option value="13">DISTRIBUIDORAS</option>
+                        <select onChange={e => setIdCategoria(e.target.value)} value={id_categoria} className="form-select" id="categoria"> 
+                          <option value="101">OFERTAS</option>
+                          <option value="102">SANDUICHES</option>
+                          <option value="103">HOTDOGS</option>
+                          <option value="104">BEBIDAS</option>
+                          <option value="105">PRATOS E PORÇÕES</option>
+                          <option value="106">SUPERMERCADO</option>
+                          <option value="107">FRUTAS E VERDURAS</option>
+                          <option value="108">MEDICAMENTOS</option>
+                          <option value="109">GÁS DE COZINHA</option>
+                          <option value="110">FLORICULTURA</option>
+                          <option value="111">ÁGUA MINERAL</option>
+                          <option value="112">PEÇAS E SERVIÇOS</option>
+                          <option value="113">DISTRIBUIDORAS</option>
                         </select>
                       </div>
                       <div className="mb-2">
@@ -403,7 +375,11 @@ function Index() {
                     </div>
 
                     <div className="col-sm-6">
-                      <img src={url_imagem} alt="Imagem do Produto" width="350" />
+                      Atualizar imagem:<br/>
+                      <img className="ref" src={ url_imagem } alt="Imagem do Produto" width="200" />
+                      <p></p>
+                      <input type="file" id="file" onChange={imgChange}/>
+                      <button type="button" className="btn btn-primary btn-action" onClick={imgUpload} disabled={!file}>ENVIAR ARQUIVO DE IMAGEM</button>
                     </div>
 
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -413,41 +389,8 @@ function Index() {
               </div>
 
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>CANCELAR</button>
                 <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Editar}>SALVAR</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* -- md_imagem -- */}
-        <div className="modal fade" id="md_imagem" tabindex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
-          <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content">
-
-              <div className="modal-header">
-                <h5 className="modal-title" id="titulo_modal">ATUALIZAR IMAGEM</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-              </div>
-
-              <div className="modal-body">
-                <div className="row">
-                  <div className="col-sm-6">
-                    <p><strong>#{id_produto} {nome}</strong></p>
-                    <img src={ img_url || url_imagem } alt="Imagem selecionada" width="350" />
-                  </div>
-                  <div className="col-sm-6">
-                    <input type="file" onChange={imgChange} /> {img_progress} %<br/>
-                    <button onClick={imgUpload} type="button" className="btn btn-primary" disabled={!img_url}><i className="fas fa-image"></i> UPLOAD</button>
-                  </div>
-                </div>
-                {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                {success === 'S' ? <Redirect to='/app/menu/produtos/'/> : null}
-              </div>
-
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
-                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={ImgUpdate}>SALVAR</button>
               </div>
             </div>
           </div>

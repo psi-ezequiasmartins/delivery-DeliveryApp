@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from '../../config/api_mysql';
+import api from '../../config/mysql';
 import './pedido.css';
 
 export default function Pedido(props){
@@ -48,17 +48,17 @@ export default function Pedido(props){
       }
     </div>
 
-    <div className="d-flex me-4">
+    <div className="d-flex me-4" id="status">
       <div className="dropdown">
-        <a className="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        <a className="btn btn-dark dropdown-toggle" href="#/" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
           Status do Pedido
         </a>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li><a onClick={(e)=>AlterarStatus("A")} className="dropdown-item">Aguardando</a></li>
-          <li><a onClick={(e)=>AlterarStatus("P")} className="dropdown-item">Em Produção</a></li>
-          <li><a onClick={(e)=>AlterarStatus("E")} className="dropdown-item">Saiu para Entrega</a></li>
-          <li><a onClick={(e)=>AlterarStatus("F")} className="dropdown-item">Finalizado</a></li>
-          <li><a onClick={(e)=>AlterarStatus("C")} className="dropdown-item">Cancelado</a></li>
+          <li><a href="#/" onClick={(e)=>AlterarStatus("A")} className="dropdown-item">Aguardando</a></li>
+          <li><a href="#/" onClick={(e)=>AlterarStatus("P")} className="dropdown-item">Em Produção</a></li>
+          <li><a href="#/" onClick={(e)=>AlterarStatus("E")} className="dropdown-item">Saiu para Entrega</a></li>
+          <li><a href="#/" onClick={(e)=>AlterarStatus("F")} className="dropdown-item">Finalizado</a></li>
+          <li><a href="#/" onClick={(e)=>AlterarStatus("C")} className="dropdown-item">Cancelado</a></li>
         </ul>
       </div>
     </div>

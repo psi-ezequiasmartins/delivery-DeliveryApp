@@ -7,8 +7,8 @@ import { Link, Redirect } from 'react-router-dom';
 import MenuApp from '../menuapp.jsx';
 import './index.css';
 
-import { storage } from '../../config/api_firebase';
-import api from '../../config/api_mysql';
+import { storage } from '../../config/firebase';
+import api from '../../config/mysql';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 

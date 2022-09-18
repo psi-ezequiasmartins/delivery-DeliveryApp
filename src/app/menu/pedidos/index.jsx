@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import MenuApp from '../menuapp.jsx';
 import Pedido from "./pedido";
-import api from '../../config/api_mysql';
+import api from '../../config/mysql';
+
 import './index.css';
 
 export default function Pedidos() {
