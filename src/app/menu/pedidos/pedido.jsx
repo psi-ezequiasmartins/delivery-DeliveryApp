@@ -6,7 +6,7 @@ export default function Pedido(props){
 
   const [status, setStatus] = useState(props.status);
   const [visible, setVisible] = useState(true);
-  
+
   function AlterarStatus(status) {
     api.put(`/pedidos/status/${props.id_pedido}`, {
       status: status
@@ -33,7 +33,7 @@ export default function Pedido(props){
       {status === "E" ? <span className="badge rouded-pill bg-primary ms-2">SAIU P/ ENTREGA</span> : null}
       {status === "F" ? <span className="badge rouded-pill bg-dark ms-2">FINALIZADO</span> : null}
       {status === "C" ? <span className="badge rouded-pill bg-secondary ms-2">CANCELADO</span> : null}
-      
+
       {/* <span className='badge rouded-pill bg-success ms-2'>{status}</span> */}
 
       <small className='d-block mt-1 text-secondary'>{props.nome} - {props.endereco}</small>

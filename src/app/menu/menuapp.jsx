@@ -9,6 +9,8 @@ function MenuApp() {
   function LougOut() {
     setLogged(false);
     localStorage.removeItem("logged");
+    localStorage.removeItem("token");
+    localStorage.removeItem("empresa");
   }
 
   return (

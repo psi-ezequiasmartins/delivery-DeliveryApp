@@ -160,19 +160,19 @@ function Index() {
 
   function Listagem(props) {
     function categoria(option) {
-      if (option === 1 ) { return "OFERTAS" } else
-      if (option === 2 ) { return "SANDUICHES" } else
-      if (option === 3 ) { return "HOTDOGS" } else
-      if (option === 4 ) { return "BEBIDAS" } else
-      if (option === 5 ) { return "PRATOS E PORÇÕES" } else
-      if (option === 6 ) { return "SUPERMERCADO" } else
-      if (option === 7 ) { return "FRUTAS E VERDURAS" } else
-      if (option === 8 ) { return "MEDICAMENTOS" } else
-      if (option === 9 ) { return "GÁS DE COZINHA" } else
-      if (option === 10) { return "FLORICULTURA" } else
-      if (option === 11) { return "ÁGUA MINERAL" } else
-      if (option === 12) { return "PEÇAS E SERVIÇOS" } else
-      if (option === 13) { return "DISTRIBUIDORAS" }
+      if (option === 101) { return "OFERTAS" } else
+      if (option === 102) { return "SANDUICHES" } else
+      if (option === 103) { return "HOTDOGS" } else
+      if (option === 104) { return "BEBIDAS" } else
+      if (option === 105) { return "PRATOS E PORÇÕES" } else
+      if (option === 106) { return "SUPERMERCADO" } else
+      if (option === 107) { return "FRUTAS E VERDURAS" } else
+      if (option === 108) { return "MEDICAMENTOS" } else
+      if (option === 109) { return "GÁS DE COZINHA" } else
+      if (option === 110) { return "FLORICULTURA" } else
+      if (option === 111) { return "ÁGUA MINERAL" } else
+      if (option === 112) { return "PEÇAS E SERVIÇOS" } else
+      if (option === 113) { return "DISTRIBUIDORAS" }
     }
 
     return (
@@ -295,19 +295,19 @@ function Index() {
                     <div className="mb-2">
                       <label htmlFor="categoria" className="form-label">Categoria</label>
                       <select onChange={e => setIdCategoria(e.target.value)} class="form-select" id="categoria"> 
-                        <option value="1">OFERTAS</option>
-                        <option value="2">SANDUICHES</option>
-                        <option value="3">HOTDOGS</option>
-                        <option value="4">BEBIDAS</option>
-                        <option value="5">PRATOS E PORÇÕES</option>
-                        <option value="6">SUPERMERCADO</option>
-                        <option value="7">FRUTAS E VERDURAS</option>
-                        <option value="8">MEDICAMENTOS</option>
-                        <option value="9">GÁS DE COZINHA</option>
-                        <option value="10">FLORICULTURA</option>
-                        <option value="11">ÁGUA MINERAL</option>
-                        <option value="12">PEÇAS E SERVIÇOS</option>
-                        <option value="13">DISTRIBUIDORAS</option>
+                        <option value="101">OFERTAS</option>
+                        <option value="102">SANDUICHES</option>
+                        <option value="103">HOTDOGS</option>
+                        <option value="104">BEBIDAS</option>
+                        <option value="105">PRATOS E PORÇÕES</option>
+                        <option value="106">SUPERMERCADO</option>
+                        <option value="107">FRUTAS E VERDURAS</option>
+                        <option value="108">MEDICAMENTOS</option>
+                        <option value="109">GÁS DE COZINHA</option>
+                        <option value="110">FLORICULTURA</option>
+                        <option value="111">ÁGUA MINERAL</option>
+                        <option value="112">PEÇAS E SERVIÇOS</option>
+                        <option value="113">DISTRIBUIDORAS</option>
                       </select>
                     </div>
                     <div className="mb-2">
@@ -460,19 +460,19 @@ function Index() {
                     <div className="mb-2">
                       <label htmlFor="categoria" className="form-label">Categoria</label>
                       <select onChange={e => setIdCategoria(e.target.value)} class="form-select" value={id_categoria} id="categoria"> 
-                        <option value="1">OFERTAS</option>
-                        <option value="2">SANDUICHES</option>
-                        <option value="3">HOTDOGS</option>
-                        <option value="4">BEBIDAS</option>
-                        <option value="5">PRATOS E PORÇÕES</option>
-                        <option value="6">SUPERMERCADO</option>
-                        <option value="7">FRUTAS E VERDURAS</option>
-                        <option value="8">MEDICAMENTOS</option>
-                        <option value="9">GÁS DE COZINHA</option>
-                        <option value="10">FLORICULTURA</option>
-                        <option value="11">ÁGUA MINERAL</option>
-                        <option value="12">PEÇAS E SERVIÇOS</option>
-                        <option value="13">DISTRIBUIDORAS</option>
+                        <option value="101">OFERTAS</option>
+                        <option value="102">SANDUICHES</option>
+                        <option value="103">HOTDOGS</option>
+                        <option value="104">BEBIDAS</option>
+                        <option value="105">PRATOS E PORÇÕES</option>
+                        <option value="106">SUPERMERCADO</option>
+                        <option value="107">FRUTAS E VERDURAS</option>
+                        <option value="108">MEDICAMENTOS</option>
+                        <option value="109">GÁS DE COZINHA</option>
+                        <option value="110">FLORICULTURA</option>
+                        <option value="111">ÁGUA MINERAL</option>
+                        <option value="112">PEÇAS E SERVIÇOS</option>
+                        <option value="113">DISTRIBUIDORAS</option>
                       </select>
                     </div>
                     <div className="mb-2">

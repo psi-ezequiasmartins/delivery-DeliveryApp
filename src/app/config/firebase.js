@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import 'firebase/database';
 import 'firebase/storage';
 
 // Your web app's Firebase configuration

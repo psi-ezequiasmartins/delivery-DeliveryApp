@@ -11,17 +11,26 @@ function Login() {
   const [password, setPassword] = useState('');
   const [result, setResult] = useState('');
   const {setLogged} = useContext(AuthContext);
-  
+
   function LoginUser() {
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function(firebaseUser) {
-        localStorage.setItem("logged", "S");
-        setLogged(true);
-        setResult('S');
-      }).catch(function(error) {
-        localStorage.setItem("logged", "N");
-        setLogged(false);
-        setResult('N');
-      });
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((firebaseUser) => {
+      let uid = firebaseUser.user.uid;
+      console.log(firebaseUser.user.uid);
+      firebase.database().ref('users/'+ uid).on('value', (snapshot) => {
+        console.log(snapshot.val().token);
+        console.log(snapshot.val().empresa);
+        localStorage.setItem("empresa", snapshot.val().empresa);
+        localStorage.setItem("token", snapshot.val().token);
+      })
+      localStorage.setItem("logged", "S");
+      setLogged(true);
+      setResult('S');
+    }).catch(function(error) {
+      localStorage.setItem("logged", "N");
+      setLogged(false);
+      setResult('N');
+    });
   }
 
   function ChangeMail(event) {
