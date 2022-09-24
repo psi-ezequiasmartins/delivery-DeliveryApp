@@ -12,7 +12,7 @@ function Banner() {
             <div className="col-lg-6">
               <div className="bloco">
                 <h1>Simples e fácil de usar!</h1>
-                <h4>Administre o seu delivery com Gestão de Pedidos, Cardápio de Produtos, Clientes, tudo isso em um único lugar.</h4>
+                <h4>Administre a Gestão dos Pedidos, Cadastro de Produtos (Cardápio), Clientes, etc. Tudo em um único lugar, além de divulgar o seu Delivery em nosso Aplicativo Mobile (Android/iOs).</h4>
                 <a href="/app/login/novo" type="button" className="btn btn-primary btn-lg btn-app">Criar uma conta</a>
                 <a href="/app" type="button" className="btn btn-outline-light btn-lg btn-app">Fazer Login</a>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import firebase from '../config/firebase';
 import 'firebase/auth';
 
@@ -34,9 +34,9 @@ function Reset() {
         </div>
         {message.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{message}</div> : null}
         {result.length > 0 ? <div className="alert alert-success mt-2" role="alert">{result}</div> : null}
-        <div className="login-links mt-2">
+        {/* <div className="login-links mt-2">
           <Link to="/app/login/novo" className="mx-3">Criar uma conta</Link>
-        </div>
+        </div> */}
         <button onClick={ChangePassword} className="w-150 btn btn-lg btn-dark" type="submit">ENVIAR</button>
         <p>&copy; 1999-{ano} PSI-SOFTWARE</p>
       </form>

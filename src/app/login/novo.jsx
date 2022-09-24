@@ -6,21 +6,31 @@ import 'firebase/auth';
 import './novo.css';
 
 function Novo() {
+  let vEmail = localStorage.getItem("email");
+  let vEmpresa = localStorage.getItem("empresa");
+  let vToken = localStorage.getItem("token");
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(vEmail);
   const [password, setPassword] = useState('');
+  const [confirm_password, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [result, setResult] = useState('');
 
-  function RegisterNewUser() {
+  async function RegisterNewUser(empresa, token) {
     setMessage('');
 
-    if (!email || !password) {
-      setMessage('Por favor, preencha todos os campos');
+    if (password !== confirm_password) {
+      setMessage('Senhas diferentes! Por favor digite-as novamente');
       return;
     }
 
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(result => {
+    await firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(async(value) => {
+      let uid = value.user.uid;
+      await firebase.database().ref('users').child(uid).set({
+        empresa: empresa,
+        token: token
+      });
       setResult('S');
     }).catch(error => {
       setResult('N');
@@ -31,7 +41,7 @@ function Novo() {
         setMessage('O formato do E-mail está incorreto') 
       } else
       if (error.message === 'The email address is already in use by another account.') {
-        setMessage('E-mail já está em uso por outra conta');
+        setMessage('E-mail já em uso por outra conta');
       } else {
         setMessage('Erro ao criar conta: ' + error.message);
       }
@@ -46,24 +56,35 @@ function Novo() {
       <a href="/#">
           <img className="mb-4" src="/imagens/logo.png" alt="" />
         </a>
+
         <div className="form-floating mt-2">
-          <input onChange={e => setEmail(e.target.value)} type="email" className="form-control" id="floatingInput" placeholder="E-mail"/>
-          <label htmlFor="floatingInput">E-mail</label>
+          <input type="text" className="form-control" id="delivery" value={vEmpresa} readOnly />
+          <input type="hidden" id="token" name="token" value={vToken} />
+          <label htmlFor="delivery">Delivery</label>
         </div>
+
         <div className="form-floating mt-2">
-          <input onChange={e => setPassword(e.target.value)} type="text" className="form-control" id="floatingPassword" placeholder="Senha"/>
-          <label htmlFor="floatingPassword">Senha</label>
-        </div>       
-        {/* <div className="form-floating"-->
-          <input type="password" className="form-control" id="floatingPassword" placeholder="Senha"/>
-          <label htmlFor="floatingPassword">Confirme a Senha</label>
-        </div> */}
+          <input onChange={e => setEmail(e.target.value)} type="email" className="form-control" id="email" value={email} placeholder="E-mail" />
+          <label htmlFor="email">E-mail</label>
+        </div>
+
+        <div className="form-floating mt-2">
+          <input onChange={e => setPassword(e.target.value)} type="password" className="form-control" id="password" />
+          <label htmlFor="password">Defina sua Senha</label>
+        </div>
+
+        <div className="form-floating">
+          <input onChange={e => setConfirmPassword(e.target.value)} type="password" className="form-control" id="confirm_password" />
+          <label htmlFor="confirm_password">Confirme sua Senha</label>
+        </div> 
+
         <div className="form-links">
           <Link to="/app" className="mx-3">Já tenho uma conta</Link>
         </div>
-        <button onClick={RegisterNewUser} className="w-100 btn btn-lg btn-dark mt-2" type="button">REGISTRAR CONTA</button>
+
+        <button onClick={e => RegisterNewUser(vEmpresa, vToken)} className="w-100 btn btn-lg btn-dark mt-2" type="button">CADASTRAR ACESSO</button>
         {message.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{message}</div> : null}
-        {result === 'S' ? <Redirect to='/app/menu/pedidos/' /> : null}
+        {result === 'S' ? <Redirect to='/app/menu/pedidos' /> : null}
         <p>&copy; 1999-{ano} PSI-SOFTWARE</p>
       </form>
     </div>

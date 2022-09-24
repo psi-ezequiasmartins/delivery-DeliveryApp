@@ -13,6 +13,9 @@ import api from '../../config/mysql';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 function Index() {
+  let vEmpresa = localStorage.getItem("empresa");
+  let vToken = localStorage.getItem("token");
+
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');
   const [confirma, setConfirma] = useState(false);
@@ -42,7 +45,6 @@ function Index() {
   async function imgUpload() {
     if (file == null)
       return;
-
     const storageRef = storage.ref(`produtos/${file.name}`);
     storageRef.put(file).on("state_changed", alert('File uploaded success!'), alert);
     // get the public download img url
@@ -58,7 +60,7 @@ function Index() {
 
   useEffect(() => {
     let listagem = []; 
-    api.get('/produtos').then(async result => {
+    api.get(`/listar/produtos/delivery/${vToken}`).then(async result => {
       result.data.forEach(doc => {
         if (doc.nome.indexOf(busca) >=0) {
           listagem.push({
@@ -200,7 +202,9 @@ function Index() {
               return (
                 <tr key={produto.id_produto}>
                   <th scope="row">{produto.id_produto}</th>
-                  <td><img src={produto.url_imagem} alt="imagem" width="50" /></td>
+                  <td>
+                    <img src={produto.url_imagem} alt="imagem" width="50" />
+                  </td>
                   <td>{produto.nome}</td>
                   <td>{categoria(produto.id_categoria)}</td>
                   <td>{produto.vr_unitario}</td>
@@ -221,7 +225,7 @@ function Index() {
     <div>
       <MenuApp/>
       <div className="container-fluid titulo">
-        <h1>Cadastro de Produtos</h1>
+        <h1>Cadastro de Produtos - {vEmpresa}</h1>
         <div className="row">
 
           <div className="col-6">

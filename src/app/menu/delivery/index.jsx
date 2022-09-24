@@ -16,12 +16,16 @@ function Index() {
 
   const [deliverys, setDeliverys] = useState([]);
 
-  const [id_delivery, setIdDelivery] = useState(0);
+  const [id_conta, setIdConta] = useState(null);
+  const [delivery, setDelivery] = useState('');
+  const [plano, setPlano] = useState(101);
+  const [status, setStatus] = useState('A');
   const [id_categoria, setIdCategoria] = useState(0);
-  const [nome, setNome] = useState('');
   const [responsavel, setResponsavel] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
+  const [cnpj, setCnpj] = useState('');
+  const [cpf, setCpf] = useState('');
   const [endereco, setEndereco] = useState('');  
   const [complemento, setComplemento] = useState('');
   const [bairro, setBairro] = useState('');
@@ -31,10 +35,6 @@ function Index() {
   const [logomarca, setLogomarca] = useState('');
   const [marcador, setMarcador] = useState('');
   const [horario, setHorario] = useState('');
-  const [cnpj, setCnpj] = useState('');
-  const [cpf, setCpf] = useState('');
-
-  const [file, setFile] = useState(null);
 
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');
@@ -45,18 +45,44 @@ function Index() {
   const [success, setSuccess] = useState('N');
   const [msg, setMsg] = useState('');
 
+  const [file, setFile] = useState("https://via.placeholder.com/50x50");
+
+  function imgChange(e) {
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
+      setLogomarca(URL.createObjectURL(e.target.files[0]));
+    }
+  }
+
+  async function imgUpload() {
+    if (file == null)
+      return;
+    const storageRef = storage.ref(`deliverys/${file.name}`);
+    storageRef.put(file).on("state_changed", alert('File uploaded success!'), alert);
+    // get the public download img url
+    const downloadUrl = await storageRef.getDownloadURL();
+    // save the url to local state
+    setLogomarca(downloadUrl);
+  }
+
+  function img_reset() {
+    setLogomarca(null);
+    setFile(null);
+  }
+
   useEffect(() => {
     let listagem = []; 
-    api.get('/deliverys').then(async result => {
+    api.get('/listar/deliverys').then(async result => {
       result.data.forEach(doc => {
-        if (doc.nome.indexOf(busca) >=0 ) {
+        if (doc.delivery.indexOf(busca) >=0 ) {
           listagem.push({
-            id_delivery: doc.id_delivery,
+            id_conta: doc.id_conta,
+            logomarca: (!doc.logomarca) ? "https://via.placeholder.com/50" : doc.logomarca,
+            delivery: doc.delivery,
             id_categoria: doc.id_categoria,
-            logomarca: doc.logomarca,
-            nome: doc.nome,
             telefone: doc.telefone,
-            email: doc.email
+            email: doc.email,
+            status: doc.status
           })
         }
       })
@@ -66,25 +92,52 @@ function Index() {
   }, [busca, excluido, success]);
 
   function Cadastrar() {
-    if (nome.length === 0) {
+    if (delivery.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
     } else if (email.length === 0) {
       setMsg('Favor preencher o campo E-mail.');
     } else {
         const json = {
-          "id_delivery": null, "id_categoria": id_categoria,
-          "nome": nome, "responsavel": responsavel, "email": email, "telefone": telefone,
-          "endereco": endereco, "complemento": complemento, "bairro": bairro, "cidade": cidade, "uf": UF, "cep": CEP,
+          "id_conta": null, 
+          "delivery": delivery,
+          "plano": plano,
+          "status": status,
+          "id_categoria": id_categoria,
+          "responsavel": responsavel,
+          "email": email,
+          "telefone": telefone,
+          "cnpj": cnpj, 
+          "cpf": cpf,
+          "endereco": endereco,
+          "complemento": complemento,
+          "bairro": bairro, "cidade": cidade,
+          "uf": UF,
+          "cep": CEP,
           "logomarca": logomarca,
-          "marcador": marcador, "horario": horario, "cnpj": cnpj, "cpf": cpf
+          "marcador": marcador,
+          "horario": horario
         }
         api.post('/delivery/add/', json).then(response => {
           let delivery = {
-            id_delivery: response.data.id_delivery,  id_categoria: response.data.id_categoria,
-            nome: response.data.nome, responsavel: response.data.responsavel, email: response.data.email, telefone: response.data.telefone,
-            endereco: response.data.endereco, complemento: response.data.complemento, bairro: response.data.bairro, cidade: response.data.cidade, uf: response.data.uf, cep: response.data.cep,
+            id_conta: response.data.id_conta,
+            delivery: response.data.delivery,
+            plano: response.data.plano,
+            status: response.data.status,
+            id_categoria: response.data.id_categoria,
+            responsavel: response.data.responsavel,
+            email: response.data.email,
+            telefone: response.data.telefone,
+            cnpj: response.data.cnpj,
+            cpf: response.data.cpf,
+            endereco: response.data.endereco,
+            complemento: response.data.complemento,
+            bairro: response.data.bairro,
+            cidade: response.data.cidade,
+            uf: response.data.uf,
+            cep: response.data.cep,
             logomarca: response.logomarca,
-            marcador: response.data.marcador, horario: response.data.horario, cnpj: response.data.cnpj, cpf: response.data.cpf 
+            marcador: response.data.marcador,
+            horario: response.data.horario,
           }
           console.log(delivery);
       }).then(() => {
@@ -98,20 +151,33 @@ function Index() {
   }
 
   async function Editar() {
-    if (nome.length === 0) {
+    if (delivery.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
     } else if (email.length === 0) {
       setMsg('Favor preencher o campo E-mail.');
     } else {
       const json = {
-        "id_delivery": id_delivery, "id_categoria": id_categoria,
-        "nome": nome, "responsavel": responsavel, "email": email, "telefone": telefone,
-        "endereco": endereco, "complemento": complemento, "bairro": bairro,  "cidade": cidade, "uf": UF, "cep": CEP,
+        "id_conta": id_conta,
+        "delivery": delivery,
+        "plano": plano,
+        "status": status,
+        "id_categoria": id_categoria,
+        "responsavel": responsavel,
+        "email": email,
+        "telefone": telefone,
+        "cnpj": cnpj,
+        "cpf": cpf,
+        "endereco": endereco,
+        "complemento": complemento,
+        "bairro": bairro,
+        "cidade": cidade,
+        "uf": UF,
+        "cep": CEP,
         "logomarca": logomarca,
-        "marcador": marcador, "horario": horario,
-        "cnpj": cnpj, "cpf": cpf
+        "marcador": marcador,
+        "horario": horario
       }
-      await api.put(`/delivery/update/${id_delivery}`, json).then(response => {
+      await api.put(`/delivery/update/${id_conta}`, json).then(response => {
         console.log(response.data);
       }).then(() => {
         setMsg('');
@@ -126,27 +192,39 @@ function Index() {
   function selectById(id){
     api.get(`/delivery/${id}`)
     .then(result => {
-      setIdDelivery(result.data[0].id_delivery); setIdCategoria(result.data[0].id_categoria);
-      setNome(result.data[0].nome); setResponsavel(result.data[0].responsavel);
-      setEmail(result.data[0].email); setTelefone(result.data[0].telefone);
-      setEndereco(result.data[0].endereco); setComplemento(result.data[0].complemento); setBairro(result.data[0].bairro);
-      setCidade(result.data[0].cidade); setUf(result.data[0].uf); setCep(result.data[0].cep);
+      setIdConta(result.data[0].id_conta);
+      setDelivery(result.data[0].delivery);
+      setPlano(result.data[0].plano);
+      setStatus(result.data[0].status);
+      setIdCategoria(result.data[0].id_categoria);
+      setResponsavel(result.data[0].responsavel);
+      setEmail(result.data[0].email);
+      setTelefone(result.data[0].telefone);
+      setCnpj(result.data[0].cnpj);
+      setCpf(result.data[0].cpf);
+      setEndereco(result.data[0].endereco);
+      setComplemento(result.data[0].complemento);
+      setBairro(result.data[0].bairro);
+      setCidade(result.data[0].cidade);
+      setUf(result.data[0].uf);
+      setCep(result.data[0].cep);
       setLogomarca(result.data[0].logomarca);
-      setMarcador(result.data[0].marcador); setHorario(result.data[0].horario); 
-      setCnpj(result.data[0].cnpj); setCpf(result.data[0].cpf);
-    }) 
+      setMarcador(result.data[0].marcador);
+      setHorario(result.data[0].horario);
+    })
   }
 
   function deleteByID(id) {
-    api.delete(`/delivery/delete/${id}`).then(async(result) => {
+    api.delete(`/delivery/delete/${id}`)
+    .then(async(result) => {
       setExcluido(id);
       setConfirma(false);
     })
   }
 
   function confirmaExclusao(id) {
-    let delivery = deliverys.find(item => item.id_delivery === id);
-    setSelecionado(delivery.nome);
+    let delivery = deliverys.find(item => item.id_conta === id);
+    setSelecionado(delivery.delivery);
     setConfirmaId(id);
     setConfirma(true);
   }
@@ -186,6 +264,7 @@ function Index() {
             <th scope="col">Categoria</th>
             <th scope="col">Telefone</th>
             <th scope="col">E-mail</th>
+            <th scope="col">Status</th>
             <th scope="col" className="col-action"></th>
           </tr>
         </thead>
@@ -193,18 +272,17 @@ function Index() {
           {
             props.array.map((delivery) => {
               return (
-                <tr key={delivery.id_delivery}>
-                  <th scope="row">{delivery.id_delivery}</th>
-                  <td align="center">
-                    <img src={delivery.logomarca || "https://via.placeholder.com/50x50"} alt="imagem" width="50" />
-                  </td>
-                  <td>{delivery.nome}</td>
+                <tr key={delivery.id_conta}>
+                  <th scope="row">{delivery.id_conta}</th>
+                  <td><img src={delivery.logomarca} alt="logo" width="50" /></td>
+                  <td>{delivery.delivery}</td>
                   <td>{categoria(delivery.id_categoria)}</td>
                   <td>{delivery.telefone}</td>
                   <td>{delivery.email}</td>
+                  <td>{delivery.status}</td>
                   <td>
-                    <Link to="#" onClick={()=>props.select(delivery.id_delivery)} title="EDITAR DELIVERY" data-bs-toggle="modal" data-bs-target="#md_editardelivery"><i className="fas fa-user-edit icon-action"></i></Link>
-                    <Link to="#" onClick={()=>props.delete(delivery.id_delivery)} title="EXCLUIR DELIVERY"><i className="fas fa-trash-alt icon-action red"></i></Link>
+                    <Link to="#" onClick={()=>props.select(delivery.id_conta)} title="EDITAR DELIVERY" data-bs-toggle="modal" data-bs-target="#md_editardelivery"><i className="fas fa-user-edit icon-action"></i></Link>
+                    <Link to="#" onClick={()=>props.delete(delivery.id_conta)} title="EXCLUIR DELIVERY"><i className="fas fa-trash-alt icon-action red"></i></Link>
                   </td>
                 </tr>
               )
@@ -213,20 +291,6 @@ function Index() {
         </tbody>
       </table>
     )
-  }
-
-  function ImgChange(e) {
-    if (e.target.files[0]) {
-      setFile(e.target.files[0]);
-    }
-  }
-  
-  async function ImgUpload(e) {
-    e.preventDefault();
-    const path = `/deliverys/${file.name}`; const ref = storage.ref(path); await ref.put(file);
-    const url = await ref.getDownloadURL();
-    setLogomarca(url);
-    setFile(null);
   }
 
   return (
@@ -243,7 +307,7 @@ function Index() {
               <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novodelivery">
                 <i className="fas fa-address-book"></i> NOVO DELIVERY
               </button>
-              <button onClick={VisualizarPDF} className="btn btn-warning"><i class="fas fa-file-pdf"></i> PDF</button>
+              <button onClick={VisualizarPDF} className="btn btn-warning"><i className="fas fa-file-pdf"></i> PDF</button>
             </div>
           </div>
           <div className="col-6">
@@ -289,12 +353,12 @@ function Index() {
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="mb-2">
-                      <label htmlFor="nome" className="form-label">Nome do Delivery</label>
-                      <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
+                      <label htmlFor="delivery" className="form-label">Nome do Delivery</label>
+                      <input onChange={e => setDelivery(e.target.value)} type="text" className="form-control" id="delivery" />
                     </div>
                     <div className="mb-2">
                       <label htmlFor="categoria" className="form-label">Categoria</label>
-                      <select onChange={e => setIdCategoria(e.target.value)} class="form-select" id="categoria"> 
+                      <select onChange={e => setIdCategoria(e.target.value)} className="form-select" id="categoria"> 
                         <option value="101">OFERTAS</option>
                         <option value="102">SANDUICHES</option>
                         <option value="103">HOTDOGS</option>
@@ -320,8 +384,8 @@ function Index() {
                     <div className="mb-2">
                       <img src={logomarca || "https://via.placeholder.com/100"} alt="Logomarca" width="100" />
                       <p></p>
-                      <form onSubmit={ImgUpload}>
-                        <input type="file" onChange={ImgChange} /><br/>
+                      <form onSubmit={imgUpload}>
+                        <input type="file" onChange={imgChange} /><br/>
                         <button type="button" className="btn btn-primary" disabled={!file}><i className="fas fa-image"></i> ENVIAR IMAGEM</button>                         
                       </form>
                     </div>
@@ -336,6 +400,17 @@ function Index() {
                   <div className="col-sm-4">
                     <label htmlFor="telefone" className="form-label">Telefone</label>
                     <input onChange={e => setTelefone(e.target.value)} type="text" className="form-control" id="telefone" />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-sm-6">
+                    <label htmlFor="cnpj" className="form-label">CNPJ</label>
+                    <input onChange={e => setCnpj(e.target.value)} type="text" className="form-control" id="cnpj" />
+                  </div>
+                  <div className="col-sm-6">
+                    <label htmlFor="cpf" className="form-label">CPF</label>
+                    <input onChange={e => setCpf(e.target.value)} type="text" className="form-control" id="cpf" />
                   </div>
                 </div>
 
@@ -361,7 +436,7 @@ function Index() {
                   </div>
                   <div className="col">
                     <label htmlFor="UF" className="form-label">UF</label>
-                    <select onChange={e => setUf(e.target.value)} class="form-select" id="UF">
+                    <select onChange={e => setUf(e.target.value)} className="form-select" id="UF" defaultValue="MG">
                       <option value="AC">ACRE</option>
                       <option value="AL">ALAGOAS</option>
                       <option value="AP">AMAPA</option>
@@ -374,7 +449,7 @@ function Index() {
                       <option value="MA">MARANHAO</option>
                       <option value="MT">MATO GROSSO</option>
                       <option value="MS">MATO GROSSO SUL</option>
-                      <option value="MG" selected="selected">MINAS GERAIS</option>
+                      <option value="MG">MINAS GERAIS</option>
                       <option value="PA">PARA</option>
                       <option value="PB">PARAIBA</option>
                       <option value="PR">PARANA</option>
@@ -408,21 +483,10 @@ function Index() {
                   </p>
                   <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
                 </div>
-    
+
                 <div className="mb-2">
                   <label htmlFor="horario" className="form-label">Horário</label>
                   <input onChange={e => setHorario(e.target.value)} type="text" className="form-control" id="horario" />
-                </div>
-
-                <div className="row">
-                  <div className="col-sm-6">
-                    <label htmlFor="cnpj" className="form-label">CNPJ</label>
-                    <input onChange={e => setCnpj(e.target.value)} type="text" className="form-control" id="cnpj" />
-                  </div>
-                  <div className="col-sm-6">
-                    <label htmlFor="cpf" className="form-label">CPF</label>
-                    <input onChange={e => setCpf(e.target.value)} type="text" className="form-control" id="cpf" />
-                  </div>
                 </div>
 
                 {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -432,7 +496,7 @@ function Index() {
             </div>
 
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>CANCELAR</button>
               <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar}>SALVAR</button>
             </div>
           </div>
@@ -454,12 +518,12 @@ function Index() {
                 <div className="row">
                   <div className="col-sm-6">
                     <div className="mb-2">
-                      <label htmlFor="nome" className="form-label">Nome do Delivery</label>
-                      <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
+                      <label htmlFor="delivery" className="form-label">Nome do Delivery</label>
+                      <input onChange={e => setDelivery(e.target.value)} value={delivery} type="text" className="form-control" id="delivery" />
                     </div>
                     <div className="mb-2">
                       <label htmlFor="categoria" className="form-label">Categoria</label>
-                      <select onChange={e => setIdCategoria(e.target.value)} class="form-select" value={id_categoria} id="categoria"> 
+                      <select onChange={e => setIdCategoria(e.target.value)} className="form-select" value={id_categoria} id="categoria"> 
                         <option value="101">OFERTAS</option>
                         <option value="102">SANDUICHES</option>
                         <option value="103">HOTDOGS</option>
@@ -485,8 +549,8 @@ function Index() {
                     <div className="mb-2">
                       <img src={logomarca || "https://via.placeholder.com/100"} alt="Logomarca" width="100" />
                       <p></p>
-                      <form onSubmit={ImgUpload}>
-                        <input type="file" onChange={ImgChange} /><br/>
+                      <form onSubmit={imgUpload}>
+                        <input type="file" onChange={imgChange} /><br/>
                         <button type="button" className="btn btn-primary" disabled={!file}><i className="fas fa-image"></i> ENVIAR IMAGEM</button>                         
                       </form>
                     </div>
@@ -501,6 +565,17 @@ function Index() {
                   <div className="col-sm-4">
                     <label htmlFor="telefone" className="form-label">Telefone</label>
                     <input onChange={e => setTelefone(e.target.value)} value={telefone} type="text" className="form-control" id="telefone" />
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-sm-6">
+                    <label htmlFor="cnpj" className="form-label">CNPJ</label>
+                    <input onChange={e => setCnpj(e.target.value)} value={cnpj} type="text" className="form-control" id="cnpj" />
+                  </div>
+                  <div className="col-sm-6">
+                    <label htmlFor="cpf" className="form-label">CPF</label>
+                    <input onChange={e => setCpf(e.target.value)} value={cpf} type="text" className="form-control" id="cpf" />
                   </div>
                 </div>
 
@@ -526,7 +601,7 @@ function Index() {
                   </div>
                   <div className="col">
                     <label htmlFor="UF" className="form-label">UF</label>
-                    <select onChange={e => setUf(e.target.value)} value={UF} class="form-select" id="UF">
+                    <select onChange={e => setUf(e.target.value)} value={UF} className="form-select" id="UF" defaultValue="MG">
                       <option value="AC">ACRE</option>
                       <option value="AL">ALAGOAS</option>
                       <option value="AP">AMAPA</option>
@@ -539,7 +614,7 @@ function Index() {
                       <option value="MA">MARANHAO</option>
                       <option value="MT">MATO GROSSO</option>
                       <option value="MS">MATO GROSSO SUL</option>
-                      <option value="MG" selected="selected">MINAS GERAIS</option>
+                      <option value="MG">MINAS GERAIS</option>
                       <option value="PA">PARA</option>
                       <option value="PB">PARAIBA</option>
                       <option value="PR">PARANA</option>
@@ -579,24 +654,13 @@ function Index() {
                   <input onChange={e => setHorario(e.target.value)} value={horario} type="text" className="form-control" id="horario" />
                 </div>
 
-                <div className="row">
-                  <div className="col-sm-6">
-                    <label htmlFor="cnpj" className="form-label">CNPJ</label>
-                    <input onChange={e => setCnpj(e.target.value)} value={cnpj} type="text" className="form-control" id="cnpj" />
-                  </div>
-                  <div className="col-sm-6">
-                    <label htmlFor="cpf" className="form-label">CPF</label>
-                    <input onChange={e => setCpf(e.target.value)} value={cpf} type="text" className="form-control" id="cpf" />
-                  </div>
-                </div>
-
                 {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
                 {success === 'S' ? <Redirect to='/app/menu/delivery'/> : null}
 
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>CANCELAR</button>
               <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Editar}>SALVAR</button>
             </div>
           </div>

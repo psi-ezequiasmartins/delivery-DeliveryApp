@@ -57,10 +57,10 @@ function Login() {
         <div className="form-floating">
           <input onChange={ChangePassword} type="password" className="form-control" id="floatingPassword" placeholder="Senha"/>
           <label htmlFor="floatingPassword">Senha</label>
-        </div>         
+        </div>
         <div className="form-links">
           <Link to="/app/login/reset" className="mx-3">Esqueci minha senha!</Link>
-          <Link to="/app/login/novo" className="mx-3">Criar uma conta</Link>
+          {/* <Link to="/app/login/novo" className="mx-3">Criar uma conta</Link> */}
         </div>
         <button onClick={LoginUser} className="btn btn-lg btn-dark mt-2 w-100" type="button">ENTRAR</button>
         {result === 'N' ? <div className="alert alert-danger mt-2" role="alert">E-mail e/ou senha inválidos!</div> : null}
