@@ -17,9 +17,10 @@ function Index() {
 
   const [id_cliente, setIdCliente] = useState(null);
   const [nome, setNome] = useState('');
+  const [sobrenome, setSobrenome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
-  const [endereco, setEndereco] = useState('');  
+  const [endereco, setEndereco] = useState('');
   const [complemento, setComplemento] = useState('');
   const [bairro, setBairro] = useState('');
   const [cidade, setCidade] = useState('');
@@ -41,10 +42,11 @@ function Index() {
     let listagem = []; 
     api.get('/clientes').then(async result => {
       result.data.forEach(doc => {
-        if (doc.nome.indexOf(busca) >=0 ) {
+        if (doc.nome.indexOf(busca) >=0 || doc.sobrenome.indexOf(busca)) {
           listagem.push({
             id_cliente: doc.id_cliente,
             nome: doc.nome,
+            sobrenome: doc.sobrenome,
             telefone: doc.telefone,
             email: doc.email,
             bairro: doc.bairro
@@ -64,14 +66,14 @@ function Index() {
     } else {
         const json = {
           "id_cliente": null, 
-          "nome": nome, "email": email, "telefone": telefone,
+          "nome": nome, "sobrenome": sobrenome, "email": email, "telefone": telefone,
           "endereco": endereco, "complemento": complemento, "bairro": bairro, "cidade": cidade, "uf": UF, "cep": CEP,
           "cnpj": cnpj, "cpf": cpf
         }
         api.post('/cliente/add/', json).then(response => {
           let cliente = {
             id_cliente: response.data.id_cliente,
-            nome: response.data.nome, email: response.data.email, telefone: response.data.telefone,
+            nome: response.data.nome, sobrenome: response.data.sobrenome, email: response.data.email, telefone: response.data.telefone,
             endereco: response.data.endereco, complemento: response.data.complemento, bairro: response.data.bairro, cidade: response.data.cidade, uf: response.data.uf, cep: response.data.cep,
             cnpj: response.data.cnpj, cpf: response.data.cpf 
           }
@@ -94,7 +96,7 @@ function Index() {
     } else {
       const json = { 
         "id_cliente": id_cliente,
-        "nome": nome, "email": email, "telefone": telefone,
+        "nome": nome, "sobrenome":sobrenome, "email": email, "telefone": telefone,
         "endereco": endereco, "complemento": complemento, "bairro": bairro,  "cidade": cidade, "uf": UF, "cep": CEP,
         "cnpj": cnpj, "cpf": cpf
       }
@@ -115,6 +117,7 @@ function Index() {
     .then(result => {
       setIdCliente(result.data[0].id_cliente);
       setNome(result.data[0].nome); 
+      setSobrenome(result.data[0].sobrenome);
       setEmail(result.data[0].email); setTelefone(result.data[0].telefone);
       setEndereco(result.data[0].endereco); setComplemento(result.data[0].complemento); setBairro(result.data[0].bairro);
       setCidade(result.data[0].cidade); setUf(result.data[0].uf); setCep(result.data[0].cep);
@@ -162,7 +165,7 @@ function Index() {
               return (
                 <tr key={cliente.id_cliente}>
                   <th scope="row">{cliente.id_cliente}</th>
-                  <td>{cliente.nome}</td>
+                  <td>{cliente.nome} {cliente.sobrenome}</td>
                   <td>{cliente.telefone}</td>
                   <td>{cliente.email}</td>
                   <td>{cliente.bairro}</td>
@@ -236,10 +239,18 @@ function Index() {
 
             <div className="modal-body">
                 <form>
-                  <div className="mb-3">
-                    <label htmlFor="nome" className="form-label">Nome do Cliente</label>
-                    <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
+
+                  <div className="row">
+                    <div className="col-sm-6">
+                      <label htmlFor="nome" className="form-label">Nome</label>
+                      <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
+                    </div>
+                    <div className="col-sm-6">
+                      <label htmlFor="sobrenome" className="form-label">Sobrenome</label>
+                      <input onChange={e => setSobrenome(e.target.value)} type="text" className="form-control" id="sobrenome" />
+                    </div>
                   </div>
+
                   <div className="row">
                     <div className="col-sm-8">
                       <label htmlFor="email" className="form-label">E-mail</label>
@@ -342,9 +353,15 @@ function Index() {
             <div className="modal-body">
               <form>
 
-                <div className="mb-2">
-                  <label htmlFor="nome" className="form-label">Nome do Cliente</label>
-                  <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
+                <div className="row">
+                  <div className="col-sm-6">
+                    <label htmlFor="nome" className="form-label">Nome</label>
+                    <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
+                  </div>
+                  <div className="col-sm-6">
+                    <label htmlFor="sobrenome" className="form-label">Sobrenome</label>
+                    <input onChange={e => setSobrenome(e.target.value)} value={sobrenome} type="text" className="form-control" id="sobrenome" />
+                  </div>
                 </div>
 
                 <div className="row mb-2">

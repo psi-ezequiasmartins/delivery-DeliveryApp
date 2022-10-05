@@ -111,8 +111,8 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 0,00</h2>  
-                  <p>de 03 a 09 produtos</p>
-                  <p>Degustação (demo)<br/>sem suporte.</p>
+                  <p>somente até 03 produtos</p>
+                  <p>Degustação (demonstração)<br/>sem suporte.</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
               </div>
@@ -179,7 +179,7 @@ function Planos() {
                     <div className="mb-2">
                       <label htmlFor="plano" className="form-label">Plano</label>
                       <select onChange={e => setPlano(e.target.value)} className="form-select" id="plano" value=""> 
-                        <option value="101">PLANO FREE de 3 A 9 Produtos (Conta Limitada) R$ 0,00</option>
+                        <option value="101">PLANO FREE somente até 03 Produtos (Demonstração) R$ 0,00</option>
                         <option value="102">PLANO BASIC até 30 Produtos (Suporte Offline) R$ 49,90/mês</option>
                         <option value="103">PLANO PRO até 50 Produtos (Suporte Online + Google Ads) R$ 99,90/mês</option>
                       </select>

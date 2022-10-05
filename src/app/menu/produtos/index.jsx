@@ -76,7 +76,7 @@ function Index() {
       })
       setProdutos(listagem);
     })
-  }, [busca, excluido, success, url_imagem]);
+  }, [busca, excluido, success, url_imagem, vToken]);
 
   function Cadastrar() {
     if (nome.length === 0) {

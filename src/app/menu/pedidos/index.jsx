@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-// import { AuthContext } from "../../context/auth.jsx";
+import { useState, useEffect } from "react";
 import MenuApp from '../menuapp.jsx';
 import Pedido from "./pedido";
 
@@ -12,7 +11,10 @@ export default function Pedidos() {
   let vToken = localStorage.getItem("token");
 
   const [pedidos, setPedidos] = useState([]);
-  // const { token, empresa } = useContext(AuthContext);
+  
+  useEffect(() => {
+    ListarPedidos();
+  }, [pedidos])
 
   function ListarPedidos() {
     api.get(`/pedidos/itens/${vToken}`) 
@@ -24,10 +26,6 @@ export default function Pedidos() {
       console.log(error);
     })
   }
-
-  useEffect(() => {
-    ListarPedidos();
-  }, [])
 
   return  <>
     <MenuApp/>
