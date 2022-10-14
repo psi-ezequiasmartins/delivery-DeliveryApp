@@ -28,6 +28,7 @@ function Index() {
 
   const [id_produto, setIdProduto] = useState(null);
   const [id_categoria, setIdCategoria] = useState(null);
+  const [id_conta, setIdConta] = useState(vToken);
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
   const [vr_unitario, setVrUnitario] = useState(0.00);
@@ -66,6 +67,7 @@ function Index() {
           listagem.push({
             id_produto: doc.id_produto,
             id_categoria: doc.id_categoria,
+            id_conta: doc.id_conta,
             nome: doc.nome,
             descricao: doc.descricao,
             vr_custo: doc.vr_custo,
@@ -85,6 +87,7 @@ function Index() {
       const json = {
         "id_produto": null, 
         "id_categoria": id_categoria, 
+        "id_conta": vToken,
         "nome": nome, 
         "descricao": descricao, 
         "vr_unitario": vr_unitario,
@@ -94,6 +97,7 @@ function Index() {
         let produto = {
           id_produto: response.data.id_produto, 
           id_categoria: response.data.id_categoria, 
+          id_conta: response.data.id_conta,
           nome: response.data.nome, descricao: response.data.descricao,
           vr_unitario: response.data.vr_unitario,
           url_imagem: response.data.url_imagem
@@ -116,6 +120,7 @@ function Index() {
       const json = { 
         "id_produto": id_produto, 
         "id_categoria": id_categoria, 
+        "id_conta": id_conta,
         "nome": nome, 
         "descricao": descricao, 
         "vr_unitario": vr_unitario,
@@ -138,6 +143,7 @@ function Index() {
     .then(result => {
       setIdProduto(result.data[0].id_produto);
       setIdCategoria(result.data[0].id_categoria); 
+      setIdConta(result.data[0].id_conta);
       setNome(result.data[0].nome); 
       setDescricao(result.data[0].descricao);
       setVrUnitario(result.data[0].vr_unitario);
@@ -189,6 +195,7 @@ function Index() {
         <thead>
           <tr className="table-secondary">
             <th scope="col">ID</th>
+            <th scope="col">Conta</th>
             <th scope="col">Imagem</th>
             <th scope="col">Produto</th>
             <th scope="col">Categoria</th>
@@ -202,6 +209,7 @@ function Index() {
               return (
                 <tr key={produto.id_produto}>
                   <th scope="row">{produto.id_produto}</th>
+                  <th scope="row">{produto.id_conta}</th>
                   <td>
                     <img src={produto.url_imagem} alt="imagem" width="50" />
                   </td>
@@ -380,7 +388,7 @@ function Index() {
 
                     <div className="col-sm-6">
                       Atualizar imagem:<br/>
-                      <img className="ref" src={ url_imagem } alt="Imagem do Produto" width="200" />
+                      <img className="ref" src={ url_imagem || "https://via.placeholder.com/200" } alt="Imagem do Produto" width="200" />
                       <p></p>
                       <input type="file" id="file" onChange={imgChange}/>
                       <button type="button" className="btn btn-primary btn-action" onClick={imgUpload} disabled={!file}>ENVIAR ARQUIVO DE IMAGEM</button>
