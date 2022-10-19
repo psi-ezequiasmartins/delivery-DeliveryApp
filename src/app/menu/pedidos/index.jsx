@@ -40,6 +40,7 @@ export default function Pedidos() {
                       key={pedido.id_pedido}
                       id_pedido={pedido.id_pedido} 
                       dt_pedido={pedido.dt_pedido}
+                      token={pedido.token}
                       status={pedido.status}
                       nome={pedido.nome}
                       endereco={pedido.endereco}
