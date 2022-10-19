@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import api from '../../config/mysql';
 import './pedido.css';
 
@@ -7,18 +7,14 @@ export default function Pedido(props){
   const [status, setStatus] = useState(props.status);
   const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
-    SendNotification(status);
-  }, [status])
-
-  async function SendNotification(status){
+  async function SendNotification(id, token, status){
 
     const message = {
-      to: props.token,
+      to: token,
       sound: 'default',
       title: 'DeliveryBairro',
       body: 'O status do seu pedido foi atualizado!',
-      data: { id: props.id_pedido, status: status },
+      data: { id: id, status: status},
     };
   
     await fetch('https://exp.host/--/api/v2/push/send', {
@@ -39,6 +35,7 @@ export default function Pedido(props){
     })
     .then((response) => {
       setStatus(status);
+      SendNotification(props.id_pedido, props.token, status);
       if (status === 'F') {
         setVisible(false)
       }
