@@ -7,16 +7,17 @@ export default function Pedido(props){
   const [status, setStatus] = useState(props.status);
   const [visible, setVisible] = useState(true);
 
-  async function SendNotification(id, token, status){
+  async function SendNotification({ sms }){
 
     const message = {
-      to: token,
+      to: sms.token,
       sound: 'default',
       title: 'DeliveryBairro',
       body: 'O status do seu pedido foi atualizado!',
-      data: { id: id, status: status},
+      data: { id: sms.id, status: sms.status},
     };
-  
+    console.log(message);
+
     await fetch('https://exp.host/--/api/v2/push/send', {
       method: 'POST',
       headers: {
@@ -30,12 +31,17 @@ export default function Pedido(props){
   }
 
   function AlterarStatus(status) {
+    let sms = {
+      id: props.id_pedido,
+      token: props.token,
+      status: status
+    }
     api.put(`/pedidos/status/${props.id_pedido}`, {
       status: status
     })
     .then((response) => {
       setStatus(status);
-      SendNotification(props.id_pedido, props.token, status);
+      SendNotification(sms);
       if (status === 'F') {
         setVisible(false)
       }
@@ -56,8 +62,6 @@ export default function Pedido(props){
       {status === "E" ? <span className="badge rouded-pill bg-primary ms-2">SAIU P/ ENTREGA</span> : null}
       {status === "F" ? <span className="badge rouded-pill bg-dark ms-2">FINALIZADO</span> : null}
       {status === "C" ? <span className="badge rouded-pill bg-secondary ms-2">CANCELADO</span> : null}
-
-      {/* <span className='badge rouded-pill bg-success ms-2'>{status}</span> */}
 
       <small className='d-block mt-1 text-secondary'>{props.nome} - {props.endereco}</small>
       {
