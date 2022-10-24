@@ -11,7 +11,7 @@ export default function Pedidos() {
   let vToken = localStorage.getItem("token");
 
   const [pedidos, setPedidos] = useState([]);
-  
+
   useEffect(() => {
     ListarPedidos();
   }, [vEmpresa])

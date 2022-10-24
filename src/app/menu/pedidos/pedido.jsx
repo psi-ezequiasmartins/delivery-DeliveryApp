@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../config/mysql';
+
 import './pedido.css';
 
 export default function Pedido(props){
@@ -7,41 +8,43 @@ export default function Pedido(props){
   const [status, setStatus] = useState(props.status);
   const [visible, setVisible] = useState(true);
 
-  async function SendNotification({ sms }){
-
+  async function SendNotification(token, data) {
     const message = {
-      to: sms.token,
-      sound: 'default',
-      title: 'DeliveryBairro',
-      body: 'O status do seu pedido foi atualizado!',
-      data: { id: sms.id, status: sms.status},
+      "to": token,
+      "sound": "default",
+      "title": "Teste de Envio",
+      "body": "Mensagem enviada em " + new Date().toLocaleString(),
+      "data": data
     };
-    console.log(message);
 
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      referrerPolicy: "strict-origin-when-cross-origin",
+      mode: "no-cors",
       headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
+        'Accept': '*',
+        "Accept-encoding": "gzip, deflate",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(message),
     });
-
   }
 
+
   function AlterarStatus(status) {
-    let sms = {
-      id: props.id_pedido,
-      token: props.token,
-      status: status
+    let data = {
+      "id": props.id_pedido,
+      "status": status,
     }
+    console.log('data: ' + data)
     api.put(`/pedidos/status/${props.id_pedido}`, {
       status: status
     })
     .then((response) => {
+      console.log(response);
       setStatus(status);
-      SendNotification(sms);
+      SendNotification('ExponentPushToken[TM9-5pPFklhQgpwwAC9n6_]', data);
       if (status === 'F') {
         setVisible(false)
       }
@@ -92,3 +95,26 @@ export default function Pedido(props){
   </div>
 }
 
+/*
+async function SendNotification(token, data) {
+
+  const message = {
+    "to": token,
+    "sound": "default",
+    "title": "Teste de Envio",
+    "body": "Mensagem enviada em " + new Date().toLocaleString(),
+    "data": data
+  };
+
+  await fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
+    headers: {
+      'Accept': '*',
+      "Accept-encoding": "gzip, deflate",
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(message),
+  });
+}
+*/

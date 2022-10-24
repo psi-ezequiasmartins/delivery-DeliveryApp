@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
+    "expo-server-sdk": "^3.7.0",
     "firebase": "^8.7.1",
     "pdfmake": "^0.2.2",
     "react": "^17.0.2",
@@ -17,7 +18,7 @@
     "react-scripts": "4.0.3",
     "react-select": "^5.4.0",
     "sweetalert2": "^11.4.4",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
