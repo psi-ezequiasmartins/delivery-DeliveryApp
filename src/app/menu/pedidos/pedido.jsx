@@ -13,8 +13,8 @@ export default function Pedido(props){
     const message = {
       "to": token,
       "sound": "default",
-      "title": "DeliveryBairro.com",
-      "body": "Atualização do Pedido #"+data.id+" em "+new Date().toLocaleString(),
+      "title": "deliverybairro.com",
+      "body": "Pedido #"+data.id+" atualizado em "+new Date().toLocaleString(),
       "data": data
     };
 
