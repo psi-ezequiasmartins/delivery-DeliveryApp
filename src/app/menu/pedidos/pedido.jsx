@@ -9,11 +9,12 @@ export default function Pedido(props){
   const [visible, setVisible] = useState(true);
 
   async function SendNotification(token, data) {
+
     const message = {
       "to": token,
       "sound": "default",
-      "title": "Teste de Envio",
-      "body": "Mensagem enviada em " + new Date().toLocaleString(),
+      "title": "DeliveryBairro - Pedido #"+data.id,
+      "body": "Atualizdo em " + new Date().toLocaleString(),
       "data": data
     };
 
