@@ -33,6 +33,7 @@ export default function Pedido(props){
   }
 
   function AlterarStatus(status) {
+    let token = props.token;
     let data = {
       "id": props.id_pedido,
       "status": status,
@@ -44,7 +45,7 @@ export default function Pedido(props){
     .then((response) => {
       console.log(response);
       setStatus(status);
-      SendNotification(props.token, data);
+      SendNotification(token, data);
       if (status === 'F') {
         setVisible(false)
       }
