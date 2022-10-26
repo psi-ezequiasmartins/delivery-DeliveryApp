@@ -32,7 +32,6 @@ export default function Pedido(props){
     });
   }
 
-
   function AlterarStatus(status) {
     let data = {
       "id": props.id_pedido,
@@ -45,7 +44,7 @@ export default function Pedido(props){
     .then((response) => {
       console.log(response);
       setStatus(status);
-      SendNotification('ExponentPushToken[TM9-5pPFklhQgpwwAC9n6_]', data);
+      SendNotification(props.token, data);
       if (status === 'F') {
         setVisible(false)
       }
@@ -109,6 +108,8 @@ async function SendNotification(token, data) {
 
   await fetch("https://exp.host/--/api/v2/push/send", {
     method: "POST",
+    referrerPolicy: "strict-origin-when-cross-origin",
+    mode: "no-cors",
     headers: {
       'Accept': '*',
       "Accept-encoding": "gzip, deflate",
