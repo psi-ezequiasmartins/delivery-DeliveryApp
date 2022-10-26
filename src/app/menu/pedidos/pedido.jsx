@@ -8,10 +8,33 @@ export default function Pedido(props){
   const [status, setStatus] = useState(props.status);
   const [visible, setVisible] = useState(true);
 
-  async function SendNotification(token, data) {
+  function AlterarStatus(status) {
+    let data = {
+      "token": props.token,
+      "id": props.id_pedido,
+      "status": status,
+    }
+    console.log('data: ' + data)
+    api.put(`/pedidos/status/${props.id_pedido}`, {
+      status: status
+    })
+    .then((response) => {
+      console.log(response);
+      setStatus(status);
+      SendNotification(data);
+      if (status === 'F') {
+        setVisible(false)
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  async function SendNotification(data) {
 
     const message = {
-      "to": token,
+      "to": data.token,
       "sound": "default",
       "title": "deliverybairro.com",
       "body": "Pedido #"+data.id+" atualizado em "+new Date().toLocaleString(),
@@ -29,29 +52,6 @@ export default function Pedido(props){
         "Content-Type": "application/json"
       },
       body: JSON.stringify(message),
-    });
-  }
-
-  function AlterarStatus(status) {
-    let token = props.token;
-    let data = {
-      "id": props.id_pedido,
-      "status": status,
-    }
-    console.log('data: ' + data)
-    api.put(`/pedidos/status/${props.id_pedido}`, {
-      status: status
-    })
-    .then((response) => {
-      console.log(response);
-      setStatus(status);
-      SendNotification(token, data);
-      if (status === 'F') {
-        setVisible(false)
-      }
-    })
-    .catch((error) => {
-      console.log(error);
     });
   }
 
