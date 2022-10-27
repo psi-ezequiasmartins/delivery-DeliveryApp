@@ -21,7 +21,7 @@ export default function Pedido(props){
     .then((response) => {
       console.log(response);
       setStatus(status);
-      SendNotification(data);
+      SendNotification(JSON.stringify(data));
       if (status === 'F') {
         setVisible(false)
       }
