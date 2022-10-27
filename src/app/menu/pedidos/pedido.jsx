@@ -14,7 +14,7 @@ export default function Pedido(props){
       "id": props.id_pedido,
       "status": status,
     }
-    console.log('data: ' + data)
+    console.log('data: '+JSON.stringify(data));
     api.put(`/pedidos/status/${props.id_pedido}`, {
       status: status
     })
@@ -68,6 +68,7 @@ export default function Pedido(props){
       {status === "C" ? <span className="badge rouded-pill bg-secondary ms-2">CANCELADO</span> : null}
 
       <small className='d-block mt-1 text-secondary'>{props.nome} - {props.endereco}</small>
+      <small className='d-block mt-1 text-secondary'>{props.token}</small>
       {
         props.itens.map((item) => {
           return <div className='d-inline-block text-center me-4 mt-2' key={item.id_item} >

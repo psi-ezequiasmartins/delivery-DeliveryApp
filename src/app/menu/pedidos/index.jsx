@@ -35,7 +35,7 @@ export default function Pedidos() {
       <button className="btn m-2 btn-primary" onClick={ListarPedidos}>Atualizar Lista</button>
       <div className="m-2 mt-2">
         {
-          pedidos.map((pedido) => {
+          pedidos?.map((pedido) => {
             return <Pedido 
                       key={pedido.id_pedido}
                       id_pedido={pedido.id_pedido} 
