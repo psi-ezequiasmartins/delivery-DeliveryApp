@@ -8,20 +8,12 @@ export default function Pedido(props){
   const [status, setStatus] = useState(props.status);
   const [visible, setVisible] = useState(true);
 
-  function AlterarStatus(status) {
-    let data = {
-      "token": props.token,
-      "id": props.id_pedido,
-      "status": status,
-    }
-    console.log('data: '+JSON.stringify(data));
-    api.put(`/pedidos/status/${props.id_pedido}`, {
-      status: status
-    })
+  function AlterarStatus(codigo) {
+    api.put(`/pedidos/status/${props.id_pedido}`, {status: codigo})
     .then((response) => {
       console.log(response);
-      setStatus(status);
-      SendNotification(JSON.stringify(data));
+      setStatus(codigo);
+      SendNotification(props.token, props.id_pedido, codigo);
       if (status === 'F') {
         setVisible(false)
       }
@@ -31,14 +23,14 @@ export default function Pedido(props){
     });
   }
 
-  async function SendNotification(data) {
+  async function SendNotification(token, id_pedido, codigo_status) {
 
     const message = {
-      "to": data.token,
+      "to": token,
       "sound": "default",
       "title": "deliverybairro.com",
-      "body": "Pedido #"+data.id+" atualizado em "+new Date().toLocaleString(),
-      "data": data
+      "body": "Pedido #"+id_pedido+" atualizado em "+new Date().toLocaleString(),
+      "data": {"id_pedido": id_pedido, "status": codigo_status}
     };
 
     await fetch("https://exp.host/--/api/v2/push/send", {

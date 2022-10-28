@@ -1,5 +1,6 @@
 import Axios from "axios";
 
+// const URL = "http://localhost:3333";
 const URL = "https://srv.deliverybairro.com";
 
 const api = Axios.create({
@@ -13,4 +14,3 @@ const api = Axios.create({
 
 export default api;
 
-// const URL = "http://localhost:3333";
