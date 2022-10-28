@@ -14,7 +14,7 @@ import Clientes from './app/menu/clientes';
 import Delivery from './app/menu/delivery';
 
 function App() {
-  const {logged} = useContext(AuthContext);
+  const {logged} = useContext(AuthContext); // acrescentar nivel de acesso no contexto
 
   function SecureRoute({...params}) {
     if (!logged) {
