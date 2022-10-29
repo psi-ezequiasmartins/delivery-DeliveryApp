@@ -14,12 +14,13 @@ export default function Pedidos() {
 
   useEffect(() => {
     ListarPedidos();
-  }, [vEmpresa])
+  }, [pedidos])
 
   function ListarPedidos() {
     api.get(`/pedidos/itens/${vToken}`) 
     .then((response) => {
       // console.log(response.data);
+      console.count = 0;
       setPedidos(response.data);
     })
     .catch((error)=>{
