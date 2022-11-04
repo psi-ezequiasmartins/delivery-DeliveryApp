@@ -13,4 +13,3 @@ const api = Axios.create({
 });
 
 export default api;
-
