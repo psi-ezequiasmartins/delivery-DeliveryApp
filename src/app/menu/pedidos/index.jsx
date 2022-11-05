@@ -33,7 +33,7 @@ export default function Pedidos() {
     <div className="container-fluid titulo">
       <h1>Gestão de Pedidos - ID {vToken} {vEmpresa}</h1>
 
-      <button className="btn m-2 btn-primary" onClick={ListarPedidos}>Atualizar Lista</button>
+      <button className="btn m-2 btn-primary" onClick={ListarPedidos}>ATUALIZAR FILA DE PEDIDOS</button>
       <div className="m-2 mt-2">
         {
           pedidos?.map((pedido) => {
