@@ -12,28 +12,28 @@ export default function Pedidos() {
 
   const [pedidos, setPedidos] = useState([]);
 
-  useEffect(() => {
-    ListarPedidos();
-  }, [pedidos])
-
   function ListarPedidos() {
     api.get(`/pedidos/itens/${vToken}`) 
     .then((response) => {
+      setPedidos(response.data);
       // console.log(response.data);
       console.count = 0;
-      setPedidos(response.data);
     })
     .catch((error)=>{
       console.log(error);
     })
   }
 
+  useEffect(() => {
+    ListarPedidos();
+  }, [pedidos])
+
   return  <>
     <MenuApp/>
     <div className="container-fluid titulo">
       <h1>Gestão de Pedidos - ID {vToken} {vEmpresa}</h1>
 
-      <button className="btn m-2 btn-primary" onClick={ListarPedidos}>ATUALIZAR FILA DE PEDIDOS</button>
+      <button onClick={ListarPedidos} className="btn m-2 btn-primary">ATUALIZAR FILA DE PEDIDOS</button>
       <div className="m-2 mt-2">
         {
           pedidos?.map((pedido) => {
