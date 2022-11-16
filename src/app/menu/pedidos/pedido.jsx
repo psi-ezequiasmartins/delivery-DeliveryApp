@@ -90,27 +90,37 @@ export default function Pedido(props){
 }
 
 /*
-async function SendNotification(token, data) {
+  async function SendNotification(token, id_pedido, codigo_status) {
 
-  const message = {
-    "to": token,
-    "sound": "default",
-    "title": "Teste de Envio",
-    "body": "Mensagem enviada em " + new Date().toLocaleString(),
-    "data": data
-  };
+    const message = {
+      "AuthenticationKey": token,
+      "payload": {
+        "to": "Pedidos",
+        // "collapse_key" : "type_a",
+        "notification": {
+          "title": "deliverybairro.com",
+          "body": "Pedido #"+id_pedido+" atualizado em "+new Date().toLocaleString(),
+          "data": {"id_pedido": id_pedido, "status": codigo_status},
+          "sound": "default",
+          "priority": "high",
+          "color": "#1A73E8",
+          // "tag": "app"
+        }
+      }
+    };
 
-  await fetch("https://exp.host/--/api/v2/push/send", {
-    method: "POST",
-    referrerPolicy: "strict-origin-when-cross-origin",
-    mode: "no-cors",
-    headers: {
-      'Accept': '*',
-      "Accept-encoding": "gzip, deflate",
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(message),
-  });
-}
+    await fetch("https://fcm.googleapis.com/fcm/send", {
+      method: "POST",
+      referrerPolicy: "strict-origin-when-cross-origin",
+      mode: "no-cors",
+      headers: {
+        'Accept': '*',
+        "Accept-encoding": "gzip, deflate",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(message),
+    });
+  }
+
 */
