@@ -11,9 +11,9 @@ export default function Pedido(props){
   function AlterarStatus(codigo) {
     api.put(`/pedidos/status/${props.id_pedido}`, {status: codigo})
     .then((response) => {
-      console.log(response);
+      // console.log(response);
       setStatus(codigo);
-      SendNotification(props.token, props.id_pedido, codigo);
+      SendNotification(props.token, props.id_pedido, status);
       if (status === 'F') {
         setVisible(false)
       }
@@ -55,7 +55,7 @@ export default function Pedido(props){
 
       {status === "A" ? <span className="badge rouded-pill bg-danger ms-2">AGUARDANDO</span> : null}
       {status === "P" ? <span className="badge rouded-pill bg-success ms-2">EM PRODUÇÃO</span> : null}
-      {status === "E" ? <span className="badge rouded-pill bg-primary ms-2">SAIU P/ ENTREGA</span> : null}
+      {status === "E" ? <span className="badge rouded-pill bg-primary ms-2">SAIU PARA ENTREGA</span> : null}
       {status === "F" ? <span className="badge rouded-pill bg-dark ms-2">FINALIZADO</span> : null}
       {status === "C" ? <span className="badge rouded-pill bg-secondary ms-2">CANCELADO</span> : null}
 
