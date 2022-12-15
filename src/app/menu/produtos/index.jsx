@@ -61,6 +61,7 @@ function Index() {
 
   useEffect(() => {
     let listagem = []; 
+    // https://srv.deliverybairro.com/listar/produtos/delivery/1001
     api.get(`/listar/produtos/delivery/${vToken}`).then(async result => {
       result.data.forEach(doc => {
         if (doc.nome.indexOf(busca) >=0) {
