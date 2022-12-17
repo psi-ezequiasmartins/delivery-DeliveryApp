@@ -10,30 +10,32 @@ export default function Pedidos() {
   let vEmpresa = localStorage.getItem("empresa");
   let vToken = localStorage.getItem("token");
 
-  const [pedidos, setPedidos] = useState([]);
-
-  function ListarPedidos() {
-    api.get(`/pedidos/itens/${vToken}`) 
-    .then((response) => {
-      setPedidos(response.data);
-      // console.log(response.data);
-      console.count = 0;
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
-  }
+  const [pedidos, setPedidos] = useState(null);
 
   useEffect(() => {
     ListarPedidos();
   }, [pedidos])
+
+  async function ListarPedidos() {
+    if (vToken) {
+      await api.get(`/pedidos/itens/${vToken}`) 
+      .then((response) => {
+        setPedidos(response.data);
+        // console.log(response.data);
+        console.count = 0;
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
+    }
+  }
 
   return  <>
     <MenuApp/>
     <div className="container-fluid titulo">
       <h1>Gestão de Pedidos - ID {vToken} {vEmpresa}</h1>
 
-      <button onClick={ListarPedidos} className="btn m-2 btn-primary">ATUALIZAR FILA DE PEDIDOS</button>
+      <button onClick={ListarPedidos()} className="btn m-2 btn-primary">ATUALIZAR FILA DE PEDIDOS</button>
       <div className="m-2 mt-2">
         {
           pedidos?.map((pedido) => {

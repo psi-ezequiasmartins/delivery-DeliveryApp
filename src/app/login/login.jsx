@@ -16,11 +16,11 @@ function Login() {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((firebaseUser) => {
       let uid = firebaseUser.user.uid;
-      console.log(firebaseUser.user.uid);
+      console.log("User ID: ", firebaseUser.user.uid);
       firebase.database().ref('users/'+ uid).on('value', (snapshot) => {
-        console.log(snapshot.val().token);
-        console.log(snapshot.val().empresa);
+        console.log("Empresa: ", snapshot.val().empresa);
         localStorage.setItem("empresa", snapshot.val().empresa);
+        console.log("Token: ", snapshot.val().token);
         localStorage.setItem("token", snapshot.val().token);
       })
       localStorage.setItem("logged", "S");
