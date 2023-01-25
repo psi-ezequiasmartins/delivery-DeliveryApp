@@ -117,7 +117,7 @@ function Index() {
           "marcador": marcador,
           "horario": horario
         }
-        api.post('/delivery/add/', json).then(response => {
+        api.post('/delivery/add', json).then(response => {
           let delivery = {
             id_conta: response.data.id_conta,
             delivery: response.data.delivery,
