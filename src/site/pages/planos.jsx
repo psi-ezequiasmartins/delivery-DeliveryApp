@@ -124,8 +124,8 @@ function Planos() {
                   <h1>Basic</h1>
                 </div>
                 <div className="card-body">
-                  <h2>R$ 74,90</h2>  
-                  <p>Até 10 produtos</p>
+                  <h2>R$ 89,90</h2>  
+                  <p>Até 30 produtos</p>
                   <p>Suporte Offline (por e-mail)+<br/>Tutoriais Online</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
@@ -139,7 +139,7 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 135,00</h2>  
-                  <p>Até 30 produtos</p>
+                  <p>Acima de 30 produtos</p>
                   <p>Suporte Online (acesso remoto)+<br/>Google Ads*</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
