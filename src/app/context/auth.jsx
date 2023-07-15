@@ -4,13 +4,13 @@ const AuthContext = React.createContext({});
 
 function AuthProvider(props){
     let isLogged = localStorage.getItem("logged");
-    let empresa = localStorage.getItem("empresa");
+    let delivery = localStorage.getItem("delivery");
     let token = localStorage.getItem("token");
-    
+
     const [logged, setLogged] = useState(isLogged === "S" ? true : false);
     const [user, setUser] = useState(null);
     return (
-        <AuthContext.Provider value={{logged, setLogged, user, setUser, token, empresa}}>
+        <AuthContext.Provider value={{logged, setLogged, token, delivery, user, setUser}}>
             {props.children}
         </AuthContext.Provider>
     )
