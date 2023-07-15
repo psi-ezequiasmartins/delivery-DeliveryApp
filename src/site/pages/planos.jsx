@@ -266,9 +266,9 @@ function Planos() {
                     <div className="mb-2">
                       <p>Como obter as suas coordenadas no Google Maps:</p>
                       <p>
-                        1. No computador, abra o Google Maps.<br/>
-                        2. Clique com o botão direito do mouse no lugar ou na área no mapa. Uma janela pop-up será aberta. A latitude e a longitude vão aparecer no formato decimal na parte superior.<br/>
-                        3. Para copiar as coordenadas automaticamente, clique na latitude e longitude.
+                        1. No computador, abra o link abaixo para Google Maps.<br/>
+                        2. Digite o seu endereço na caixa de pesquisa (busca) do Mapa, será apontado um marcador (ícone na cor vermelha) que vc deverá clicar com o botao direito do mouse, ou tocar e aguardar abrir uma janela pop-up. A latitude e a longitude vão aparecer no formato decimal na parte superior.<br/>
+                        3. Para copiar as coordenadas automaticamente, clique (ou toque) na latitude e longitude informadas.
                       </p>
                       <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
                     </div>
