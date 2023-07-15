@@ -108,7 +108,7 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 0,00</h2>  
-                  <p>até 03 produtos</p>
+                  <p>Até 03 produtos</p>
                   <p>Degustação (para testar)<br/>sem suporte.</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
@@ -175,9 +175,9 @@ function Planos() {
                     <div className="mb-2">
                       <label htmlFor="plano" className="form-label">Plano</label>
                       <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano" value=""> 
-                        <option value="101">PLANO FREE somente até 3 Produtos (Demonstração) R$ 0,00</option>
-                        <option value="102">PLANO BASIC até 10 Produtos (Suporte Offline) R$ 49,90/mês</option>
-                        <option value="103">PLANO PRO até 50 Produtos (Suporte Online + Google Ads) R$ 99,90/mês</option>
+                        <option value="101">PLANO FREE até 03 produtos - Degustação (para testar)</option>
+                        <option value="102">PLANO BASIC até 10 Produtos - Suporte Offline (via e-mail) R$ 89,90/mês</option>
+                        <option value="103">PLANO PRO até 50 Produtos - Suporte Online (videoconferência) + Google Ads R$ 189,90/mês</option>
                       </select>
                       <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
                       <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
@@ -247,11 +247,9 @@ function Planos() {
                       </div>
                     </div>
 
-                    <div className="row">
-                      <div className="col-8">
-                        <label htmlFor="endereco" className="form-label">Endereço</label>
-                        <input onChange={e => setEndereco(e.target.value)} type="text" className="form-control" id="endereco" />
-                      </div>
+                    <div className="mb-2">
+                      <label htmlFor="endereco" className="form-label">Endereço</label>
+                      <input onChange={e => setEndereco(e.target.value)} type="text" className="form-control" id="endereco" />
                     </div>
 
                     <div className="row">
