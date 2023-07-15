@@ -1,6 +1,6 @@
 ## DeliveryBairro.com (Aplicação Web)
 
-<img src="public/imagens/screenshot.jpg" width="70%"><br>
+<img src="/public/images/screenshot.jpg" width="70%"><br>
 
 ## Descrição<br>
 Projeto Web desenvolvido c/ Reactjs+Bootstrap+Firebase para Gestão de Clientes, Fornecedores, Produtos, Pedidos, Controle de Estoque e Financeiro, com foco em Bares, Restaurantes, Fast-foods, Supermercados, Drograrias & Delivery's em Geral.
@@ -15,4 +15,4 @@ Projeto Web desenvolvido c/ Reactjs+Bootstrap+Firebase para Gestão de Clientes,
 09/08/2022 10:45
 
 by <a href="https://ezequiasmartins.blogspot.com/" target="_blank">Ezequias Martins</a> ® 1999-2022 Direitos Reservados
-<p><a href="https://ezequiasmartins.blogspot.com/" target="_blank"><img src="public/imagens/assinatura.jpg"></a></p>
+<p><a href="https://ezequiasmartins.blogspot.com/" target="_blank"><img src="/public/images/assinatura.jpg"></a></p>
