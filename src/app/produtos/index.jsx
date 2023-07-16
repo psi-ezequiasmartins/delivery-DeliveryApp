@@ -48,12 +48,9 @@ export default function Produtos() {
     if (file == null) {
       return;
     }
-    /** @type {any} */ // Create the file metadata
-    const metadata = {
-      contentType: 'image/jpeg'
-    };
     const imgStorageRef = ref(storage, `produtos/${file.name}`);
-    const uploadTask = uploadBytesResumable(imgStorageRef, file, metadata);
+    const uploadTask = uploadBytesResumable(imgStorageRef, file);
+
     uploadTask.on('state_changed', (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log('Upload is ' + progress + '% done');
@@ -88,7 +85,7 @@ export default function Produtos() {
   useEffect(() => {
     let listagem = []; 
     api.get(`/listar/produtos/delivery/${vToken}`).then(async(result) => {
-      await result.data.forEach(snapshot => {
+      result.data.forEach(snapshot => {
         if (snapshot.Nome.indexOf(busca) >=0) {
           listagem.push({
             ProdutoID: snapshot.ProdutoID,
@@ -113,7 +110,7 @@ export default function Produtos() {
         "Nome": nome, 
         "Descricao": descricao, 
         "VrUnitario": vr_unitario,
-        "UrlImagem": url_imagem,
+        "UrlImagem": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
         "DeliveryID": vToken
       }
       api.post('/produto/add/', json).then(response => {
@@ -132,7 +129,7 @@ export default function Produtos() {
       }).catch((erro) => {
         setMsg(erro);
         setSuccess("N");
-      })  
+      })
     }
   }
 
@@ -181,9 +178,26 @@ export default function Produtos() {
 
   function confirmaExclusao(id) {
     let produto = produtos.find(item => item.ProdutoID === id);
-    setSelecionado(produto.Nome);
-    setConfirmaId(id);
-    setConfirma(true);
+
+    Swal.fire({
+      title: "Exclusão",
+      text: `Confirma excluir ${produto.Nome} ?`,
+      icon: 'warning',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteByID(id);
+        Swal.fire(
+            'Excluído!',
+            'Produto removido.',
+            'success'
+        )
+      } 
+    });
   }
 
   const VisualizarPDF = async () => {
@@ -259,32 +273,6 @@ export default function Produtos() {
             </div>
           </div>
           <Listagem array={produtos} select={selectById} delete={confirmaExclusao} />
-          { 
-            confirma ?
-            Swal.fire({
-              title: "Exclusão",
-              text: `Confirma excluir ${selecionado} ?`,
-              icon: 'warning',
-              confirmButtonText: 'OK',
-              cancelButtonText: 'Cancelar',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-            }).then((result) => {
-              if (result.isConfirmed) {
-                deleteByID(confirmaId);
-                Swal.fire(
-                  'Excluído!',
-                  'Produto removido.',
-                  'success'
-                )
-              } else {
-                if (result.dismiss) {
-                  setConfirma(false);
-                }
-              }
-            }) : null
-          }
 
           {/* md_novoproduto */}
 
