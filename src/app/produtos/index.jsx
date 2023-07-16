@@ -285,7 +285,9 @@ export default function Produtos() {
               }
             }) : null
           }
+
           {/* md_novoproduto */}
+
           <div className="modal fade" id="md_novoproduto" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
             <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
               <div className="modal-content">
@@ -305,7 +307,7 @@ export default function Produtos() {
                         </div>
                         <div className="mb-2">
                           <label htmlFor="descricao" className="form-label">Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} className="form-control" rows="2" id="descricao" ></textarea>
+                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="2" id="descricao" ></textarea>
                         </div>
                         <div className="mb-2">
                           <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
@@ -335,7 +337,9 @@ export default function Produtos() {
               </div>
             </div>
           </div>
+
           {/* md_editarproduto */}
+
           <div className="modal fade" id="md_editarproduto" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
             <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
               <div className="modal-content">
@@ -356,7 +360,7 @@ export default function Produtos() {
                         </div>
                         <div className="mb-2">
                           <label htmlFor="descricao" className="form-label">Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" rows="2" id="descricao" ></textarea>
+                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="2" id="descricao" ></textarea>
                         </div>
                         <div className="mb-2">
                           <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
