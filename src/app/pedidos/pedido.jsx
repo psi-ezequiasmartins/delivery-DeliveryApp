@@ -9,9 +9,9 @@ export default function Pedido(props){
   const [visible, setVisible] = useState(true);
   
   function AlterarStatus(codigo) {
-    api.put(`/pedido/status/${props.PedidoID}`, {status: codigo})
+    api.put(`/update/status/pedido/${props.PedidoID}`, {status: codigo})
     .then((response) => {
-      // console.log(response);
+      console.log(response);
       setStatus(codigo);
       // SendNotification(props.token, props.PedidoID, status);
       if (status === "FINALIZADO") {
@@ -54,13 +54,13 @@ export default function Pedido(props){
       <span className='badge rouded-pill bg-dark ms-2'>{props.Data}</span>
 
       {status === "NOVO" ? <span className="badge rouded-pill bg-danger ms-2">NOVO</span> : null}
-      {status === "AGUARDANDO" ? <span className="badge rouded-pill bg-primary ms-2">AGUARDANDO</span> : null}
-      {status === "PREPARANDO" ? <span className="badge rouded-pill bg-secondary ms-2">PREPARANDO</span> : null}
+      {status === "AGUARDANDO" ? <span className="badge rouded-pill bg-warning ms-2">AGUARDANDO</span> : null}
+      {status === "PREPARANDO" ? <span className="badge rouded-pill bg-primary ms-2">PREPARANDO</span> : null}
       {status === "PRONTO_PARA_RETIRADA" ? <span className="badge rouded-pill bg-success ms-2">PRONTO PARA RETIRADA</span> : null}
       {status === "SAIU_PARA_ENTREGA" ? <span className="badge rouded-pill bg-warning ms-2">SAIU PARA ENTREGA</span> : null}
       {status === "RECEBIDO" ? <span className="badge rouded-pill bg-dark ms-2">RECEBIDO</span> : null}
       {status === "FINALIZADO" ? <span className="badge rouded-pill bg-info ms-2">FINALIZADO</span> : null}
-      {status === "CANCELADO" ? <span className="badge rouded-pill bg-danger ms-2">CANCELADO</span> : null}
+      {status === "CANCELADO" ? <span className="badge rouded-pill bg-secondary ms-2">CANCELADO</span> : null}
 
       <small className='d-block mt-1 text-secondary'>{props.Cliente} - {props.Endereco}</small>
       <small className='d-block mt-1 text-secondary'>{props.token}</small>

@@ -17,10 +17,9 @@ export default function Pedidos() {
 
   async function ListarPedidos() {
     if (vToken) {
-      await api.get(`/pedidos/abertos/${vToken}`) 
+      await api.get(`/pedidos/abertos/delivery/${vToken}`) 
       .then((response) => {
         setPedidos(response.data);
-        // console.log(response.data);
         console.count = 0;
       })
       .catch((error)=>{

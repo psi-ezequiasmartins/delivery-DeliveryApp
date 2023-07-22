@@ -1,13 +1,13 @@
+import './index.css';
 import { useState, useEffect } from 'react';
-import { Impressao } from './impressao';
 import { Link, redirect } from 'react-router-dom';
+import { Impressao } from './impressao';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { firebase_app } from '../config/config.firebase';
-import Menu from "../../components/menu";
+import { firebase_app } from "../config/config.firebase";
 import Swal from 'sweetalert2';
+import Menu from "../../components/menu";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import './index.css';
 
 import api from '../config/config.mysql';
 
@@ -20,9 +20,6 @@ export default function Produtos() {
 
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');
-  const [confirma, setConfirma] = useState(false);
-  const [confirmaId, setConfirmaId] = useState('');
-  const [selecionado, setSelecionado] = useState('');
   const [success, setSuccess] = useState('N');
   const [msg, setMsg] = useState('');
 
@@ -35,52 +32,7 @@ export default function Produtos() {
   const [url_imagem, setUrlImagem] = useState('');
   const [delivery_id, setDeliveryID] = useState(vToken);
 
-  const [file, setFile] = useState("https://via.placeholder.com/50x50");
-
-  function imgChange(e) {
-    if (e.target.files[0]) {
-      setFile(e.target.files[0]);
-      setUrlImagem(URL.createObjectURL(e.target.files[0]));
-    }
-  }
-
-  async function imgUpload() {
-    if (file == null) {
-      return;
-    }
-    const imgStorageRef = ref(storage, `produtos/${file.name}`);
-    const uploadTask = uploadBytesResumable(imgStorageRef, file);
-
-    uploadTask.on('state_changed', (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log('Upload is ' + progress + '% done');
-      switch (snapshot.state) {
-        case 'paused':
-          console.log('Upload is paused');
-          break;
-        case 'running':
-          console.log('Upload is running');
-          break;
-        default:
-          // do nothing
-        }
-      }, 
-      (error) => {
-        alert('Error! Fail on upload file', error.message);
-      }, 
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('File available at', downloadURL);
-          setUrlImagem(downloadURL);
-        });
-      }
-    );
-  }
-
-  function img_reset() {
-    setUrlImagem(null);
-    setFile(null);
-  }
+  const [file, setFile] = useState('');
 
   useEffect(() => {
     let listagem = []; 
@@ -100,6 +52,73 @@ export default function Produtos() {
       setProdutos(listagem);
     })
   }, [busca, excluido, success, url_imagem, vToken]);
+
+  async function imgUpload(id) {
+    let produto = produtos.find(item => item.ProdutoID === id);
+
+    const { value: file } = await Swal.fire({
+      title: 'Select image',
+      input: 'file',
+      inputAttributes: {
+        'accept': 'image/*',
+        'aria-label': 'Upload your profile picture'
+      }
+    })
+
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        Swal.fire({
+          title: 'Your uploaded picture',
+          imageUrl: e.target.result,
+          imageAlt: 'The uploaded picture'
+        })
+      }
+      reader.readAsDataURL(file)
+
+      console.log('File', file.name);
+
+      // Create the file metadata
+      /** @type {any} */
+      const metadata = {
+        contentType: 'image/jpeg'
+      };
+
+      // Upload file and metadata to the object 'images/mountains.jpg'
+      const storageRef = ref(storage, '/produtos/' + file.name);
+      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+      // Listen for state changes, errors, and completion of the upload.
+      uploadTask.on('state_changed', (snapshot) => {
+        getDownloadURL(snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+          setUrlImagem(downloadURL);
+        });
+      });
+
+      await api.put(`/imagem/update/produto/${produto_id}`, url_imagem).then(response => {
+        console.log(response.data);
+      }).then(() => {
+        setMsg('');
+        setSuccess('S');
+      }).catch((erro) =>{
+        setMsg(erro);
+        setSuccess('N');
+      })
+
+    }
+  }
+
+  async function imgChange(e) {
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
+      setUrlImagem(URL.createObjectURL(e.target.files[0]));
+    }
+  }
+
+  function img_reset() {
+    setUrlImagem(null);
+    setFile(null);
+  }
 
   function Cadastrar() {
     if (nome.length === 0) {
@@ -172,7 +191,6 @@ export default function Produtos() {
   function deleteByID(id) {
     api.delete(`/produto/delete/${id}`).then(async(result) => {
     setExcluido(id);
-    setConfirma(false);
     })
   }
 
@@ -235,6 +253,7 @@ export default function Produtos() {
                   <th scope="row">{produto.DeliveryID}</th>
                   <td>
                     <Link to="#" onClick={()=>props.select(produto.ProdutoID)} title="EDITAR PRODUTO" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
+                    <Link to="#" onClick={()=>props.image_upload(produto.ProdutoID)} title="UPLOAD DE IMAGEM"><i className="fas fa-file-image icon-action"></i></Link>
                     <Link to="#" onClick={()=>props.delete(produto.ProdutoID)} title="EXCLUIR PRODUTO"><i className="fas fa-trash-alt icon-action red"></i></Link>
                   </td>
                 </tr>
@@ -272,7 +291,7 @@ export default function Produtos() {
               </div>
             </div>
           </div>
-          <Listagem array={produtos} select={selectById} delete={confirmaExclusao} />
+          <Listagem array={produtos} select={selectById} delete={confirmaExclusao} image_upload={imgUpload} />
 
           {/* md_novoproduto */}
 
@@ -304,11 +323,8 @@ export default function Produtos() {
                       </div>
 
                       <div className="col-sm-6">
-                        Adicionar uma imagem:<br/>
-                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/200" } alt="Imagem do Produto" width="200" />
-                        <p></p>
-                        <input type="file" id="file" onChange={imgChange}/>
-                        <button type="button" className="btn btn-primary btn-action" onClick={imgUpload} disabled={!file}>ENVIAR ARQUIVO DE IMAGEM</button>
+                        Imagem do Produto:<br/>
+                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/200" } alt="Imagem do Produto" width="300" />
                       </div>
 
                       {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -357,11 +373,8 @@ export default function Produtos() {
                       </div>
 
                       <div className="col-sm-6">
-                        Atualizar imagem:<br/>
-                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/200" } alt="Imagem do Produto" width="200" />
-                        <p></p>
-                        <input type="file" id="file" onChange={imgChange}/>
-                        <button type="button" className="btn btn-primary btn-action" onClick={imgUpload} disabled={!file}>ENVIAR ARQUIVO DE IMAGEM</button>
+                        Imagem do Produto:<br/>
+                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/200" } alt="Imagem do Produto" width="300" />
                       </div>
 
                       {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
