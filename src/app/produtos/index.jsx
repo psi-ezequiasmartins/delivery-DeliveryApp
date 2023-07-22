@@ -32,8 +32,6 @@ export default function Produtos() {
   const [url_imagem, setUrlImagem] = useState('');
   const [delivery_id, setDeliveryID] = useState(vToken);
 
-  const [file, setFile] = useState('');
-
   useEffect(() => {
     let listagem = []; 
     api.get(`/listar/produtos/delivery/${vToken}`).then(async(result) => {
@@ -54,14 +52,16 @@ export default function Produtos() {
   }, [busca, excluido, success, url_imagem, vToken]);
 
   async function imgUpload(id) {
-    let produto = produtos.find(item => item.ProdutoID === id);
+    // let produto = produtos.find(item => item.ProdutoID === id);
 
     const { value: file } = await Swal.fire({
-      title: 'Select image',
+      confirmButtonText: 'ENVIAR',
+      confirmButtonColor: '#3085d6',
+      title: 'Selecione a imagem:',
       input: 'file',
       inputAttributes: {
         'accept': 'image/*',
-        'aria-label': 'Upload your profile picture'
+        'aria-label': 'Selecione a imagem'
       }
     })
 
@@ -69,9 +69,9 @@ export default function Produtos() {
       const reader = new FileReader()
       reader.onload = (e) => {
         Swal.fire({
-          title: 'Your uploaded picture',
+          title: 'Imagem enviada com sucesso!',
           imageUrl: e.target.result,
-          imageAlt: 'The uploaded picture'
+          imageAlt: 'Imagem selecionada'
         })
       }
       reader.readAsDataURL(file)
@@ -89,38 +89,58 @@ export default function Produtos() {
       const uploadTask = uploadBytesResumable(storageRef, file, metadata);
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on('state_changed', (snapshot) => {
-        getDownloadURL(snapshot.ref).then((downloadURL) => {
-          console.log('File available at', downloadURL);
-          setUrlImagem(downloadURL);
-        });
-      });
-
-      await api.put(`/imagem/update/produto/${produto_id}`, url_imagem).then(response => {
-        console.log(response.data);
-      }).then(() => {
-        setMsg('');
-        setSuccess('S');
-      }).catch((erro) =>{
-        setMsg(erro);
-        setSuccess('N');
-      })
-
-    }
-  }
-
-  async function imgChange(e) {
-    if (e.target.files[0]) {
-      setFile(e.target.files[0]);
-      setUrlImagem(URL.createObjectURL(e.target.files[0]));
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+            default:
+              // do nothing
+          }
+        }, 
+        (error) => {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case 'storage/unauthorized':
+              // User doesn't have permission to access the object
+              break;
+            case 'storage/canceled':
+              // User canceled the upload
+              break;
+              // ...
+            case 'storage/unknown':
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+            default:
+              // do nothing 
+          }
+        }, 
+        () => {
+          // Upload completed successfully, now we can get the download URL
+          getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+            console.log('File available at', downloadURL);
+            setUrlImagem(downloadURL);
+            // alert(id.toString()+' '+downloadURL); 
+            api.put(`/update/imagem/produto/${id} `, {"url_imagem": downloadURL}).then(response => {
+              console.log(response.data);
+            });
+          });
+        }
+      );
     }
   }
 
   function img_reset() {
     setUrlImagem(null);
-    setFile(null);
   }
 
-  function Cadastrar() {
+  async function Cadastrar() {
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
@@ -132,7 +152,7 @@ export default function Produtos() {
         "UrlImagem": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
         "DeliveryID": vToken
       }
-      api.post('/produto/add/', json).then(response => {
+      await api.post('/add/produto/', json).then(response => {
         let produto = {
           ProdutoID: response.data.ProdutoID, 
           Nome: response.data.Nome, 
@@ -189,7 +209,7 @@ export default function Produtos() {
   }
 
   function deleteByID(id) {
-    api.delete(`/produto/delete/${id}`).then(async(result) => {
+    api.delete(`/delete/produto/${id}`).then(async(result) => {
     setExcluido(id);
     })
   }
@@ -314,7 +334,7 @@ export default function Produtos() {
                         </div>
                         <div className="mb-2">
                           <label htmlFor="descricao" className="form-label">Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="2" id="descricao" ></textarea>
+                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="3" id="descricao" ></textarea>
                         </div>
                         <div className="mb-2">
                           <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
@@ -324,7 +344,7 @@ export default function Produtos() {
 
                       <div className="col-sm-6">
                         Imagem do Produto:<br/>
-                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/200" } alt="Imagem do Produto" width="300" />
+                        <img className="ref" src={ "https://via.placeholder.com/500" } alt="Imagem do Produto" width="320" />
                       </div>
 
                       {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -364,7 +384,7 @@ export default function Produtos() {
                         </div>
                         <div className="mb-2">
                           <label htmlFor="descricao" className="form-label">Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="2" id="descricao" ></textarea>
+                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="3" id="descricao" ></textarea>
                         </div>
                         <div className="mb-2">
                           <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
@@ -374,7 +394,7 @@ export default function Produtos() {
 
                       <div className="col-sm-6">
                         Imagem do Produto:<br/>
-                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/200" } alt="Imagem do Produto" width="300" />
+                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/500" } alt="Imagem do Produto" width="320" />
                       </div>
 
                       {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}

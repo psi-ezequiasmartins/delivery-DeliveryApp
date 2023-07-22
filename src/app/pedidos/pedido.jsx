@@ -9,8 +9,7 @@ export default function Pedido(props){
   const [visible, setVisible] = useState(true);
   
   function AlterarStatus(codigo) {
-    api.put(`/update/status/pedido/${props.PedidoID}`, {status: codigo})
-    .then((response) => {
+    api.put(`/update/status/pedido/${props.PedidoID}`, {status: codigo}).then((response) => {
       console.log(response);
       setStatus(codigo);
       // SendNotification(props.token, props.PedidoID, status);
@@ -92,6 +91,7 @@ export default function Pedido(props){
         </ul>
       </div>
     </div>
+    
   </div>
 }
 

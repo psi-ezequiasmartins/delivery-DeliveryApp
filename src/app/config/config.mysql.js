@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const URL = "https://srv.deliverybairro.com"; // "http://localhost:3333";
+const URL = "http://127.0.0.1:3333"; // "https://srv.deliverybairro.com";
 
 const api = Axios.create({
   baseURL: URL,
