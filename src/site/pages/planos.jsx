@@ -101,7 +101,8 @@ function Planos() {
           </div>
 
           <div className="row text-center">
-            <div className="col-lg-4">
+
+            {/* <div className="col-lg-4">
               <div className="card">
                 <div className="card-header">
                   <h1>Free</h1>
@@ -113,7 +114,7 @@ function Planos() {
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="col-lg-4">
               <div className="card">
@@ -121,7 +122,7 @@ function Planos() {
                   <h1>Basic</h1>
                 </div>
                 <div className="card-body">
-                  <h2>R$ 89,90</h2>  
+                  <h2>R$ 49,90</h2>  
                   <p>Até 10 produtos</p>
                   <p>Suporte Offline (via e-mail)+<br/>Documentação Online</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
@@ -135,7 +136,7 @@ function Planos() {
                   <h1>Pro</h1>
                 </div>
                 <div className="card-body">
-                  <h2>R$ 189,90</h2>  
+                  <h2>R$ 179,90</h2>  
                   <p>Até 50 produtos</p>
                   <p>Suporte Online (videoconferência)+<br/>Publicidade no Google Ads*</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
@@ -144,6 +145,21 @@ function Planos() {
             </div>
           </div>
           
+          <div className="col-lg-4">
+              <div className="card">
+                <div className="card-header">
+                  <h1>Pro</h1>
+                </div>
+                <div className="card-body">
+                  <h2>R$ 375,00</h2>  
+                  <p>Até 50 produtos</p>
+                  <p>Suporte Online (acesso remoto)+<br/>Publicidade no Google Ads + Video PROMO 15's *</p>
+                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="row text-center">
             <div className="titulo">
               <h3>(*) Google Ads</h3>
@@ -175,9 +191,10 @@ function Planos() {
                     <div className="mb-2">
                       <label htmlFor="plano" className="form-label">Plano</label>
                       <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano" value=""> 
-                        <option value="101">PLANO FREE até 03 produtos - Degustação (para testar)</option>
-                        <option value="102">PLANO BASIC até 10 Produtos - Suporte Offline (via e-mail) R$ 89,90/mês</option>
-                        <option value="103">PLANO PRO até 50 Produtos - Suporte Online (videoconferência) + Google Ads R$ 189,90/mês</option>
+                        {/* <option value="101">PLANO FREE até 03 produtos - Degustação (para testar)</option> */}
+                        <option value="102">PLANO BASIC até 10 Produtos - Suporte Offline (via e-mail) R$ 49,90/mês</option>
+                        <option value="103">PLANO PRO até 30 Produtos - Suporte Online (videoconferência) + Google Ads R$ 179,90/mês</option>
+                        <option value="103">PLANO PREMIUM até 50 Produtos - Suporte Online (acesso remoto)) + Google Ads + Video PROMO 15's R$ 375,00/mês</option>
                       </select>
                       <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
                       <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
