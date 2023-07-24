@@ -146,16 +146,15 @@ function Planos() {
           </div>
           
           <div className="col-lg-4">
-              <div className="card">
-                <div className="card-header">
-                  <h1>Pro</h1>
-                </div>
-                <div className="card-body">
-                  <h2>R$ 375,00</h2>  
-                  <p>Até 50 produtos</p>
-                  <p>Suporte Online (acesso remoto)+<br/>Publicidade no Google Ads + Video PROMO 15's *</p>
-                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
-                </div>
+            <div className="card">
+              <div className="card-header">
+                <h1>Pro</h1>
+              </div>
+              <div className="card-body">
+                <h2>R$ 375,00</h2>  
+                <p>Até 50 produtos</p>
+                <p>Suporte Online (acesso remoto)+<br/>Publicidade no Google Ads + Video PROMO 15's *</p>
+                <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
               </div>
             </div>
           </div>
