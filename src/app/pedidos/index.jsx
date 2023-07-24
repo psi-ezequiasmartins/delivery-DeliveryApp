@@ -50,6 +50,7 @@ export default function Pedidos() {
                             Status={pedido.Status}
                             Cliente={pedido.Nome}
                             Endereco={pedido.Endereco}
+                            TokenSMS={pedido.TokenSMS}
                             itens={pedido.itens}
                           />
                 })
