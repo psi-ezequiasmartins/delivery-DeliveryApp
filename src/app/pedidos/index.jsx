@@ -13,7 +13,7 @@ export default function Pedidos() {
 
   useEffect(() => {
     ListarPedidos();
-  }, [pedidos])
+  }, [])
 
   async function ListarPedidos() {
     if (vToken) {
@@ -48,6 +48,7 @@ export default function Pedidos() {
                             Data={pedido.Data}
                             DeliveryID={pedido.token}
                             Status={pedido.Status}
+                            UserID={pedido.UserID}
                             Cliente={pedido.Nome}
                             Endereco={pedido.Endereco}
                             TokenSMS={pedido.TokenSMS}
