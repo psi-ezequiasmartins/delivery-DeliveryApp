@@ -102,20 +102,6 @@ function Planos() {
 
           <div className="row text-center">
 
-            {/* <div className="col-lg-4">
-              <div className="card">
-                <div className="card-header">
-                  <h1>Free</h1>
-                </div>
-                <div className="card-body">
-                  <h2>R$ 0,00</h2>  
-                  <p>Até 03 produtos</p>
-                  <p>Degustação (para testar)<br/>sem suporte.</p>
-                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
-                </div>
-              </div>
-            </div> */}
-
             <div className="col-lg-4">
               <div className="card">
                 <div className="card-header">
@@ -128,7 +114,8 @@ function Planos() {
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
               </div>
-            </div>
+            </div> 
+
 
             <div className="col-lg-4">
               <div className="card">
@@ -137,35 +124,35 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 179,90</h2>  
-                  <p>Até 50 produtos</p>
+                  <p>Até 30 produtos</p>
                   <p>Suporte Online (videoconferência)+<br/>Publicidade no Google Ads*</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
               </div>
             </div>
-          </div>
-          
-          <div className="col-lg-4">
-            <div className="card">
-              <div className="card-header">
-                <h1>Pro</h1>
-              </div>
-              <div className="card-body">
-                <h2>R$ 375,00</h2>  
-                <p>Até 50 produtos</p>
-                <p>Suporte Online (acesso remoto)+<br/>Publicidade no Google Ads + Video PROMO 15's *</p>
-                <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+
+            <div className="col-lg-4">
+              <div className="card">
+                <div className="card-header">
+                  <h1>Premium</h1>
+                </div>
+                <div className="card-body">
+                  <h2>R$ 375,00</h2>  
+                  <p>Até 50 produtos</p>
+                  <p>Suporte Online (acesso remoto)+<br/>Public. Google Ads + Vídeo *</p>
+                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="row text-center">
-            <div className="titulo">
-              <h3>(*) Google Ads</h3>
-              <p>Promova o seu Delivery em sua região através do nosso Markting Digital c/ Google Ads.<br/>Outros planos e informações, por favor entre em contato conosco.</p>
-            </div>
-          </div>
+        </div>
 
+        <div className="row text-center">
+          <div className="titulo">
+            <h3>(*) Google Ads</h3>
+            <p>Promova o seu Delivery em sua região através do nosso Markting Digital c/ Google Ads.<br/>Outros planos e informações, por favor entre em contato conosco.</p>
+          </div>
         </div>
 
         {/* -- md_assinatura -- */}
