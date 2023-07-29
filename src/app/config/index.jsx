@@ -1,7 +1,7 @@
 import Menu from '../../components/menu';
 import './index.css';
 
-function Config() {
+export default function Config() {
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
@@ -19,5 +19,3 @@ function Config() {
     </div>
   )
 }
-
-export default Config;

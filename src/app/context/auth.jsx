@@ -9,6 +9,7 @@ function AuthProvider(props){
 
     const [logged, setLogged] = useState(isLogged === "S" ? true : false);
     const [user, setUser] = useState(null);
+
     return (
         <AuthContext.Provider value={{logged, setLogged, token, delivery, user, setUser}}>
             {props.children}
@@ -16,4 +17,4 @@ function AuthProvider(props){
     )
 }
 
-export {AuthContext, AuthProvider};
+export { AuthContext, AuthProvider }

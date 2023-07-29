@@ -3,17 +3,13 @@ import Menu from "../../components/menu";
 import Pedido from "./pedido";
 import './index.css';
 
-import api from '../config/config.mysql';
+import api from "../../config/mysql";
 
 export default function Pedidos() {
-  const vDelivery = "SANDUBA DO ZÉ"; // localStorage.getItem("delivery");
+  const vDelivery = "SANDUBA DO ZÉ"; // localStorage.getItem("delivery"); 
   const vToken = 1002; // localStorage.getItem("token");
 
   const [pedidos, setPedidos] = useState(null);
-
-  useEffect(() => {
-    ListarPedidos();
-  }, [])
 
   async function ListarPedidos() {
     if (vToken) {
@@ -27,6 +23,11 @@ export default function Pedidos() {
       })
     }
   }
+
+  useEffect(() => {
+    ListarPedidos();
+  // eslint-disable-next-line 
+  }, [vToken])
 
   return  <>
     <div className="container-fluid">
