@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { Link, redirect } from 'react-router-dom';
-import { firebase_app } from '../../config/firebase';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
 import './novo.css';
 
+import api from '../../config/mysql';
+
 export default function Novo() {
-  let vEmail = localStorage.getItem("email");
+  let vEmail = localStorage.get("email");
   let vDelivery = localStorage.getItem("delivery");
   let vToken = localStorage.getItem("token");
-
-  const auth = getAuth(firebase_app);
-  const database = getDatabase(firebase_app);
 
   const [email, setEmail] = useState(vEmail);
   const [password, setPassword] = useState('');
@@ -32,13 +28,11 @@ export default function Novo() {
       return;
     }
 
-    await createUserWithEmailAndPassword(auth, email, password).then(async(value) => {
-      let uid = value.user.uid;
-      console.log("UserID: ", uid);
-      set(ref(database, 'users/' + uid), {
-        delivery: delivery,
-        token: token
-      });
+    await api.post('/add/login/delivery', {"email": email, "password": password}).then((result) => {
+      console.log(result);
+      localStorage.setItem("token", result.data?.DeliveryID);
+      localStorage.setItem("delivery", result.data?.DeliveryName);
+      localStorage.setItem("logged", result.data?.logged);
       setResult('S');
     }).catch((error) => {
       console.log(error.code, error.message);
@@ -67,7 +61,7 @@ export default function Novo() {
         </a>
 
         <div className="form-floating mt-2">
-          <input type="text" className="form-control" id="delivery" value={vDelivery} readOnly />
+          <input type="text" className="form-control" id="delivery" value={vDelivery} readOnly /> 
           <input type="hidden" id="token" name="token" value={vToken} />
           <label htmlFor="delivery">Delivery</label>
         </div>
