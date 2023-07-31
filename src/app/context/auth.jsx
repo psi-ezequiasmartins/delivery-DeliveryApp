@@ -3,14 +3,24 @@ import React, { useState } from 'react';
 const AuthContext = React.createContext({});
 
 function AuthProvider(props){
-    let logged = localStorage.getItem("logged");
-    let delivery = localStorage.getItem("delivery");
     let token = localStorage.getItem("token");
+    let delivery = localStorage.getItem("delivery");
+    let logged = localStorage.getItem("logged");
 
     const [user, setUser] = useState(null);
 
+    function setAuthUser({props}) {
+        let json = {
+            "vToken": props.data.token, 
+            "VDelivery": props.data.delivery, 
+            "vLogged": props.data.logged
+        }
+        setUser(json);
+    }
+    setAuthUser({token, delivery, logged});
+    
     return (
-        <AuthContext.Provider value={{logged, token, delivery, user, setUser}}>
+        <AuthContext.Provider value={{token, delivery, logged, user}}>
             {props.children}
         </AuthContext.Provider>
     )

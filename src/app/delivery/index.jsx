@@ -6,8 +6,8 @@ import './index.css';
 import api from "../../config/mysql";
 
 function Delivery() {
-  const vDelivery = "SAMDUBA DO ZÉ"; // localStorage.getItem("delivery"); 
-  const vToken = 1002; // localStorage.getItem("token");
+  const vDelivery = localStorage.getItem("delivery"); 
+  const vToken = localStorage.getItem("token");
 
   const [delivery, setDelivery] = useState([]);
 
@@ -64,9 +64,8 @@ function Delivery() {
   }
 
   useEffect(() => {
-    loadDeliveryInfo();
-  // eslint-disable-next-line 
-  }, [delivery, vToken])
+    loadDeliveryInfo(); // eslint-disable-next-line
+  }, [vToken])
 
   function Editar() {
     if (nome.length === 0) {

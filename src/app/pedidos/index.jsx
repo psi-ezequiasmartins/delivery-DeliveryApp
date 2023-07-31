@@ -6,8 +6,8 @@ import './index.css';
 import api from "../../config/mysql";
 
 export default function Pedidos() {
-  const vDelivery = "SAMDUBA DO ZÉ"; // localStorage.getItem("delivery"); 
-  const vToken = 1002; // localStorage.getItem("token");
+  const vDelivery = localStorage.getItem("delivery"); 
+  const vToken = localStorage.getItem("token");
 
   const [pedidos, setPedidos] = useState(null);
 
@@ -16,6 +16,7 @@ export default function Pedidos() {
       await api.get(`/pedidos/abertos/delivery/${vToken}`) 
       .then((response) => {
         setPedidos(response.data);
+        console.log(response.data);
         console.count = 0;
       })
       .catch((error)=>{
@@ -25,8 +26,7 @@ export default function Pedidos() {
   }
 
   useEffect(() => {
-    ListarPedidos();
-  // eslint-disable-next-line 
+    ListarPedidos(); // eslint-disable-next-line 
   }, [vToken])
 
   return  <>
