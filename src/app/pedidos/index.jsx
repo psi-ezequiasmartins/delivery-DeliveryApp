@@ -26,8 +26,7 @@ export default function Pedidos() {
   }
 
   useEffect(() => {
-    ListarPedidos();
-  // eslint-disable-next-line 
+    ListarPedidos(); // eslint-disable-next-line 
   }, [vToken])
 
   return  <>
