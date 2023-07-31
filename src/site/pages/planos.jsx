@@ -76,8 +76,8 @@ function Planos() {
               TokenADM: response.data.TokenADM
             }
             console.log(delivery);
-            localStorage.setItem("delivery", response.data.Nome);
             localStorage.setItem("token", response.data.DeliveryID);
+            localStorage.setItem("delivery", response.data.Nome);
             localStorage.setItem("email", response.data.email);
         }).then(() => {
           setMsg('');
@@ -279,7 +279,7 @@ function Planos() {
                     <input onChange={e => setTokenADM(e.target.value)} type="hidden" id="token" name="token" value=""/>
                     
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                    {success === 'S' ? redirect("/") : null}
+                    {success === 'S' ? redirect("/app/login/novo") : null}
 
                   </div>
                 </form>
