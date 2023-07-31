@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, redirect } from 'react-router-dom';
-import { firebase_app } from '../config/config.firebase';
+import { firebase_app } from '../../config/firebase';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 import './novo.css';
 
-function Novo() {
+export default function Novo() {
   let vEmail = localStorage.getItem("email");
   let vDelivery = localStorage.getItem("delivery");
   let vToken = localStorage.getItem("token");
@@ -63,7 +63,7 @@ function Novo() {
     <div className="d-flex align-items-center text-center form-container">
       <form className="form-signin">
       <a href="/#">
-          <img className="mb-4" src="/imagens/logo.png" alt="" />
+          <img className="mb-4" src="/images/logo.png" alt="" />
         </a>
 
         <div className="form-floating mt-2">
@@ -88,7 +88,7 @@ function Novo() {
         </div> 
 
         <div className="form-links">
-          <Link to="/app" className="mx-3">Já tenho uma conta</Link>
+          <Link to="/app/login" className="mx-3">Já tenho uma conta</Link>
         </div>
 
         <button onClick={e => RegisterNewUser(vDelivery, vToken)} className="w-100 btn btn-lg btn-dark mt-2" type="button">CADASTRAR ACESSO</button>
@@ -99,5 +99,3 @@ function Novo() {
     </div>
   );
 }
-
-export default Novo;

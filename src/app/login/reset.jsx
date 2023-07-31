@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { firebase_app } from '../config/config.firebase';
+import React, { useState } from 'react';
+import { firebase_app } from '../../config/firebase';
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import './reset.css';
 
-function Reset() {
+export default function Reset() {
   const auth = getAuth(firebase_app);
 
   const [email, setEmail] = useState('');
@@ -26,7 +26,7 @@ function Reset() {
   return (
     <div className="d-flex align-items-center text-center form-container"> 
       <form className="form-signin">
-        <a href="/#"><img className="mb-2" src="/imagens/logo.png" alt="" /></a>
+        <a href="/#"><img className="mb-2" src="/images/logo.png" alt="" /></a>
         <h1 className="h3 mb-2 fw-normal">Recuperar Senha de Acesso</h1>
         <div className="form-floating">
           <input onChange={e => setEmail(e.target.value)} type="email" className="form-control" id="floatingInput" placeholder="E-mail"/>
@@ -40,5 +40,3 @@ function Reset() {
     </div>
   );
 }
-
-export default Reset;

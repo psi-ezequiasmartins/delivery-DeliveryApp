@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { redirect } from 'react-router-dom';
 import './planos.css';
 
-import api from '../../app/config/config.mysql';
+import api from '../../config/mysql';
 
 function Planos() {
     // eslint-disable-next-line

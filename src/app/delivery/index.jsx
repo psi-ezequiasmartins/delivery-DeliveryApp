@@ -3,10 +3,10 @@ import { redirect } from "react-router-dom";
 import Menu from "../../components/menu";
 import './index.css';
 
-import api from '../../app/config/config.mysql';
+import api from "../../config/mysql";
 
 function Delivery() {
-  const vDelivery = "SANDUBA DO ZÉ"; // localStorage.getItem("delivery");
+  const vDelivery = "SAMDUBA DO ZÉ"; // localStorage.getItem("delivery"); 
   const vToken = 1002; // localStorage.getItem("token");
 
   const [delivery, setDelivery] = useState([]);
@@ -65,7 +65,8 @@ function Delivery() {
 
   useEffect(() => {
     loadDeliveryInfo();
-  }, [delivery])
+  // eslint-disable-next-line 
+  }, [delivery, vToken])
 
   function Editar() {
     if (nome.length === 0) {

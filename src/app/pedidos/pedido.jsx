@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from '../config/config.mysql';
+import api from '../../config/mysql';
 
 import './pedido.css';
 
