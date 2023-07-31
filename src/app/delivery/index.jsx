@@ -6,8 +6,8 @@ import './index.css';
 import api from "../../config/mysql";
 
 function Delivery() {
-  const vDelivery = "SANDUBA DO ZÉ"; // localStorage.getItem("delivery");
-  const vToken = 1002; // localStorage.getItem("token"); // 
+  const vDelivery = "SAMDUBA DO ZÉ"; // localStorage.getItem("delivery"); 
+  const vToken = 1002; // localStorage.getItem("token");
 
   const [delivery, setDelivery] = useState([]);
 

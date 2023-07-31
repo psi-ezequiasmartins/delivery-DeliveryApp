@@ -11,7 +11,7 @@ import Produtos from "./app/produtos";
 import Delivery from "./app/delivery";
 import Config from "./app/config";
 
-import SecureRoute from "./components/route/protected.js";
+// import SecureRoute from "./components/route/protected.js";
 
 export default function Rotas() {
     return (
@@ -21,26 +21,10 @@ export default function Rotas() {
                 <Route path='/app/login' element={<Login/>} />
                 <Route path='/app/login/novo' element={<NewAccount/>} />
                 <Route path='/app/login/reset' element={<Reset/>} />
-                <Route path="/app/pedidos" element={
-                    <SecureRoute>
-                        <Pedidos/>
-                    </SecureRoute>
-                } />
-                <Route path="/app/produtos" element={
-                    <SecureRoute>
-                        <Produtos/>
-                    </SecureRoute>
-                } />
-                <Route path="/app/delivery" element={
-                    <SecureRoute>
-                        <Delivery/>
-                    </SecureRoute>
-                } />
-                <Route path="/app/config" element={
-                    <SecureRoute>
-                        <Config/>
-                    </SecureRoute>
-                } />
+                <Route path="/app/pedidos" element={<Pedidos/> } />
+                <Route path="/app/produtos" element={<Produtos/>} />
+                <Route path="/app/delivery" element={<Delivery/>} />
+                <Route path="/app/config" element={<Config/>} />
             </Routes>
         </BrowserRouter>
     )

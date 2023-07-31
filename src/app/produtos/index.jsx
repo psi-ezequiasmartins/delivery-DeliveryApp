@@ -15,8 +15,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Produtos() {
   const storage = getStorage(firebase_app);
-  const vDelivery = "SANDUBA DO ZÉ"; // localStorage.getItem("delivery");
-  const vToken = 1002; // localStorage.getItem("token"); 
+  const vDelivery = "SAMDUBA DO ZÉ"; // localStorage.getItem("delivery"); 
+  const vToken = 1002; // localStorage.getItem("token");
 
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');

@@ -6,7 +6,7 @@ import './index.css';
 import api from "../../config/mysql";
 
 export default function Pedidos() {
-  const vDelivery = "SANDUBA DO ZÉ"; // localStorage.getItem("delivery"); 
+  const vDelivery = "SAMDUBA DO ZÉ"; // localStorage.getItem("delivery"); 
   const vToken = 1002; // localStorage.getItem("token");
 
   const [pedidos, setPedidos] = useState(null);

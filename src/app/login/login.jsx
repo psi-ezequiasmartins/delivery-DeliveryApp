@@ -1,33 +1,25 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { AuthContext } from '../context/auth';
 import './login.css';
 
 import api from '../../config/mysql';
 
 export default function Login() {
-  const { setLogged } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [result, setResult] = useState('');
 
   async function LoginUser() {
-    const json = {
-      "email": email,
-      "password": password 
-    }
-    await api.post('/logged/dlvry', json).then(response => {
-      console.log(response.data[0]);
-      let uid = response.data[0].DeliveryID;
-        localStorage.setItem("delivery", response.data[0].DeliveryName);
-        localStorage.setItem("token", response.data[0].DeliveryID);
-        localStorage.setItem("logged", "S");
-        setLogged(true);
-        setResult('S');
+    await api.get('/logged/delivery', {"email": email, "password": password})
+    .then((result) => {
+      console.log(result);
+      localStorage.setItem("token", result.DeliveryID);
+      localStorage.setItem("delivery", result.DeliveryName);
+      localStorage.setItem("logged", result.logged);
+      setResult('S');
     }).catch((error) => {
       console.log(error.code, error.message);
-      localStorage.setItem("logged", "N");
-      setLogged(false);
+      localStorage.setItem("logged", false);
       setResult('N');
     });
   }
