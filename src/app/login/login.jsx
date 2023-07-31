@@ -10,16 +10,14 @@ export default function Login() {
   const [result, setResult] = useState('');
 
   async function LoginUser() {
-    await api.get('/logged/delivery', {"email": email, "password": password})
-    .then((result) => {
+    await api.post('/logged/delivery', {"email": email, "password": password}).then((result) => {
       console.log(result);
-      localStorage.setItem("token", result.DeliveryID);
-      localStorage.setItem("delivery", result.DeliveryName);
-      localStorage.setItem("logged", result.logged);
+      localStorage.setItem("token", result.data?.DeliveryID);
+      localStorage.setItem("delivery", result.data?.DeliveryName);
+      localStorage.setItem("logged", result.data?.logged);
       setResult('S');
     }).catch((error) => {
       console.log(error.code, error.message);
-      localStorage.setItem("logged", false);
       setResult('N');
     });
   }

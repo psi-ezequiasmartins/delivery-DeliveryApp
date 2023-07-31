@@ -8,6 +8,12 @@ function Menu(props) {
   const activeLink    = "nav-link align-middle px-0";
   const inactiveLink  = "nav-link align-middle px-0 link-light";
 
+  function LougOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("delivery");
+    localStorage.removeItem("logged");
+  }
+
   return (
     <div className="menu" id="menu">
       <div className="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2 text-white min-vh-100">
@@ -44,7 +50,7 @@ function Menu(props) {
           </li>
 
           <li className="nav-item">
-            <a href="/" className={props.page === "logout" ? activeLink : inactiveLink}>
+            <a href="/" onClick={LougOut} className={props.page === "logout" ? activeLink : inactiveLink}>
               <i className="fs-4 bi-box-arrow-left"></i> <span className="ms-1 d-none d-sm-inline">Sair (LogOut)</span>
             </a>
           </li>
