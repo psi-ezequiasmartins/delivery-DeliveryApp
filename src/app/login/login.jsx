@@ -49,7 +49,7 @@ export default function Login() {
         </div>
         <div className="form-links">
           <Link to="/app/login/reset" className="mx-3">Esqueci minha senha!</Link><br/>
-          <Link to="/app/login/novo" className="mx-3">Ainda não possui Conta? Junte-se a nós!</Link>
+          <Link to="http://deliverybairro.com/#planos-e-precos" className="mx-3">Ainda não possui Conta? Junte-se a nós!</Link>
         </div>
         <button onClick={LoginUser} className="btn btn-lg btn-dark mt-2 w-100" type="button">ENTRAR</button>
 
