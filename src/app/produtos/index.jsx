@@ -1,13 +1,14 @@
-import './index.css';
 import { useState, useEffect } from 'react';
 import { Link, redirect } from 'react-router-dom';
 import { Impressao } from './impressao';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { firebase_app } from "../../config/firebase";
-import Swal from 'sweetalert2';
-import Menu from "../../components/menu";
+import './index.css';
+
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import Swal from 'sweetalert2';
+import Menu from "../../components/menu";
 
 import api from '../../config/mysql';
 
@@ -24,13 +25,12 @@ export default function Produtos() {
   const [msg, setMsg] = useState('');
 
   const [produtos, setProdutos] = useState([]);
-
+  const [delivery_id, setDeliveryID] = useState(vToken);
   const [produto_id, setProdutoID] = useState(null);
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
   const [vr_unitario, setVrUnitario] = useState(0.00);
   const [url_imagem, setUrlImagem] = useState('');
-  const [delivery_id, setDeliveryID] = useState(vToken);
 
   useEffect(() => {
     let listagem = []; 
@@ -162,8 +162,7 @@ export default function Produtos() {
           DeliveryID: response.data.DeliveryID
         }
         console.log(produto);
-      }).then(() => {
-        setMsg('');
+        setMsg('Produto cadastrado com sucesso!');
         setSuccess('S');
       }).catch((erro) => {
         setMsg(erro);
@@ -184,15 +183,14 @@ export default function Produtos() {
         "UrlImagem": url_imagem,
         "DeliveryID": delivery_id
       }
-      await api.put(`/produto/update/${produto_id}`, json).then(response => {
+      await api.put(`/update/produto/${produto_id}`, json).then((response) => {
         console.log(response.data);
-      }).then(() => {
         setMsg('');
         setSuccess('S');
       }).catch((erro) =>{
         setMsg(erro);
         setSuccess('N');
-      })
+      });
     }
   }
 

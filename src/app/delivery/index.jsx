@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { redirect } from "react-router-dom";
 import Menu from "../../components/menu";
+import { redirect } from "react-router-dom";
 import './index.css';
 
 import api from "../../config/mysql";
@@ -11,23 +11,23 @@ function Delivery() {
 
   const [delivery, setDelivery] = useState([]);
 
-  const [nome, setNome] = useState(delivery.Nome || vDelivery);
-  const [planoassinatura, setPlanoAssinatura] = useState(delivery.PlanoAssinatura || "BASIC");
-  const [situacao, setSituacao] = useState(delivery.Situacao || "ATIVO");
-  const [categoria, setCategoria] = useState(delivery.CategoriaID || 101);
-  const [responsavel, setResponsavel] = useState(delivery.Responsavel || "");
-  const [email, setEmail] = useState(delivery.Email || "");
-  const [telefone, setTelefone] = useState(delivery.Telefone || "");
-  const [horario, setHorario] = useState(delivery.Horario || "");
-  const [mindeliverytime, setMinDeliverTime] = useState(delivery.MinDeliveryTime || 15);
-  const [maxdeliverytime, setMaxDeliverTime] = useState(delivery.MaxDeliveryTime || 45);
-  const [rating, setRating] = useState(delivery.Rating || 4.9);
-  const [taxaentrega, setTaxaEntrega] = useState(delivery.TaxaEntrega || 5.0);
-  const [urlimagem, setUrlImagem] = useState(delivery.UrlImagem || "");
-  const [endereco, setEndereco] = useState(delivery.Endereco || "");  
-  const [latitude, setLatitude] = useState(delivery.Latitude || -19.92273710527297); 
-  const [longitude, setLongitude] = useState(delivery.Longitude || -43.945118685204825);
-  const [token, setTokenADM] = useState(delivery.TokenADM || "");
+  const [nome, setNome] = useState(delivery?.Nome || vDelivery);
+  const [planoassinatura, setPlanoAssinatura] = useState(delivery?.PlanoAssinatura || "BASIC");
+  const [situacao, setSituacao] = useState(delivery?.Situacao || "ATIVO");
+  const [categoria, setCategoria] = useState(delivery?.CategoriaID || 101);
+  const [responsavel, setResponsavel] = useState(delivery?.Responsavel || "");
+  const [email, setEmail] = useState(delivery?.Email || "");
+  const [telefone, setTelefone] = useState(delivery?.Telefone || "");
+  const [horario, setHorario] = useState(delivery?.Horario || "");
+  const [mindeliverytime, setMinDeliverTime] = useState(delivery?.MinDeliveryTime || 15);
+  const [maxdeliverytime, setMaxDeliverTime] = useState(delivery?.MaxDeliveryTime || 45);
+  const [rating, setRating] = useState(delivery?.Rating || 4.9);
+  const [taxaentrega, setTaxaEntrega] = useState(delivery?.TaxaEntrega || 5.0);
+  const [urlimagem, setUrlImagem] = useState(delivery?.UrlImagem || "");
+  const [endereco, setEndereco] = useState(delivery?.Endereco || "");  
+  const [latitude, setLatitude] = useState(delivery?.Latitude || -19.92273710527297); 
+  const [longitude, setLongitude] = useState(delivery?.Longitude || -43.945118685204825);
+  const [token, setTokenADM] = useState(delivery?.TokenADM || "");
 
   const [success, setSuccess] = useState('N');
   const [msg, setMsg] = useState('');
@@ -54,10 +54,8 @@ function Delivery() {
         setLatitude(response.data.Latitude);
         setLongitude(response.data.Longitude);
         setTokenADM(response.data.TokenADM);
-
         console.count = 0;
-      })
-      .catch((error)=>{
+      }).catch((error)=>{
         console.log(error);
       })
     }
@@ -67,49 +65,38 @@ function Delivery() {
     loadDeliveryInfo(); // eslint-disable-next-line
   }, [vToken])
 
-  function Editar() {
+  async function Editar() {
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
-    } else if (responsavel.length === 0) {
-        setMsg('Favor preencher o campo Nome do Responsável.');
-    } else if (email.length === 0) {
-      setMsg('Favor preencher o campo E-mail.');
     } else {
-        const json = {
-          "DeliveryID": null, 
-          "Nome": nome,
-          "PlanoAssinatura": planoassinatura, 
-          "Situacao": situacao,
-          "CategoriaID": categoria,
-          "Responsavel": responsavel,
-          "Email": email,
-          "Telefone": telefone,
-          "Horario": horario,
-          "MinDeliveryTime": mindeliverytime,
-          "MaxDeliveryTime": maxdeliverytime,
-          "Rating": rating,
-          "TaxaEntrega": taxaentrega,
-          "UrlImagem": urlimagem,
-          "Endereco": endereco,
-          "Latitude": latitude, 
-          "Longitude": longitude,
-          "TokenADM": token
-        }
-        api.put(`/update/delivery/${vToken} `, json).then(response => {
-          setDelivery(response.data);
-          // let delivery = {
-          // }
-          console.log(delivery);
-          localStorage.setItem("delivery", response.data.Nome);
-          localStorage.setItem("token", response.data.DeliveryID);
-          localStorage.setItem("email", response.data.email);
-      }).then(() => {
-        setMsg('');
-        setSuccess('S');
-      }).catch((erro) => {
-        setMsg(erro);
-        setSuccess("N");
-      })
+      const json = {
+        "DeliveryID": vToken, 
+        "Nome": nome,
+        "PlanoAssinatura": planoassinatura, 
+        "Situacao": situacao,
+        "CategoriaID": categoria,
+        "Responsavel": responsavel,
+        "Email": email,
+        "Telefone": telefone,
+        "Horario": horario,
+        "MinDeliveryTime": mindeliverytime,
+        "MaxDeliveryTime": maxdeliverytime,
+        "Rating": rating,
+        "TaxaEntrega": taxaentrega,
+        "UrlImagem": urlimagem,
+        "Endereco": endereco,
+        "Latitude": latitude, 
+        "Longitude": longitude,
+        "TokenADM": token
+      }
+      await api.put(`/update/delivery/${vToken} `, json).then((response) => {
+        console.log(response.data);
+        setMsg('Dados atualizados com sucesso!');
+        setSuccess('S'); 
+      }).catch((error) => {
+        setMsg(error);
+        setSuccess("N"); 
+      });
     }
   }
 
@@ -131,23 +118,25 @@ function Delivery() {
 
                 <div className="mb-2">
                   <label htmlFor="nome" className="form-label">Nome do Delivery</label>
-                  <input onChange={e => setNome(e.target.value)} value={delivery.Nome} type="text" className="form-control" id="delivery" />
+                  <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
                 </div>
 
                 <div className="mb-2">
-                  <label htmlFor="plano" className="form-label">Plano</label>
-                  <select onChange={e => setPlanoAssinatura(e.target.value)} value={planoassinatura} className="form-select" id="plano"> 
-                    <option value="101">PLANO FREE até 03 produtos - Degustação (para testar)</option>
-                    <option value="102">PLANO BASIC até 10 Produtos - Suporte Offline (via e-mail) R$ 89,90/mês</option>
-                    <option value="103">PLANO PRO até 50 Produtos - Suporte Online (videoconferência) + Google Ads R$ 189,90/mês</option>
+                  <label htmlFor="plano" className="form-label">Plano*</label>
+                  {/* <input type="text" className="form-control" id="planodeassinatura" value={planodeassinatura} readOnly />  */}
+                  <select value={planoassinatura} className="form-select" id="plano" readOnly> 
+                    <option value="BASIC">Plano BASIC (até 10 Produtos, Suporte Offline via e-mail + Documentação Online) R$ 49,90/mês</option>
+                    <option value="PRO">Plano PRO (até 30 Produtos, Suporte Online via Videoconferência + Google Ads) R$ 179,90/mês</option>
+                    <option value="PREMIUM">Plano PREMIUM (até 50 Produtos - Suporte Online via Acesso Remoto + Google Ads + Vídeo) R$ 375,00/mês</option>
                   </select>
                   <input onChange={e => setSituacao(e.target.value)} value={situacao} type="hidden" id="status" name="status" />
                   <input onChange={e => setUrlImagem(e.target.value)} value={urlimagem} type="hidden" id="urlimagem" name="urlimagem" />
                 </div>
 
                 <div className="mb-2">
-                  <label htmlFor="categoria" className="form-label">Categoria</label>
-                  <select onChange={e => setCategoria(e.target.value)} value={categoria} className="form-select" id="categoria"> 
+                  <label htmlFor="categoria" className="form-label">Categoria*</label>
+                  {/* <input type="text" className="form-control" id="categoria" value={categoria} readOnly />  */}
+                  <select value={categoria} className="form-select" id="categoria" readOnly> 
                     <option value="101">OFERTAS</option>
                     <option value="102">SANDUICHES</option>
                     <option value="103">HOTDOGS</option>
@@ -193,8 +182,8 @@ function Delivery() {
                     <input onChange={e => setMaxDeliverTime(e.target.value)} value={maxdeliverytime} type="text" className="form-control" id="maxdeliverytime" />
                   </div>
                   <div className="col-3">
-                    <label htmlFor="rating" className="form-label">Pontuação</label>
-                    <select onChange={e => setRating(e.target.value)} value={rating} className="form-select" id="rating"> 
+                    <label htmlFor="rating" className="form-label">Pontuação*</label>
+                    <select value={rating} className="form-select" id="rating" readOnly> 
                       <option value="4.9">ÓTIMA</option>
                       <option value="3.5">MUITO BOA</option>
                       <option value="2.5">REGULAR</option>
@@ -226,6 +215,8 @@ function Delivery() {
                 </div>
 
                 <div className="mb-2">
+                  <p></p>
+                  <p>(*) Alguns campos são protegidos (somente para leitura), para atualizar e/ou modificá-los, entre em contato conosco.</p>
                   <p>Como obter as suas coordenadas no Google Maps:</p>
                   <p>
                     1. No computador, abra o link abaixo para Google Maps.<br/>
@@ -244,7 +235,7 @@ function Delivery() {
             </form>
 
             <div className="footer">
-              <button type="button" className="btn btn-success" onClick={Editar} >SALVAR DADOS</button>
+              <button type="button" className="btn btn-dark" onClick={Editar} >SALVAR DADOS</button>
             </div>
           </div>
           
