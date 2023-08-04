@@ -27,7 +27,7 @@ export default function Pedidos() {
 
   useEffect(() => {
     ListarPedidos(); // eslint-disable-next-line 
-  }, [vToken])
+  }, [vToken, pedidos])
 
   return  <>
     <div className="container-fluid">
