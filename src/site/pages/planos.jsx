@@ -274,6 +274,8 @@ function Planos() {
                         3. Para copiar as coordenadas automaticamente, clique (ou toque) na latitude e longitude informadas.
                       </p>
                       <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
+                      <p></p>
+                      <p>(*) Caso deseje obter mais informações ou agendar um contato diretamente, ligue para:<br/>(31) 98410-7540 Fale c/ Ezequias Martins</p>
                     </div>
 
                     <input onChange={e => setTokenADM(e.target.value)} type="hidden" id="token" name="token" value=""/>
