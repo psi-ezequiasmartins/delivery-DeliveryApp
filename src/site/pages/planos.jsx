@@ -174,34 +174,37 @@ function Planos() {
                       <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="delivery" />
                     </div>
 
-                    <div className="mb-2">
-                      <label htmlFor="plano" className="form-label">Plano</label>
-                      <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano" value=""> 
-                        {/* <option value="101">PLANO FREE até 03 produtos - Degustação (para testar)</option> */}
-                        <option value="102">PLANO BASIC até 10 Produtos - Suporte Offline (via e-mail) R$ 49,90/mês</option>
-                        <option value="103">PLANO PRO até 30 Produtos - Suporte Online (videoconferência) + Google Ads R$ 179,90/mês</option>
-                        <option value="103">PLANO PREMIUM até 50 Produtos - Suporte Online (acesso remoto)) + Google Ads + Video PROMO 15's R$ 375,00/mês</option>
-                      </select>
-                      <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
-                      <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
+                    <div className="row">
+                      <div className="col-8">
+                        <label htmlFor="plano" className="form-label">Plano</label>
+                        <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano"> 
+                          {/* <option value="101">PLANO FREE até 03 produtos - Degustação (para testar)</option> */}
+                          <option value="102">PLANO BASIC   (até 10 Produtos)</option>
+                          <option value="103">PLANO PRO     (até 30 Produtos)</option>
+                          <option value="103">PLANO PREMIUM (até 50 Produtos)</option>
+                        </select>
+                        <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
+                        <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
+                      </div>
+                      <div className="col-4">
+                        <label htmlFor="categoria" className="form-label">Categoria</label>
+                        <select onChange={e => setCategoria(e.target.value)} className="form-select" id="categoria"> 
+                          <option value="101">OFERTAS</option>
+                          <option value="102">SANDUICHES</option>
+                          <option value="103">HOTDOGS</option>
+                          <option value="104">BEBIDAS</option>
+                          <option value="105">PRATOS E PORÇÕES</option>
+                          <option value="106">SUSHI</option>
+                          <option value="107">FRUTAS E VERDURAS</option>
+                          <option value="108">MEDICAMENTOS</option>
+                          <option value="109">GÁS DE COZINHA</option>
+                          <option value="110">FLORICULTURA</option>
+                          <option value="111">ÁGUA MINERAL</option>
+                          <option value="112">MERCADO</option>
+                        </select>
+                      </div>
                     </div>
 
-                    <div className="mb-2">
-                      <label htmlFor="categoria" className="form-label">Categoria</label>
-                      <select onChange={e => setCategoria(e.target.value)} className="form-select" id="categoria" value=""> 
-                        <option value="101">OFERTAS</option>
-                        <option value="102">SANDUICHES</option>
-                        <option value="103">HOTDOGS</option>
-                        <option value="104">BEBIDAS</option>
-                        <option value="105">PRATOS E PORÇÕES</option>
-                        <option value="106">SUSHI</option>
-                        <option value="107">FRUTAS E VERDURAS</option>
-                        <option value="108">MEDICAMENTOS</option>
-                        <option value="109">GÁS DE COZINHA</option>
-                        <option value="110">FLORICULTURA</option>
-                        <option value="111">ÁGUA MINERAL</option>
-                      </select>
-                    </div>
 
                     <div className="mb-2">
                       <label htmlFor="responsavel" className="form-label">Responsável</label>
@@ -224,62 +227,25 @@ function Planos() {
                       <input onChange={e => setHorario(e.target.value)} type="text" className="form-control" id="horario" />
                     </div>
 
-                    <div className="row">
-                      <div className="col-3">
-                        <label htmlFor="mindeliverytime" className="form-label">Tempo Mín.</label>
-                        <input onChange={e => setMinDeliverTime(e.target.value)} type="text" className="form-control" id="minideliverytime" />
-                      </div>
-                      <div className="col-3">
-                        <label htmlFor="maxdeliverytime" className="form-label">Tempo Máx.</label>
-                        <input onChange={e => setMaxDeliverTime(e.target.value)} type="text" className="form-control" id="maxdeliverytime" />
-                      </div>
-                      <div className="col-3">
-                        <label htmlFor="rating" className="form-label">Pontuação</label>
-                        <select onChange={e => setRating(e.target.value)} className="form-select" id="rating" value=""> 
-                          <option value="4.9">ÓTIMA</option>
-                          <option value="3.5">MUITO BOA</option>
-                          <option value="2.5">REGULAR</option>
-                          <option value="1.0">FRACA</option>
-                          <option value="0.5">RUIM</option>
-                          <option value="0.1">PÉSSIMA</option>
-                        </select>
-                      </div>
-                      <div className="col-3">
-                        <label htmlFor="taxaentrega" className="form-label">Taxa Entrega</label>
-                        <input onChange={e => setTaxaEntrega(e.target.value)} type="text" className="form-control" id="taxaentrega" />
-                      </div>
-                    </div>
+                    <input onChange={e => setMinDeliverTime(e.target.value)} type="hidden" id="mindeliverytime" name="mindeliverytime" value="15"/>
+                    <input onChange={e => setMaxDeliverTime(e.target.value)} type="hidden" id="maxdeliverytime" name="maxdeliverytime" value="45"/>
+                    <input onChange={e => setRating(e.target.value)} type="hidden" id="rating" name="rating" value="4.9"/>
+                    <input onChange={e => setTaxaEntrega(e.target.value)} type="hidden" id="taxaentrega" name="taxaentrega" value="5" />
 
                     <div className="mb-2">
                       <label htmlFor="endereco" className="form-label">Endereço</label>
-                      <input onChange={e => setEndereco(e.target.value)} type="text" className="form-control" id="endereco" />
-                    </div>
 
-                    <div className="row">
-                      <div className="col-6">
-                        <label htmlFor="latitude" className="form-label">LATITUDE</label>
-                        <input onChange={e => setLatitude(e.target.value)} type="text" className="form-control" id="latitude" />
-                      </div>
-                      <div className="col-6">
-                        <label htmlFor="longitude" className="form-label">LONGITUDE</label>
-                        <input onChange={e => setLongitude(e.target.value)} type="text" className="form-control" id="longitude" />
-                      </div>
+                      <input onChange={e => setEndereco(e.target.value)} type="text" className="form-control" id="endereco" />
+                      <input onChange={e => setLatitude(e.target.value)} type="hidden" id="latitude" name="latitude" value="-19.999999"/>
+                      <input onChange={e => setLongitude(e.target.value)} type="hidden" id="longitude" name="longitude" value="-43.999999"/>
                     </div>
 
                     <div className="mb-2">
-                      <p>Como obter as suas coordenadas no Google Maps:</p>
-                      <p>
-                        1. No computador, abra o link abaixo para Google Maps.<br/>
-                        2. Digite o seu endereço na caixa de pesquisa (busca) do Mapa, será apontado um marcador (ícone na cor vermelha) que vc deverá clicar com o botao direito do mouse, ou tocar e aguardar abrir uma janela pop-up. A latitude e a longitude vão aparecer no formato decimal na parte superior.<br/>
-                        3. Para copiar as coordenadas automaticamente, clique (ou toque) na latitude e longitude informadas.
-                      </p>
-                      <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
-                      <p></p>
-                      <p>(*) Caso deseje obter mais informações ou agendar um contato diretamente, ligue para:<br/>(31) 98410-7540 Fale c/ Ezequias Martins</p>
+                      <p>(*) Outros dados deverão ser fornecidos posteriormente logo após o primeiro login, em Dados do Delivery. Caso haja dúvidas ou deseje mais informações: (31) 98410-7540 Fale c/ Ezequias Martins</p>
                     </div>
 
                     <input onChange={e => setTokenADM(e.target.value)} type="hidden" id="token" name="token" value=""/>
-                    
+
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
                     {success === 'S' ? redirect("/app/login/novo") : null}
 
