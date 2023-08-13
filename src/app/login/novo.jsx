@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { Link, redirect } from 'react-router-dom';
-import './novo.css';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
+import { firebase_app } from '../../config/firebase';
 
-import api from '../../config/mysql';
+import './novo.css';
 
 export default function Novo() {
   let vEmail = localStorage.get("email");
   let vDelivery = localStorage.getItem("delivery");
   let vToken = localStorage.getItem("token");
+
+  const auth = getAuth(firebase_app);
+  const database = getDatabase(firebase_app);
 
   const [email, setEmail] = useState(vEmail);
   const [password, setPassword] = useState('');
@@ -15,7 +20,7 @@ export default function Novo() {
   const [message, setMessage] = useState('');
   const [result, setResult] = useState('');
 
-  async function RegisterNewUser(delivery, token) {
+  function signUp(delivery, token) {
     setMessage('');
 
     if (!email || !password) {
@@ -28,11 +33,14 @@ export default function Novo() {
       return;
     }
 
-    await api.post('/add/login/delivery', {"email": email, "password": password}).then((result) => {
-      console.log(result);
-      localStorage.setItem("token", result.data?.DeliveryID);
-      localStorage.setItem("delivery", result.data?.DeliveryName);
-      localStorage.setItem("logged", result.data?.logged);
+    createUserWithEmailAndPassword(auth, email, password).then(async(result) => {
+      // SIGNED IN
+      const id = result.user.uid;
+      await set(ref(database, `users/${id}`), {
+        "DeliveryID": token,
+        "DeliveryName": delivery,
+      });
+      localStorage.setItem("logged", true);
       setResult('S');
     }).catch((error) => {
       console.log(error.code, error.message);
@@ -77,7 +85,7 @@ export default function Novo() {
         </div>
 
         <div className="form-floating">
-          <input onChange={e => setConfirmPassword(e.target.value)} type="password" className="form-control" id="confirm_password" />
+          <input onChange={(e) => setConfirmPassword(e.target.value)} type="password" className="form-control" id="confirm_password" />
           <label htmlFor="confirm_password">Confirme sua Senha</label>
         </div> 
 
@@ -85,7 +93,7 @@ export default function Novo() {
           <Link to="/app/login" className="mx-3">Já tenho uma conta</Link>
         </div>
 
-        <button onClick={e => RegisterNewUser(vDelivery, vToken)} className="w-100 btn btn-lg btn-dark mt-2" type="button">CADASTRAR ACESSO</button>
+        <button onClick={(e) => signUp(vDelivery, vToken)} className="w-100 btn btn-lg btn-dark mt-2" type="button">CADASTRAR ACESSO</button>
         {message.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{message}</div> : null}
         {result === 'S' ? redirect('/app/pedidos') : null}
         <p>&copy; 1999-{ano} PSI-SOFTWARE</p>

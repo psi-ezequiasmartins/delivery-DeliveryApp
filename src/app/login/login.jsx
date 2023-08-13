@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, get, child } from "firebase/database";
+import { firebase_app } from '../../config/firebase';
+
 import './login.css';
 
-import api from '../../config/mysql';
-
 export default function Login() {
+  const auth = getAuth(firebase_app);
+  const database = getDatabase(firebase_app);
+  const db = ref(database);
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [result, setResult] = useState('');
 
-  async function LoginUser() {
-    await api.post('/logged/delivery', {"email": email, "password": password}).then((result) => {
-      console.log(result);
-      localStorage.setItem("token", result.data?.DeliveryID);
-      localStorage.setItem("delivery", result.data?.DeliveryName);
-      localStorage.setItem("logged", result.data?.logged);
+  function signIn() {
+    signInWithEmailAndPassword(auth, email, password).then(async(result) => {
+      // SIGNED IN
+      const id = result.user.uid;
+      await get(child(db, `users/${id}`)).then(async(snapshot) => {
+        localStorage.setItem("token", snapshot.val().DeliveryID);
+        localStorage.setItem("delivery", snapshot.val().DeliveryName);
+        localStorage.setItem("logged", true);
+      });
       setResult('S');
     }).catch((error) => {
       console.log(error.code, error.message);
@@ -51,7 +60,7 @@ export default function Login() {
           <Link to="/app/login/reset" className="mx-3">Esqueci minha senha!</Link><br/>
           <Link to="http://deliverybairro.com/#planos-e-precos" className="mx-3">Ainda não possui Conta? Junte-se a nós!</Link>
         </div>
-        <button onClick={LoginUser} className="btn btn-lg btn-dark mt-2 w-100" type="button">ENTRAR</button>
+        <button onClick={signIn} className="btn btn-lg btn-dark mt-2 w-100" type="button">ENTRAR</button>
 
         {result === 'N' ? <div className="alert alert-danger mt-2" role="alert">E-mail e/ou senha inválidos!</div> : null}
         {result === 'S' ? <Navigate to='/app/pedidos/'/> : null}

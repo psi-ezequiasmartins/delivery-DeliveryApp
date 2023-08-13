@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 const AuthContext = React.createContext({});
 
 function AuthProvider(props){
+    auth = getAuth(firebase_app);
+
     let token = localStorage.getItem("token");
     let delivery = localStorage.getItem("delivery");
     let logged = localStorage.getItem("logged");
@@ -18,7 +20,7 @@ function AuthProvider(props){
         setUser(json);
     }
     setAuthUser({token, delivery, logged});
-    
+
     return (
         <AuthContext.Provider value={{token, delivery, logged, user}}>
             {props.children}

@@ -1,4 +1,51 @@
 import React, { useState } from 'react';
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { firebase_app } from '../../config/firebase';
+import './reset.css';
+
+function Reset() {
+  const auth = getAuth(firebase_app);
+  var ano = new Date().getFullYear();
+
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [result, setResult] = useState('');
+
+  async function ChangePassword() {
+    sendPasswordResetEmail(auth, email).then((result) => {
+      setMessage("Email de Recuperação enviado com sucesso! Confira sua caixa de Entrada.");
+      setResult('S');
+    }).catch(error => {
+      setMessage('Erro ao enviar email: ' + error.message);
+      setResult('N');
+    })
+  }
+
+  return (
+    <div className="d-flex align-items-center text-center form-container"> 
+      <form className="form-signin">
+        <a href="/#"><img className="mb-2" src="/imagens/logo.png" alt="" /></a>
+        <h1 className="h3 mb-2 fw-normal">Recuperar Acesso</h1>
+        <div className="form-floating">
+          <input onChange={e => setEmail(e.target.value)} type="email" className="form-control" id="floatingInput" placeholder="E-mail"/>
+          <label htmlFor="floatingInput">Email</label>
+        </div>
+        {message.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{message}</div> : null}
+        {result.length > 0 ? <div className="alert alert-success mt-2" role="alert">{result}</div> : null}
+        {/* <div className="login-links mt-2">
+          <Link to="/app/login/novo" className="mx-3">Criar uma conta</Link>
+        </div> */}
+        <button onClick={ChangePassword} className="w-150 btn btn-lg btn-dark" type="submit">ENVIAR</button>
+        <p>&copy; 1999-{ano} PSI-SOFTWARE</p>
+      </form>
+    </div>
+  );
+}
+
+export default Reset;
+
+/*
+import React, { useState } from 'react';
 import './reset.css';
 
 import api from '../../config/mysql';
@@ -67,3 +114,4 @@ export default function Reset() {
     </div>
   );
 }
+*/
