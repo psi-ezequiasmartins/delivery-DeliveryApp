@@ -7,7 +7,7 @@ function Banner() {
           <div className="row">
 
             <div className="col-lg-6">
-              <img src="images/screenshot.jpg" width="800px" alt="deliverybairro.com"/>
+              <img src="images/screenshot.jpg" width="500px" alt="deliverybairro.com"/>
             </div>
             <div className="col-lg-6">
               <div className="bloco">
