@@ -161,7 +161,7 @@ function Planos() {
             <div className="modal-content">
 
               <div className="modal-header">
-                <h5 className="modal-title" id="titulo_modal">ASSINATURA (NOVO DELIVERY)</h5>
+                <h5 className="modal-title" id="titulo_modal">ASSINATURA (PRÉ-CADASTRO PARA NOVOS DELIVERIES)</h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
@@ -241,7 +241,7 @@ function Planos() {
                     </div>
 
                     <div className="mb-2">
-                      <p>(*) Outros dados deverão ser fornecidos posteriormente logo após o primeiro login, em Dados do Delivery. Caso haja dúvidas ou deseje mais informações: (31) 98410-7540 Fale c/ Ezequias Martins</p>
+                      <p>(*) Um dos nossos representantes entrará em contato para confirmar, orientar e configurar a sua assinatura. Outros dados importantes poderão serem preenchidos em "Dados do Delivery" após o login.</p>
                     </div>
 
                     <input onChange={e => setTokenADM(e.target.value)} type="hidden" id="token" name="token" value=""/>
