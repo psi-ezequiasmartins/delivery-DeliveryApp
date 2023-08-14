@@ -111,7 +111,15 @@ function Planos() {
                   <h2>R$ 49,90</h2>  
                   <p>Até 10 produtos</p>
                   <p>Suporte Offline (via e-mail)+<br/>Documentação Online</p>
-                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+
+                  {/* !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO -- */}
+                  <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
+                  <input type="hidden" name="code" value="D56951268585189884B60FB3D4F3D67C" />
+                  <input type="hidden" name="iot" value="button" />
+                  <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
+                  </form>
+                  {/* !-- FINAL FORMULARIO BOTAO PAGBANK -- */}
+                  {/* <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a> */}
                 </div>
               </div>
             </div> 
@@ -126,7 +134,14 @@ function Planos() {
                   <h2>R$ 179,90</h2>  
                   <p>Até 30 produtos</p>
                   <p>Suporte Online (videoconferência)+<br/>Publicidade no Google Ads*</p>
-                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+                  {/* !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO -- */}
+                  <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
+                  <input type="hidden" name="code" value="E0BBDF39242432E224507F9DD48F0BC9" />
+                  <input type="hidden" name="iot" value="button" />
+                  <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
+                  </form>
+                  {/* !-- FINAL FORMULARIO BOTAO PAGBANK -- */}
+                  {/* <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a> */}
                 </div>
               </div>
             </div>
@@ -140,7 +155,14 @@ function Planos() {
                   <h2>R$ 375,00</h2>  
                   <p>Até 50 produtos</p>
                   <p>Suporte Online (acesso remoto)+<br/>Public. Google Ads + Vídeo *</p>
-                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+                  {/* !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO -- */}
+                  <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
+                  <input type="hidden" name="code" value="57C4BA0E3B3B6F200483DFA9A8A37810" />
+                  <input type="hidden" name="iot" value="button" />
+                  <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
+                  </form>
+                  {/* !-- FINAL FORMULARIO BOTAO PAGBANK -- */}
+                  {/* <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a> */}
                 </div>
               </div>
             </div>
