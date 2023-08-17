@@ -1,5 +1,10 @@
+/**
+ * Planos de Assinatura
+ */
+
 import React, { useState } from 'react';
-import { redirect } from 'react-router-dom';
+import emailjs from '@emailjs/browser';
+import { Navigate } from 'react-router-dom';
 import './planos.css';
 
 import api from '../../config/mysql';
@@ -28,62 +33,59 @@ function Planos() {
     const [success, setSuccess] = useState('N');
     const [msg, setMsg] = useState('');
 
+    async function sendMail() {
+      const templateParams = {
+        from_name: nome,
+        to_name: "Admin",
+        nome: nome,
+        plano: planoassinatura, 
+        categoria: categoria,
+        responsavel: responsavel,
+        endereco: endereco,
+        email: email,
+        telefone: telefone,
+      }
+      await emailjs.send("service_akjyijq", "template_i7xi5b3", templateParams, "UY1NfOjNNhttAGWZ_").then((response) => {
+        alert("Cadastro enviado com sucesso! ", response.status, response.text);
+      }, (error) => {
+        console.log('Erro: ', error)
+      });
+    }
+
     function Cadastrar() {
-      if (nome.length === 0) {
-        setMsg('Favor preencher o campo Nome do Delivery.');
-      } else if (email.length === 0) {
-        setMsg('Favor preencher o campo E-mail.');
+      if (nome === "" || responsavel === "" || email === "" ) {
+        setMsg('Favor preencher todos os campos obrigatórios marcados com (*).');
       } else {
-          const json = {
-            DeliveryID: null, 
-            Nome: nome,
-            PlanoAssinatura: planoassinatura, 
-            Situacao: situacao,
-            CategoriaID: categoria,
-            Responsavel: responsavel,
-            Email: email,
-            Telefone: telefone,
-            Horario: horario,
-            MinDeliveryTime: mindeliverytime,
-            MaxDeliveryTime: maxdeliverytime,
-            Rating: rating,
-            TaxaEntrega: taxaentrega,
-            UrlImagem: urlimagem,
-            Endereco: endereco,
-            Latitude: latitude, 
-            Longitude: longitude,
-            TokenADM: token
-          }
-          api.post('/delivery/add/', json).then(response => {
-            let delivery = {
-              DeliveryID: response.data.DeliveryID, 
-              Nome: response.data.Nome,
-              PlanoAssinatura: response.data.PlanoAssinatura, 
-              Situacao: response.data.Situacao,
-              CategoriaID: response.data.CategoriaID,
-              Responsavel: response.data.Responsavel,
-              Email: response.data.Email,
-              Telefone: response.data.Telefone,
-              Horario: response.data.Horario,
-              MinDeliveryTime: response.data.MinDeliveryTime,
-              MaxDeliveryTime: response.data.MaxDeliveryTime,
-              Rating: response.data.Rating,
-              TaxaEntrega: response.data.TaxaEntrega,
-              UrlImagem: response.data.UrlImagem,
-              Endereco: response.data.Endereco,
-              Latitude: response.data.Latitude, 
-              Longitude: response.data.Longitude,
-              TokenADM: response.data.TokenADM
-            }
-            console.log(delivery);
-            localStorage.setItem("token", response.data.DeliveryID);
-            localStorage.setItem("delivery", response.data.Nome);
-            localStorage.setItem("email", response.data.email);
+        const info = {
+          "DeliveryID": null, 
+          "Nome": nome,
+          "PlanoAssinatura": planoassinatura, 
+          "Situacao": situacao,
+          "CategoriaID": categoria,
+          "Responsavel": responsavel,
+          "Email": email,
+          "Telefone": telefone,
+          "Horario": horario,
+          "MinDeliveryTime": mindeliverytime,
+          "MaxDeliveryTime": maxdeliverytime,
+          "Rating": rating,
+          "TaxaEntrega": taxaentrega,
+          "UrlImagem": urlimagem,
+          "Endereco": endereco,
+          "Latitude": latitude, 
+          "Longitude": longitude,
+          "TokenADM": token
+        }
+        api.post('/add/delivery', info).then((response) => {
+          localStorage.setItem("token", response.data.DeliveryID);
+          localStorage.setItem("delivery", response.data.Nome);
+          localStorage.setItem("email", response.data.Email);
+          sendMail();
         }).then(() => {
-          setMsg('');
+          setMsg('Delivery cadastrado com sucesso!');
           setSuccess('S');
-        }).catch((erro) => {
-          setMsg(erro);
+        }).catch((error) => {
+          setMsg(error.message);
           setSuccess("N");
         })
       }
@@ -111,19 +113,10 @@ function Planos() {
                   <h2>R$ 49,90</h2>  
                   <p>Até 10 produtos</p>
                   <p>Suporte Offline (via e-mail)+<br/>Documentação Online</p>
-
-                  {/* !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO -- */}
-                  <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
-                  <input type="hidden" name="code" value="D56951268585189884B60FB3D4F3D67C" />
-                  <input type="hidden" name="iot" value="button" />
-                  <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
-                  </form>
-                  {/* !-- FINAL FORMULARIO BOTAO PAGBANK -- */}
-                  {/* <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a> */}
+                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
               </div>
             </div> 
-
 
             <div className="col-lg-4">
               <div className="card">
@@ -134,14 +127,7 @@ function Planos() {
                   <h2>R$ 179,90</h2>  
                   <p>Até 30 produtos</p>
                   <p>Suporte Online (videoconferência)+<br/>Publicidade no Google Ads*</p>
-                  {/* !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO -- */}
-                  <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
-                  <input type="hidden" name="code" value="E0BBDF39242432E224507F9DD48F0BC9" />
-                  <input type="hidden" name="iot" value="button" />
-                  <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
-                  </form>
-                  {/* !-- FINAL FORMULARIO BOTAO PAGBANK -- */}
-                  {/* <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a> */}
+                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
               </div>
             </div>
@@ -155,14 +141,7 @@ function Planos() {
                   <h2>R$ 375,00</h2>  
                   <p>Até 50 produtos</p>
                   <p>Suporte Online (acesso remoto)+<br/>Public. Google Ads + Vídeo *</p>
-                  {/* !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO -- */}
-                  <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
-                  <input type="hidden" name="code" value="57C4BA0E3B3B6F200483DFA9A8A37810" />
-                  <input type="hidden" name="iot" value="button" />
-                  <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
-                  </form>
-                  {/* !-- FINAL FORMULARIO BOTAO PAGBANK -- */}
-                  {/* <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a> */}
+                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
                 </div>
               </div>
             </div>
@@ -177,22 +156,21 @@ function Planos() {
           </div>
         </div>
 
-        {/* -- md_assinatura -- */}
+        {/* --- md_assinatura ---*/}
         <div className="modal fade" id="md_assinatura" aria-hidden="true" aria-labelledby="titulo_modal" tabIndex="-1">
           <div className="modal-dialog modal-lg modal-dialog">
             <div className="modal-content">
-
               <div className="modal-header">
                 <h5 className="modal-title" id="titulo_modal">ASSINATURA (PRÉ-CADASTRO PARA NOVOS DELIVERIES)</h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-
               <div className="modal-body">
+
                 <form>
                   <div className="row">
 
                     <div className="mb-2">
-                      <label htmlFor="nome" className="form-label">Nome do Delivery</label>
+                      <label htmlFor="nome" className="form-label">Nome do Delivery<font color="#FF0000">*</font></label>
                       <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="delivery" />
                     </div>
 
@@ -200,10 +178,9 @@ function Planos() {
                       <div className="col-8">
                         <label htmlFor="plano" className="form-label">Plano</label>
                         <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano"> 
-                          {/* <option value="101">PLANO FREE até 03 produtos - Degustação (para testar)</option> */}
-                          <option value="102">PLANO BASIC   (até 10 Produtos)</option>
-                          <option value="103">PLANO PRO     (até 30 Produtos)</option>
-                          <option value="103">PLANO PREMIUM (até 50 Produtos)</option>
+                          <option value="BASIC">PLANO BASIC   (até 10 Produtos)</option>
+                          <option value="PRO">PLANO PRO     (até 30 Produtos)</option>
+                          <option value="PREMIUM">PLANO PREMIUM (até 50 Produtos)</option>
                         </select>
                         <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
                         <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
@@ -227,15 +204,14 @@ function Planos() {
                       </div>
                     </div>
 
-
                     <div className="mb-2">
-                      <label htmlFor="responsavel" className="form-label">Responsável</label>
+                      <label htmlFor="responsavel" className="form-label">Responsável<font color="#FF0000">*</font></label>
                       <input onChange={e => setResponsavel(e.target.value)} type="text" className="form-control" id="responsavel" />
                     </div>
 
                     <div className="row">
                       <div className="col-8">
-                        <label htmlFor="email" className="form-label">E-mail</label>
+                        <label htmlFor="email" className="form-label">E-mail<font color="#FF0000">*</font></label>
                         <input onChange={e => setEmail(e.target.value)} type="email" className="form-control" id="email" />
                       </div>
                       <div className="col-4">
@@ -263,23 +239,20 @@ function Planos() {
                     </div>
 
                     <div className="mb-2">
-                      <p>(*) Um dos nossos representantes entrará em contato para confirmar, orientar e configurar a sua assinatura. Outros dados importantes poderão serem preenchidos em "Dados do Delivery" após o login.</p>
+                      <p>(*) Campos obrigatórios! Após o envio, você receberá em seu e-mail instruções para concluirmos a sua assinatura e criar o seu login de acesso.</p>
                     </div>
 
                     <input onChange={e => setTokenADM(e.target.value)} type="hidden" id="token" name="token" value=""/>
-
-                    {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                    {success === 'S' ? redirect("/app/login/novo") : null}
-
                   </div>
+                  {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
+                  {success === 'S' ? <Navigate to="/app/login/novo" replace={true} /> : null}
                 </form>
-              </div>
 
+              </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
-                <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={Cadastrar}>CONCLUIR</button>
+                <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={Cadastrar}>ENVIAR CADASTRO</button>
               </div>
-
             </div>
           </div>
         </div>
@@ -289,3 +262,34 @@ function Planos() {
   }
 
 export default Planos;
+
+/*
+    Assinatura 49,90
+    !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO -- 
+    <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
+    <input type="hidden" name="code" value="D56951268585189884B60FB3D4F3D67C" />
+    <input type="hidden" name="iot" value="button" />
+    <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
+    </form>
+    !-- FINAL FORMULARIO BOTAO PAGBANK --! 
+
+    Assinatura 179,90
+    !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO --!
+    <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
+    <input type="hidden" name="code" value="E0BBDF39242432E224507F9DD48F0BC9" />
+    <input type="hidden" name="iot" value="button" />
+    <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
+    </form>
+    !-- FINAL FORMULARIO BOTAO PAGBANK --! 
+
+
+    Assinatura 375,00
+    !-- INICIO FORMULARIO BOTAO PAGBANK: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO --!
+    <form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
+    <input type="hidden" name="code" value="57C4BA0E3B3B6F200483DFA9A8A37810" />
+    <input type="hidden" name="iot" value="button" />
+    <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-azul-assina.gif" name="submit" alt="Pague com PagBank - É rápido, grátis e seguro!" width="209" height="48" />
+    </form>
+    !-- FINAL FORMULARIO BOTAO PAGBANK --!
+
+*/

@@ -1,5 +1,9 @@
+/**
+ * Cadastro de Produtos
+ */
+
 import { useState, useEffect } from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { Impressao } from './impressao';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { firebase_app } from "../../config/firebase";
@@ -34,9 +38,9 @@ export default function Produtos() {
 
   useEffect(() => {
     let listagem = []; 
-    api.get(`/listar/produtos/delivery/${vToken}`).then(async(result) => {
+    api.get(`/listar/produtos/delivery/${vToken}`).then(function (result) {
       result.data.forEach(snapshot => {
-        if (snapshot.Nome.indexOf(busca) >=0) {
+        if (snapshot.Nome.indexOf(busca) >= 0) {
           listagem.push({
             ProdutoID: snapshot.ProdutoID,
             Nome: snapshot.Nome,
@@ -44,9 +48,9 @@ export default function Produtos() {
             VrUnitario: snapshot.VrUnitario,
             UrlImagem: snapshot.UrlImagem,
             DeliveryID: snapshot.DeliveryID
-          })
+          });
         }
-      })
+      });
       setProdutos(listagem);
     })
   }, [busca, excluido, success, url_imagem, vToken]);
@@ -102,8 +106,7 @@ export default function Produtos() {
             default:
               // do nothing
           }
-        }, 
-        (error) => {
+        }, (error) => {
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
@@ -120,8 +123,7 @@ export default function Produtos() {
             default:
               // do nothing 
           }
-        }, 
-        () => {
+        }, () => {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
             console.log('File available at', downloadURL);
@@ -144,7 +146,7 @@ export default function Produtos() {
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
-      const json = {
+      const info = {
         "ProdutoID": null, 
         "Nome": nome, 
         "Descricao": descricao, 
@@ -152,30 +154,21 @@ export default function Produtos() {
         "UrlImagem": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
         "DeliveryID": vToken
       }
-      await api.post('/add/produto/', json).then(response => {
-        let produto = {
-          ProdutoID: response.data.ProdutoID, 
-          Nome: response.data.Nome, 
-          Descricao: response.data.Descricao,
-          VrUnitario: response.data.VrUnitario,
-          UrlImagem: response.data.UrlImagem,
-          DeliveryID: response.data.DeliveryID
-        }
-        console.log(produto);
+      await api.post('/add/produto', info).then(() => {
         setMsg('Produto cadastrado com sucesso!');
         setSuccess('S');
-      }).catch((erro) => {
-        setMsg(erro);
+      }).catch((error) => {
+        setMsg(error.message);
         setSuccess("N");
       })
     }
   }
 
-  async function Editar() {
+  function Editar() {
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
-      const json = { 
+      let info = { 
         "ProdutoID": produto_id, 
         "Nome": nome, 
         "Descricao": descricao, 
@@ -183,20 +176,18 @@ export default function Produtos() {
         "UrlImagem": url_imagem,
         "DeliveryID": delivery_id
       }
-      await api.put(`/update/produto/${produto_id}`, json).then((response) => {
-        console.log(response.data);
+      api.put(`/update/produto/${produto_id}`, info).then(() => {
         setMsg('');
         setSuccess('S');
-      }).catch((erro) =>{
-        setMsg(erro);
+      }).catch((error) =>{
+        setMsg(error.message);
         setSuccess('N');
-      });
+      })
     }
   }
 
   function selectById(id){
-    api.get(`/produto/${id}`)
-    .then(result => {
+    api.get(`/produto/${id}`).then((result) => {
       setProdutoID(result.data[0].ProdutoID);
       setNome(result.data[0].Nome); 
       setDescricao(result.data[0].Descricao);
@@ -207,7 +198,7 @@ export default function Produtos() {
   }
 
   function deleteByID(id) {
-    api.delete(`/delete/produto/${id}`).then(async(result) => {
+    api.delete(`/delete/produto/${id}`).then(() => {
     setExcluido(id);
     })
   }
@@ -236,7 +227,7 @@ export default function Produtos() {
     });
   }
 
-  const VisualizarPDF = async () => {
+  async function VisualizarPDF() {
     console.log('report', produtos);
     const classeImpressao = new Impressao(produtos);
     const documento = await classeImpressao.PreparaDocumento();
@@ -344,10 +335,9 @@ export default function Produtos() {
                         Imagem do Produto:<br/>
                         <img className="ref" src={ "https://via.placeholder.com/500" } alt="Imagem do Produto" width="320" />
                       </div>
-
-                      {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                      {success === 'S' ? redirect('/app/produtos/') : null}
                     </div>
+                    {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
+                    {success === 'S' ? <Navigate to="/app/produtos" replace={true} /> : null}
                   </form>
                 </div>
 
@@ -355,6 +345,7 @@ export default function Produtos() {
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>CANCELAR</button>
                   <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar}>SALVAR</button>
                 </div>
+
 
               </div>
             </div>
@@ -394,11 +385,9 @@ export default function Produtos() {
                         Imagem do Produto:<br/>
                         <img className="ref" src={ url_imagem || "https://via.placeholder.com/500" } alt="Imagem do Produto" width="320" />
                       </div>
-
-                      {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                      {success === 'S' ? redirect('/app/produtos/') : null}
-
                     </div>
+                    {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
+                    {success === 'S' ? <Navigate to="/app/produtos" replace={true} /> : null}
                   </form>
                 </div>
 

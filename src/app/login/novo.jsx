@@ -1,3 +1,7 @@
+/**
+ * Cadastro de Login 
+ */
+
 import React, { useState } from 'react';
 import { Link, redirect } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -7,7 +11,7 @@ import { firebase_app } from '../../config/firebase';
 import './novo.css';
 
 export default function Novo() {
-  let vEmail = localStorage.get("email");
+  let vEmail = localStorage.getItem("email");
   let vDelivery = localStorage.getItem("delivery");
   let vToken = localStorage.getItem("token");
 
