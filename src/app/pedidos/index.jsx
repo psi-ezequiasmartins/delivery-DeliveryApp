@@ -53,6 +53,7 @@ export default function Pedidos() {
                             Cliente={pedido.Nome}
                             Endereco={pedido.Endereco}
                             TokenSMS={pedido.TokenSMS}
+                            Obs={pedido.Obs}
                             itens={pedido.itens}
                           />
                 })

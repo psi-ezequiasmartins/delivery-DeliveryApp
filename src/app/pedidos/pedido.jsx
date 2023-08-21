@@ -66,7 +66,7 @@ export default function Pedido(props){
       {status === "CANCELADO" ? <span className="badge rouded-pill bg-secondary ms-2">CANCELADO</span> : null}
 
       <small className='d-block mt-1 text-secondary'>{props.Cliente} - {props.Endereco}</small>
-      <small className='d-block mt-1 text-secondary'>{props.token}</small>
+      <small className='d-block mt-1 text-secondary'>{props.TokenSMS}</small>
       {
         props.itens.map((item) => {
           return <div className='d-inline-block text-center me-4 mt-2' key={item.ItemID} >
@@ -75,6 +75,11 @@ export default function Pedido(props){
             <small className='d-block text-secondary'>{item.Produto}</small>
           </div>
         })
+      }
+      {props.Obs &&
+        <small className='d-block text-danger'>
+          <b>Obs.: {props.Obs}</b>
+        </small>
       }
     </div>
 
