@@ -98,7 +98,7 @@ function Planos() {
           <div className="row text-center">
             <div className="titulo">
               <h1>Planos e Preços</h1>
-              <p>Comece sua avaliação gratuita. Não é necessário cartão de crédito.</p>
+              <p>Escolha o plano sob medida, a partir de R$ 49,90 /mês.</p>
             </div>
           </div>
 
