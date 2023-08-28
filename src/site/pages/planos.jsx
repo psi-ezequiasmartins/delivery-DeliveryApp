@@ -113,7 +113,7 @@ function Planos() {
                   <h2>R$ 49,90</h2>  
                   <p>Até 10 produtos</p>
                   <p>Suporte Offline (via e-mail)+<br/>Documentação Online</p>
-                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
             </div> 
@@ -127,7 +127,7 @@ function Planos() {
                   <h2>R$ 179,90</h2>  
                   <p>Até 30 produtos</p>
                   <p>Suporte Online (videoconferência)+<br/>Publicidade no Google Ads*</p>
-                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
             </div>
@@ -141,7 +141,7 @@ function Planos() {
                   <h2>R$ 375,00</h2>  
                   <p>Até 50 produtos</p>
                   <p>Suporte Online (acesso remoto)+<br/>Public. Google Ads + Vídeo *</p>
-                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine Agora</a>
+                  <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
             </div>
