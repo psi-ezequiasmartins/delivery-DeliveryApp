@@ -12,7 +12,7 @@ function Banner() {
             <div className="col-lg-6">
               <div className="bloco">
                 <h1>Simples e fácil de usar!</h1>
-                <h4>Gestão de Pedidos (Aplicação Web) e Cardápio Digital (Mobile) para Bares, Restaurantes, Pizzarias, Sushis, Fast-foods, Deliveries em Geral. Tudo isso em um único lugar! Cadastre hoje mesmo o seu Delivery e receba uma demonstração gratuita.</h4>
+                <h4>Gestão de Pedidos e Cardápio Digital para Bares, Restaurantes, Pizzarias, Sushis, Fast-foods, Deliveries em Geral. Tudo em um único lugar! Cadastre hoje mesmo o seu Delivery e agende uma demonstração gratuita sem compromisso.</h4>
                 <a href="#planos-e-precos" type="button" className="btn btn-primary btn-lg btn-app">Cadastre-se</a>
                 <a href="/app/login" type="button" className="btn btn-outline-light btn-lg btn-app">Fazer Login</a>
               </div>
