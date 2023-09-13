@@ -38,6 +38,12 @@ function Menu(props) {
           </li>
 
           <li className="nav-item">
+            <a href="/app/extras" className={props.page === "extras" ? activeLink : inactiveLink}>
+              <i class="fs-4 bi-paperclip"></i> <span className="ms-1 d-none d-sm-inline">Extras</span>
+            </a>
+          </li>
+
+          <li className="nav-item">
             <Link to="/app/delivery" className={props.page === "delivery" ? activeLink : inactiveLink}>
               <i className="fs-4 bi-wallet2"></i> <span className="ms-1 d-none d-sm-inline">Delivery</span>
             </Link>
@@ -62,3 +68,8 @@ function Menu(props) {
 }
 
 export default Menu;
+
+/*
+Extras
+<i class="bi bi-check2-square"></i> 
+*/
