@@ -13,6 +13,7 @@ import Novo from "./app/login/novo.jsx";
 import Reset from "./app/login/reset.jsx";
 import Pedidos from "./app/pedidos";
 import Produtos from "./app/produtos";
+import Extras from "./app/extras";
 import Delivery from "./app/delivery";
 import Config from "./app/config";
 
@@ -35,6 +36,11 @@ export default function Rotas() {
                 <Route path="/app/produtos" element={
                     <SecureRoute>
                         <Produtos/>
+                    </SecureRoute>
+                } />
+                <Route path="/app/extras" element={
+                    <SecureRoute>
+                        <Extras/>
                     </SecureRoute>
                 } />
                 <Route path="/app/delivery" element={

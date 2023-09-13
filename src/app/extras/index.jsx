@@ -40,9 +40,9 @@ export default function Extras() {
     let listagem = []; 
     api.get(`/listar/extras/delivery/${vToken}`).then(function (result) {
       result.data.forEach(snapshot => {
-        if (snapshot.Nome.indexOf(busca) >= 0) {
+        if (snapshot.Descricao.indexOf(busca) >= 0) {
           listagem.push({
-            ExtraID: snapshot.ProdutoID,
+            ExtraID: snapshot.ExtraID,
             DeliveryID: snapshot.DeliveryID,
             Descricao: snapshot.Descricao,
             VrUnitario: snapshot.VrUnitario,
@@ -143,7 +143,7 @@ export default function Extras() {
   }
 
   async function Cadastrar() {
-    if (nome.length === 0) {
+    if (descricao.length === 0) {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
       const info = {
@@ -300,7 +300,7 @@ export default function Extras() {
               </div>
             </div>
           </div>
-          <Listagem array={produtos} select={selectById} delete={confirmaExclusao} image_upload={imgUpload} />
+          <Listagem array={extras} select={selectById} delete={confirmaExclusao} image_upload={imgUpload} />
 
           {/* md_novoproduto */}
 
@@ -329,7 +329,7 @@ export default function Extras() {
 
                       <div className="col-sm-6">
                         Imagem do Item extra:<br/>
-                        <img className="ref" src={ "https://via.placeholder.com/500" } alt="Imagem do Produto" width="320" />
+                        <img className="ref" src={ "https://via.placeholder.com/500" } alt="Imagem do Extra" width="320" />
                       </div>
                     </div>
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -375,7 +375,7 @@ export default function Extras() {
 
                       <div className="col-sm-6">
                         Imagem do Item Extra:<br/>
-                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/500" } alt="Imagem do Produto" width="320" />
+                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/500" } alt="Imagem do Extra" width="320" />
                       </div>
                     </div>
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
