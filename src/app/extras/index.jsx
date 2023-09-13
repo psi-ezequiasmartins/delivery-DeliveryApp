@@ -1,5 +1,5 @@
 /**
- * Cadastro de Produtos
+ * Cadastro de Extras (acrécimos de pedido)
  */
 
 import { useState, useEffect } from 'react';
