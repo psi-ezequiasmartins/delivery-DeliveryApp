@@ -51,7 +51,7 @@ export default function Extras() {
           });
         }
       });
-      setProdutos(listagem);
+      setExtras(listagem);
     })
   }, [busca, excluido, success, url_imagem, vToken]);
 
@@ -187,7 +187,7 @@ export default function Extras() {
   }
 
   function selectById(id){
-    api.get(`/produto/${id}`).then((result) => {
+    api.get(`/extra/${id}`).then((result) => {
       setExtraID(result.data[0].ExtraID);
       setDeliveryID(result.data[0].DeliveryID);
       setDescricao(result.data[0].Descricao);
@@ -241,10 +241,10 @@ export default function Extras() {
         <thead>
           <tr className="table-secondary">
             <th scope="col">ID</th>
+            <th scope="col">Delivery</th>
             <th scope="col">Imagem</th>
             <th scope="col">Item</th>
             <th scope="col">Vr. Unitário</th>
-            <th scope="col">Delivery</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -254,12 +254,12 @@ export default function Extras() {
               return (
                 <tr key={extra.ExtraID}>
                   <th scope="row">{extra.ExtraID}</th>
+                  <th scope="row">{extra.DeliveryID}</th>
                   <td>
                     <img src={extra.UrlImagem} alt="imagem" width="50" />
                   </td>
                   <td>{extra.Descricao}</td>
                   <td>{extra.VrUnitario}</td>
-                  <th scope="row">{extra.DeliveryID}</th>
                   <td>
                     <Link to="#" onClick={()=>props.select(extra.ExtraID)} title="EDITAR ITEM EXTRA" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
                     <Link to="#" onClick={()=>props.image_upload(extra.ExtraID)} title="UPLOAD DE IMAGEM"><i className="fas fa-file-image icon-action"></i></Link>
