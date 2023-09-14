@@ -166,7 +166,7 @@ export default function Extras() {
 
   function Editar() {
     if (descricao.length === 0) {
-      setMsg('Favor preencher a descrição do Item Extra.');
+      setMsg('Favor preencher a descrição do item Extra.');
     } else {
       let info = { 
         "ExtraID": extra_id, 
@@ -178,10 +178,10 @@ export default function Extras() {
       }
       api.put(`/update/extra/${extra_id}`, info).then(() => {
         setMsg('');
-        setSuccess('S');
+        setSuccess("S");
       }).catch((error) =>{
         setMsg(error.message);
-        setSuccess('N');
+        setSuccess("N");
       })
     }
   }
@@ -259,9 +259,9 @@ export default function Extras() {
                     <img src={extra.UrlImagem} alt="imagem" width="50" />
                   </td>
                   <td>{extra.Descricao}</td>
-                  <td>{extra.VrUnitario}</td>
+                  <td>R$ { parseFloat(extra.VrUnitario).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
                   <td>
-                    <Link to="#" onClick={()=>props.select(extra.ExtraID)} title="EDITAR ITEM EXTRA" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
+                    <Link to="#" onClick={()=>props.select(extra.ExtraID)} title="EDITAR ITEM EXTRA" data-bs-toggle="modal" data-bs-target="#md_editarextra"><i className="fas fa-user-edit icon-action"></i></Link>
                     <Link to="#" onClick={()=>props.image_upload(extra.ExtraID)} title="UPLOAD DE IMAGEM"><i className="fas fa-file-image icon-action"></i></Link>
                     <Link to="#" onClick={()=>props.delete(extra.ExtraID)} title="EXCLUIR ITEM EXTRA"><i className="fas fa-trash-alt icon-action red"></i></Link>
                   </td>
@@ -288,7 +288,7 @@ export default function Extras() {
           <div className="row">
             <div className="col-6">
               <div className="mt-2">
-                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novoitemextra">
+                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novoextra">
                   <i className="fas fa-address-book"></i> NOVO ITEM EXTRA
                 </button>
                 <button onClick={VisualizarPDF} className="btn btn-warning"><i className="fas fa-file-pdf"></i> PDF</button>
@@ -302,9 +302,9 @@ export default function Extras() {
           </div>
           <Listagem array={extras} select={selectById} delete={confirmaExclusao} image_upload={imgUpload} />
 
-          {/* md_novoproduto */}
+          {/* md_novoextra */}
 
-          <div className="modal fade" id="md_novoitemextra" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
+          <div className="modal fade" id="md_novoextra" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
             <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
               <div className="modal-content">
 
@@ -347,9 +347,9 @@ export default function Extras() {
             </div>
           </div>
 
-          {/* md_editarproduto */}
+          {/* md_editarextra */}
 
-          <div className="modal fade" id="md_editaritemextra" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
+          <div className="modal fade" id="md_editarextra" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
             <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
               <div className="modal-content">
 

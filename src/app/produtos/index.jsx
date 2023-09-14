@@ -258,7 +258,7 @@ export default function Produtos() {
                     <img src={produto.UrlImagem} alt="imagem" width="50" />
                   </td>
                   <td>{produto.Nome}</td>
-                  <td>{produto.VrUnitario}</td>
+                  <td>R$ { parseFloat(produto.VrUnitario).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
                   <th scope="row">{produto.DeliveryID}</th>
                   <td>
                     <Link to="#" onClick={()=>props.select(produto.ProdutoID)} title="EDITAR PRODUTO" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
