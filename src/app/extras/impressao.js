@@ -13,14 +13,14 @@ export class Impressao {
   CriaCorpoDocumento() {
     const header = [
       { text: 'ID', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      { text: 'Produto (Extra)', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      { text: 'Descrição', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'Delivery ID', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'Item de Acréscimo', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
       { text: 'Vr. Unitário', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
     ];
     const body = this.dadosParaImpressao.map((produto) => {
       return [
         { text: produto.ExtraID, fontSize: 8 },
-        { text: produto.Nome, fontSize: 8 },
+        { text: produto.DeliveryID, fontSize: 8 },
         { text: produto.Descricao, fontSize: 8 },
         { text: produto.VrUnitario, fontSize: 8 },
       ];
@@ -53,7 +53,7 @@ export class Impressao {
               widths: ['*'],
               body: [
                 [
-                  { text: 'LISTAGEM DE PRODUTOS EXTRAS', style: 'reportName' }
+                  { text: 'LISTAGEM DE ITENS DE ACRÉSCIMO', style: 'reportName' }
                 ]
               ],
             },

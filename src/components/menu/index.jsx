@@ -39,7 +39,7 @@ function Menu(props) {
 
           <li className="nav-item">
             <a href="/app/extras" className={props.page === "extras" ? activeLink : inactiveLink}>
-              <i class="fs-4 bi-paperclip"></i> <span className="ms-1 d-none d-sm-inline">Extras</span>
+              <i class="fs-4 bi-paperclip"></i> <span className="ms-1 d-none d-sm-inline">Acréscimos</span>
             </a>
           </li>
 

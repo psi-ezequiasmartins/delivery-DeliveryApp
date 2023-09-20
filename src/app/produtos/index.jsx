@@ -323,11 +323,11 @@ export default function Produtos() {
                         </div>
                         <div className="mb-2">
                           <label htmlFor="descricao" className="form-label">Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="3" id="descricao" ></textarea>
+                          <textarea onChange={e => setDescricao(e.target.value)} type="text" className="form-control" style={{height: 152}} rows="3" id="descricao" ></textarea>
                         </div>
                         <div className="mb-2">
                           <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
-                          <input onChange={e => setVrUnitario(e.target.value)} value={vr_unitario} type="text" className="form-control" id="vr_unitario" />
+                          <input onChange={e => setVrUnitario(e.target.value)} type="text" className="form-control" id="vr_unitario" />
                         </div>
                       </div>
 

@@ -5,8 +5,6 @@
 import { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { Impressao } from './impressao';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { firebase_app } from "../../config/firebase";
 import './index.css';
 
 import pdfMake from "pdfmake/build/pdfmake";
@@ -19,7 +17,6 @@ import api from '../../config/mysql';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Extras() {
-  const storage = getStorage(firebase_app);
   const vDelivery = localStorage.getItem("delivery"); 
   const vToken = localStorage.getItem("token");
 
@@ -33,8 +30,6 @@ export default function Extras() {
   const [delivery_id, setDeliveryID] = useState(vToken);
   const [descricao, setDescricao] = useState('');
   const [vr_unitario, setVrUnitario] = useState(0.00);
-  const [url_imagem, setUrlImagem] = useState('');
-  const [CHV, setChv] = useState('S');
 
   useEffect(() => {
     let listagem = []; 
@@ -45,102 +40,13 @@ export default function Extras() {
             ExtraID: snapshot.ExtraID,
             DeliveryID: snapshot.DeliveryID,
             Descricao: snapshot.Descricao,
-            VrUnitario: snapshot.VrUnitario,
-            UrlImagem: snapshot.UrlImagem,
-            CHV: snapshot.CHV
+            VrUnitario: snapshot.VrUnitario
           });
         }
       });
       setExtras(listagem);
     })
-  }, [busca, excluido, success, url_imagem, vToken]);
-
-  async function imgUpload(id) {
-    // let produto = produtos.find(item => item.ProdutoID === id);
-
-    const { value: file } = await Swal.fire({
-      confirmButtonText: 'ENVIAR',
-      confirmButtonColor: '#3085d6',
-      title: 'Selecione a imagem:',
-      input: 'file',
-      inputAttributes: {
-        'accept': 'image/*',
-        'aria-label': 'Selecione a imagem'
-      }
-    })
-
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        Swal.fire({
-          title: 'Imagem enviada com sucesso!',
-          imageUrl: e.target.result,
-          imageAlt: 'Imagem selecionada'
-        })
-      }
-      reader.readAsDataURL(file)
-
-      console.log('File', file.name);
-
-      // Create the file metadata
-      /** @type {any} */
-      const metadata = {
-        contentType: 'image/jpeg'
-      };
-
-      // Upload file and metadata to the object 'images/mountains.jpg'
-      const storageRef = ref(storage, '/extras/' + file.name);
-      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-      // Listen for state changes, errors, and completion of the upload.
-      uploadTask.on('state_changed', (snapshot) => {
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-            default:
-              // do nothing
-          }
-        }, (error) => {
-          // A full list of error codes is available at
-          // https://firebase.google.com/docs/storage/web/handle-errors
-          switch (error.code) {
-            case 'storage/unauthorized':
-              // User doesn't have permission to access the object
-              break;
-            case 'storage/canceled':
-              // User canceled the upload
-              break;
-              // ...
-            case 'storage/unknown':
-              // Unknown error occurred, inspect error.serverResponse
-              break;
-            default:
-              // do nothing 
-          }
-        }, () => {
-          // Upload completed successfully, now we can get the download URL
-          getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
-            console.log('File available at', downloadURL);
-            setUrlImagem(downloadURL);
-            // alert(id.toString()+' '+downloadURL); 
-            api.put(`/update/imagem/extra/${id} `, {"url_imagem": downloadURL}).then(response => {
-              console.log(response.data);
-            });
-          });
-        }
-      );
-    }
-  }
-
-  function img_reset() {
-    setUrlImagem(null);
-  }
+  }, [busca, excluido, success, vToken]);
 
   async function Cadastrar() {
     if (descricao.length === 0) {
@@ -150,12 +56,10 @@ export default function Extras() {
         "ExtraID": null, 
         "DeliveryID": vToken,
         "Descricao": descricao, 
-        "VrUnitario": vr_unitario,
-        "UrlImagem": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
-        "CHV": CHV
+        "VrUnitario": vr_unitario
       }
       await api.post('/add/extra', info).then(() => {
-        setMsg('Item extra cadastrado com sucesso!');
+        setMsg('Item de Acréscimo cadastrado com sucesso!');
         setSuccess('S');
       }).catch((error) => {
         setMsg(error.message);
@@ -166,15 +70,13 @@ export default function Extras() {
 
   function Editar() {
     if (descricao.length === 0) {
-      setMsg('Favor preencher a descrição do item Extra.');
+      setMsg('Favor preencher a descrição do Item de Acréscimo.');
     } else {
       let info = { 
         "ExtraID": extra_id, 
         "DeliveryID": delivery_id,
         "Descricao": descricao, 
-        "VrUnitario": vr_unitario,
-        "UrlImagem": url_imagem,
-        "CHV": CHV
+        "VrUnitario": vr_unitario
       }
       api.put(`/update/extra/${extra_id}`, info).then(() => {
         setMsg('');
@@ -192,8 +94,6 @@ export default function Extras() {
       setDeliveryID(result.data[0].DeliveryID);
       setDescricao(result.data[0].Descricao);
       setVrUnitario(result.data[0].VrUnitario);
-      setUrlImagem(result.data[0].UrlImagem);
-      setChv(result.data[0].CHV);
     })
   }
 
@@ -242,7 +142,6 @@ export default function Extras() {
           <tr className="table-secondary">
             <th scope="col">ID</th>
             <th scope="col">Delivery</th>
-            <th scope="col">Imagem</th>
             <th scope="col">Item</th>
             <th scope="col">Vr. Unitário</th>
             <th scope="col"></th>
@@ -255,15 +154,11 @@ export default function Extras() {
                 <tr key={extra.ExtraID}>
                   <th scope="row">{extra.ExtraID}</th>
                   <th scope="row">{extra.DeliveryID}</th>
-                  <td>
-                    <img src={extra.UrlImagem} alt="imagem" width="50" />
-                  </td>
                   <td>{extra.Descricao}</td>
                   <td>R$ { parseFloat(extra.VrUnitario).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
                   <td>
-                    <Link to="#" onClick={()=>props.select(extra.ExtraID)} title="EDITAR ITEM EXTRA" data-bs-toggle="modal" data-bs-target="#md_editarextra"><i className="fas fa-user-edit icon-action"></i></Link>
-                    <Link to="#" onClick={()=>props.image_upload(extra.ExtraID)} title="UPLOAD DE IMAGEM"><i className="fas fa-file-image icon-action"></i></Link>
-                    <Link to="#" onClick={()=>props.delete(extra.ExtraID)} title="EXCLUIR ITEM EXTRA"><i className="fas fa-trash-alt icon-action red"></i></Link>
+                    <Link to="#" onClick={()=>props.select(extra.ExtraID)} title="EDITAR ITEM DE ACRÉSCIMO" data-bs-toggle="modal" data-bs-target="#md_editar"><i className="fas fa-user-edit icon-action"></i></Link>
+                    <Link to="#" onClick={()=>props.delete(extra.ExtraID)} title="EXCLUIR ITEM DE ACRÉSCIMO"><i className="fas fa-trash-alt icon-action red"></i></Link>
                   </td>
                 </tr>
               )
@@ -284,12 +179,12 @@ export default function Extras() {
 
         <div className="col py-3 me-3">
 
-          <h1>Cadastro de Itens Extras - {vDelivery}</h1>
+          <h1>Itens de Acréscimo - {vDelivery}</h1>
           <div className="row">
             <div className="col-6">
               <div className="mt-2">
-                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novoextra">
-                  <i className="fas fa-address-book"></i> NOVO ITEM EXTRA
+                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novo">
+                  <i className="fas fa-address-book"></i> NOVO ITEM ACRÉSCIMO
                 </button>
                 <button onClick={VisualizarPDF} className="btn btn-warning"><i className="fas fa-file-pdf"></i> PDF</button>
               </div>
@@ -300,36 +195,29 @@ export default function Extras() {
               </div>
             </div>
           </div>
-          <Listagem array={extras} select={selectById} delete={confirmaExclusao} image_upload={imgUpload} />
+          <Listagem array={extras} select={selectById} delete={confirmaExclusao} />
 
-          {/* md_novoextra */}
+          {/* md_novo */}
 
-          <div className="modal fade" id="md_novoextra" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
+          <div className="modal fade" id="md_novo" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
             <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
               <div className="modal-content">
 
                 <div className="modal-header">
-                  <h5 className="modal-title" id="titulo_modal">NOVO ITEM EXTRA</h5>
+                  <h5 className="modal-title" id="titulo_modal">NOVO ITEM DE ACRÉSCIMO</h5>
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
 
                 <div className="modal-body">
                   <form>
                     <div className="row">
-                      <div className="col-sm-6">
-                        <div className="mb-2">
-                          <label htmlFor="descricao" className="form-label">Breve Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="3" id="descricao" ></textarea>
-                        </div>
-                        <div className="mb-2">
-                          <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
-                          <input onChange={e => setVrUnitario(e.target.value)} value={vr_unitario} type="text" className="form-control" id="vr_unitario" />
-                        </div>
+                      <div className="mb-2">
+                        <label htmlFor="descricao" className="form-label">Descrição</label>
+                        <input onChange={e => setDescricao(e.target.value)} type="text" className="form-control" id="descricao" />
                       </div>
-
-                      <div className="col-sm-6">
-                        Imagem do Item extra:<br/>
-                        <img className="ref" src={ "https://via.placeholder.com/500" } alt="Imagem do Extra" width="320" />
+                      <div className="mb-2">
+                        <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
+                        <input onChange={e => setVrUnitario(e.target.value)} type="text" className="form-control" id="vr_unitario" />
                       </div>
                     </div>
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -338,44 +226,35 @@ export default function Extras() {
                 </div>
 
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>CANCELAR</button>
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
                   <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar}>SALVAR</button>
                 </div>
-
 
               </div>
             </div>
           </div>
 
-          {/* md_editarextra */}
+          {/* md_editar */}
 
-          <div className="modal fade" id="md_editarextra" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
+          <div className="modal fade" id="md_editar" tabIndex="-1" aria-labelledby="titulo_modal" aria-hidden="true">
             <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
               <div className="modal-content">
 
                 <div className="modal-header">
-                  <h5 className="modal-title" id="titulo_modal">EDITAR ITEM EXTRA</h5>
+                  <h5 className="modal-title" id="titulo_modal">EDITAR ITEM DE ACRÉSCIMO</h5>
                   <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
 
                 <div className="modal-body">
                   <form>
                     <div className="row">
-
-                      <div className="col-sm-6">
-                        <div className="mb-2">
-                          <label htmlFor="descricao" className="form-label">Breve Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="3" id="descricao" ></textarea>
-                        </div>
-                        <div className="mb-2">
-                          <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
-                          <input onChange={e => setVrUnitario(e.target.value)} value={vr_unitario} type="text" className="form-control" id="vr_unitario" />
-                        </div>
+                      <div className="mb-2">
+                        <label htmlFor="descricao" className="form-label">Descrição</label>
+                        <input onChange={e => setDescricao(e.target.value)} value={descricao} type="text" className="form-control" id="descricao" />
                       </div>
-
-                      <div className="col-sm-6">
-                        Imagem do Item Extra:<br/>
-                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/500" } alt="Imagem do Extra" width="320" />
+                      <div className="mb-2">
+                        <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
+                        <input onChange={e => setVrUnitario(e.target.value)} value={vr_unitario} type="text" className="form-control" id="vr_unitario" />
                       </div>
                     </div>
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -384,7 +263,7 @@ export default function Extras() {
                 </div>
 
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>CANCELAR</button>
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
                   <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Editar}>SALVAR</button>
                 </div>
 
