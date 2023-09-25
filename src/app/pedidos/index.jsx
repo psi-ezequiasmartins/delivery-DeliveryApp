@@ -16,10 +16,8 @@ export default function Pedidos() {
       await api.get(`/pedidos/abertos/delivery/${vToken}`) 
       .then((response) => {
         setPedidos(response.data);
-        console.log(response.data);
         console.count = 0;
-      })
-      .catch((error)=>{
+      }).catch((error)=>{
         console.log(error);
       })
     }
@@ -43,7 +41,7 @@ export default function Pedidos() {
             <div className="m-2 mt-2">
               {
                 pedidos?.map((pedido) => {
-                  return <Pedido 
+                  return  <Pedido 
                             key={pedido.PedidoID}
                             PedidoID={pedido.PedidoID} 
                             Data={pedido.Data}
@@ -53,7 +51,6 @@ export default function Pedidos() {
                             Cliente={pedido.Nome}
                             Endereco={pedido.Endereco}
                             TokenSMS={pedido.TokenSMS}
-                            Obs={pedido.Obs}
                             itens={pedido.itens}
                           />
                 })

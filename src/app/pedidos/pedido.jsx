@@ -6,11 +6,10 @@ import './pedido.css';
 export default function Pedido(props){
   const [status, setStatus] = useState(props.Status);
   const [visible, setVisible] = useState(true);
-  console.log(props.TokenSMS);
 
   async function AlterarStatus(codigo) {
     setStatus(codigo);
-    await api.put(`/update/status/pedido/${props.PedidoID}`, {status: codigo}).then((response) => {
+    await api.put(`/update/status/pedido/${props.key}`, {status: codigo}).then((response) => {
       console.log(response);
       sendPushNotification(props.TokenSMS, props.PedidoID, status);
       if (status === "FINALIZADO") {
@@ -69,17 +68,30 @@ export default function Pedido(props){
       <small className='d-block mt-1 text-secondary'>{props.TokenSMS}</small>
       {
         props.itens.map((item) => {
-          return <div className='d-inline-block text-center me-4 mt-2' key={item.ItemID} >
+          return <div className='d-inline-block text-left me-4 mt-2' key={item.ItemID} >
             <img src={item.UrlImagem} className='foto-item' alt='' />
-            <small className='d-block text-dark'><b>{item.Qtd} x</b></small>
-            <small className='d-block text-dark'><b>{item.Produto}</b></small>
+            <small className='d-block text-dark'><b>{item.Qtd} x {item.Produto}</b></small>
+            {item.Acrescimos && (
+              <div className='text-dark'>
+                <b>Acrescimos:</b>
+                <ul>
+                  {item.Acrescimos.map((acrescimo, index) => (
+                    <li key={index}>
+                      {acrescimo.Descricao}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {item.Obs && (
+              <div className='text-danger'>
+                <b>Observações:</b><br/>
+                {item.Obs}
+              </div>
+            )}
+
           </div>
         })
-      }
-      {props.Obs &&
-        <small className='d-block text-danger'>
-          <b>Obs.: {props.Obs}</b>
-        </small>
       }
     </div>
 
@@ -100,7 +112,7 @@ export default function Pedido(props){
         </ul>
       </div>
     </div>
-    
+
   </div>
 }
 
