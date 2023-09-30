@@ -1,3 +1,7 @@
+/**
+ * src/app/peidos/pedido.jsx
+ */
+
 import React, { useState } from 'react';
 import api from '../../config/mysql';
 
@@ -68,27 +72,30 @@ export default function Pedido(props){
       <small className='d-block mt-1 text-secondary'>{props.TokenSMS}</small>
       {
         props.itens.map((item) => {
-          return <div className='d-inline-block text-left me-4 mt-2' key={item.ItemID} >
-            <img src={item.UrlImagem} className='foto-item' alt='' />
-            <small className='d-block text-dark'><b>{item.Qtd} x {item.Produto}</b></small>
-            {item.Acrescimos && (
-              <div className='text-dark'>
-                <b>Acrescimos:</b>
-                <ul>
-                  {item.Acrescimos.map((acrescimo, index) => (
-                    <li key={index}>
-                      {acrescimo.Descricao}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {item.Obs && (
-              <div className='text-danger'>
-                <b>Observações:</b><br/>
-                {item.Obs}
-              </div>
-            )}
+          return <div className='d-inline-block align-items-start'>
+            <div className='text-left me-4 mt-2 card' key={item.ItemID} >
+              <img src={item.UrlImagem} className='foto-item' alt='' />
+              <small className='d-block text-dark'><b>({item.Qtd}x) {item.Produto}</b></small>
+              {item.Acrescimos && (
+                <div className='text-dark acrescimos'>
+                  <b>Acrescimos:</b>
+                  <ul>
+                    {item.Acrescimos.map((acrescimo, index) => (
+                      <li key={index}>
+                        {acrescimo.Descricao}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {item.Obs && (
+                <div className='text-danger obs'>
+                  <b>Observações:</b><br/>
+                  {item.Obs}
+                </div>
+              )}
+            </div>
 
           </div>
         })
@@ -98,7 +105,7 @@ export default function Pedido(props){
     <div className="d-flex me-4" id="status">
       <div className="dropdown">
         <a className="btn btn-dark dropdown-toggle" href="#status" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-          Status do Pedido
+          STATUS <i class="bi bi-pin-angle"></i>
         </a>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
           <li><a href="#novo" onClick={(e)=>AlterarStatus("NOVO")} className="dropdown-item">Novo</a></li>

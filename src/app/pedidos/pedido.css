@@ -12,6 +12,17 @@
 .pedido a {
   cursor: pointer;
 }
+.card {
+  padding: 15px;
+  min-height: 200px; /* Defina a altura mínima desejada */
+  border-color: #FFF;
+}
+.acrescimos ul {
+  min-height: 100px;
+}
+.obs {
+  min-height: 50px; /* Defina a altura mínima desejada */
+}
 .bg-warning {
   color: #000;
   --bs-bg-opacity: 1;
