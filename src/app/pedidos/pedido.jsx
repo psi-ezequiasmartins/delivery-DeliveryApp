@@ -13,7 +13,7 @@ export default function Pedido(props){
 
   async function AlterarStatus(codigo) {
     setStatus(codigo);
-    await api.put(`/update/status/pedido/${props.key}`, {status: codigo}).then((response) => {
+    await api.put(`/update/status/pedido/${props.PedidoID}`, {status: codigo}).then((response) => {
       console.log(response);
       sendPushNotification(props.TokenSMS, props.PedidoID, status);
       if (status === "FINALIZADO") {
