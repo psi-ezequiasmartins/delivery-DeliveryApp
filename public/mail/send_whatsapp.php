@@ -34,10 +34,10 @@
       die();
     }
 
-    $full_name = htmlspecialchars(filter_input(INPUT_POST, 'Full_Name', FILTER_SANITIZE_STRING));
-    $telephone = htmlspecialchars(filter_input(INPUT_POST, 'Telephone_Number', FILTER_SANITIZE_STRING));
+    $full_name = htmlspecialchars(filter_input(INPUT_POST, 'Full_Name'));
+    $telephone = htmlspecialchars(filter_input(INPUT_POST, 'Telephone_Number'));
     $email_from = htmlspecialchars(filter_input(INPUT_POST, 'Email_Address', FILTER_SANITIZE_EMAIL));
-    $antispam = htmlspecialchars(filter_input(INPUT_POST, 'AntiSpam', FILTER_SANITIZE_STRING));
+    $antispam = htmlspecialchars(filter_input(INPUT_POST, 'AntiSpam'));
 
     $email_subject = "Contato via WhatsApp (website)";
 
