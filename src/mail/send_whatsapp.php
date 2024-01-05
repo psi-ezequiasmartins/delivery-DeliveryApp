@@ -22,7 +22,8 @@
 
   if(isset($_POST['Full_Name'])) {
 
-    include 'setup_mail.php';
+    include 'setup.php';
+
     define('SMTP_USERNAME', 'vendas@duriouniformes.com');
     define('SMTP_PASSWORD', 'e2m$=*JCVLv.');
 
@@ -36,14 +37,13 @@
 
     $full_name = htmlspecialchars(filter_input(INPUT_POST, 'Full_Name'));
     $telephone = htmlspecialchars(filter_input(INPUT_POST, 'Telephone_Number'));
-    $email_from = htmlspecialchars(filter_input(INPUT_POST, 'Email_Address', FILTER_SANITIZE_EMAIL));
     $antispam = htmlspecialchars(filter_input(INPUT_POST, 'AntiSpam'));
 
     $email_subject = "Contato via WhatsApp (website)";
 
     $error_message = "";
 
-    if (empty($full_name) || empty($telephone) || empty($email_from) || empty($antispam)) {
+    if (empty($full_name) || empty($telephone) || empty($antispam)) {
       died('Sorry, there appears to be a problem with your form submission.');		
     }
 
@@ -81,8 +81,6 @@
 
     $mail = new PHPMailer();
 
-    $mail = new PHPMailer();
-
     $mail->IsSMTP(); // use smtp connection to send email
     $mail->Host       = "mail.duriouniformes.com"; // set up the SMTP host name
     $mail->SMTPDebug  = 0; // SMTP debug info : 1 = errors+messages 2 = msg only
@@ -91,15 +89,13 @@
     $mail->Port       = 587; // set the SMTP port 
     $mail->Username   = SMTP_USERNAME;
     $mail->Password   = SMTP_PASSWORD;
-    $mail->SetFrom('vendas@duriouniformes.com', 'Du Rio Uniformes');
+    $mail->SetFrom($email_from);
     $mail->AddReplyTo($email_from);
     $mail->Subject    = clean_string($email_subject);
     $mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
     $mail->CharSet = "UTF-8"; //"iso-8859-1";
     $mail->MsgHTML($email_message);
-    $mail->AddAddress($email_to, "Du Rio Uniformes");
-    $mail->addCC($email_cc, "Du Rio Uniformes");
-    $mail->addBCC($email_bcc, "Du Rio Uniformes");
+    $mail->AddAddress($email_to, "deliverybairro.com");
 
     if (!$mail->send()) {
       echo "Desculpe, ocorreu um erro ao enviar seu e-mail. Por favor, tente novamente mais tarde.";

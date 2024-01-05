@@ -89,6 +89,7 @@
     </a>
   </body>
   <script>
+
     function maskPhoneNumber(value) {
       if(!value) { 
         return '' 
@@ -100,9 +101,9 @@
       }
     }
 
-      function applyPhoneNumberMask(input) {
-        input.value = maskPhoneNumber(input.value)
-      }
+    function applyPhoneNumberMask(input) {
+      input.value = maskPhoneNumber(input.value)
+    }
 
     function form_WhatsApp() {
       Swal.fire({
@@ -110,35 +111,34 @@
         html:
           '<p>Por favor, informe seu Nome e Telefone</p>'+
           '<input id="swal-input1" class="swal2-input" placeholder="Nome*">' +
-          // '<input id="swal-input2" class="swal2-input" placeholder="Telefone*" oninput="applyPhoneNumberMask(this)">',
-          '<input id="swal-input2" class="swal2-input" placeholder="Telefone*" oninput="this.value=this.value.replace(/[^0-9]/g,\'\')">',
+          '<input id="swal-input2" class="swal2-input" placeholder="Telefone*" oninput="applyPhoneNumberMask(this)">',
+       // '<input id="swal-input2" class="swal2-input" placeholder="Telefone*" oninput="this.value=this.value.replace(/[^0-9]/g,\'\')">',
           showCancelButton: true,
           confirmButtonText: 'CONTINUAR',
           cancelButtonText: 'CANCELAR',
           focusConfirm: false,
         preConfirm: () => {
-          const Full_Name = Swal.getPopup().querySelector('#swal-input1').value
-          const Telephone_Number = Swal.getPopup().querySelector('#swal-input2').value
-          if (!Full_Name || !Telephone_Number) {
+          const Full_Name = Swal.getPopup().querySelector('#swal-input1').value;
+          const Telephone_Number = Swal.getPopup().querySelector('#swal-input2').value;
+          const AntiSpam = 21;
+          if (!Full_Name || !Telephone_Number || !AntiSpam) {
               Swal.showValidationMessage(`Por favor, preencha o Nome e Telefone!`)
           }
-          return { nome: Full_Name, telefone: Telephone_Number}
+          return { nome: Full_Name, telefone: Telephone_Number, antispam: AntiSpam}
         }
       }).then((result) => {
         if (result.isConfirmed) {
-          const nome = result.value.nome
-          const telefone = result.value.telefone
-          const email='psi.software.adm@gmail.com'
-          const AntiSpam = "21";
+          const nome = result.value.nome;
+          const telefone = result.value.telefone;
+          const antispam = 21;
           const xhr = new XMLHttpRequest();
-          const url = 'mail/send_whatsapp.php';
-          const params = `Full_Name=${nome}&Telephone_Number=${telefone}&Email_Address=${email}&AntiSpam=${AntiSpam}`;
-          // const params = `Full_Name=${nome}&Telephone_Number=${telefone}&AntiSpam=${AntiSpam}`;
+          const url = './src/mail/send_whatsapp.php';
+          const params = `Full_Name=${nome}&Telephone_Number=${telefone}&AntiSpam=${antispam}`;
           xhr.open('POST', url, true);
           xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
           xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-              window.open(`https://api.whatsapp.com/send?phone=5531984107540&text=Olá,+meu+nome+é+${nome}+e+meu+telefone+é+${telefone}+,+gostaria+de+fazer+uma+assinatura.+(clique+aqui+p/+enviar)+👉`)
+              window.open(`https://api.whatsapp.com/send?phone=5531984107540&text=Olá,+meu+nome+é+${nome},+e+eu+gostaria+de+fazer+uma+assinatura.+(clique+aqui+p/+enviar)+👉`)
             }
           };
           xhr.send(params);

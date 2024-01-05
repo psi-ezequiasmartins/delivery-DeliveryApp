@@ -36,7 +36,7 @@ if(!is_null($captcha)){
 
 if(isset($_POST['Email_Address'])) {
 
-	include 'setup_mail.php';
+	include 'setup.php';
 
 	function died($error) {
 		echo "Sorry, but there were error(s) found with the form you submitted. ";
@@ -50,13 +50,7 @@ if(isset($_POST['Email_Address'])) {
 		!isset($_POST['Full_Name']) ||
 		!isset($_POST['Email_Address']) ||
 		!isset($_POST['Telephone_Number']) ||
-		!isset($_POST['Product_ID']) ||
-		!isset($_POST['Item']) ||
-		!isset($_POST['Detalhe']) ||
-		!isset($_POST['Cor']) ||
-		!isset($_POST['Tamanho']) ||
-		!isset($_POST['Quantidade']) ||
-		!isset($_POST['Obs']) || 
+		!isset($_POST['Your_Message']) || 
 		!isset($_POST['AntiSpam']) 
 		) {
 		died('Sorry, there appears to be a problem with your form submission.');		
@@ -65,13 +59,7 @@ if(isset($_POST['Email_Address'])) {
 	$full_name 			= $_POST['Full_Name'];  //required 
 	$email_from 		= $_POST['Email_Address']; // required
 	$telephone 			= $_POST['Telephone_Number']; // required
-	$product_id			= $_POST['Product_ID'];
-	$item						= $_POST['Item'];
-	$detalhe				= $_POST['Detalhe'];
-	$cor						= $_POST['Cor'];
-	$tamanho				= $_POST['Tamanho'];
-	$qtd						= $_POST['Quantidade'];
-	$your_msg 			= $_POST['Obs'];
+	$your_msg 			= $_POST['Your_Message']; // required
 	$antispam 			= $_POST['AntiSpam']; // required
 	$email_subject 	= $_POST['Email_Subject']; // required 
 	$error_message 	= "";
@@ -83,6 +71,9 @@ if(isset($_POST['Email_Address'])) {
   if(preg_match($email_exp, $email_from)==0) {
   	$error_message .= 'The Email Address you entered does not appear to be valid.<br />';
   }
+  if(strlen($your_msg) < 2) {
+  	$error_message .= 'The Comments you entered do not appear to be valid.<br />';
+  } 
   if($antispam <> $antispam_answer) {
 	$error_message .= 'The Anti-Spam answer you entered is not correct.<br />';
   }
@@ -100,14 +91,9 @@ if(isset($_POST['Email_Address'])) {
 
 	$email_message .= "Nome: ".clean_string($full_name).$LN;
 	$email_message .= "Email: ".clean_string($email_from).$LN;
-	$email_message .= "Telefone: ".clean_string($telephone).$LN;
-	$email_message .= "Produto: ".clean_string($product_id).$LN;
-	$email_message .= "Item: ".clean_string($item).$LN;
-	$email_message .= "Detalhe: ".clean_string($detalhe).$LN;
-	$email_message .= "Cor: ".clean_string($cor).$LN;
-	$email_message .= "Tamanho: ".clean_string($tamanho).$LN;
-	$email_message .= "Quantidade: ".clean_string($qtd).$LN;
-	$email_message .= "Obs: ".$LN.clean_string($your_msg).$LN;
+	$email_message .= "Telefone: ".clean_string($telephone).$LN.$LN;
+	$email_message .= "Mensagem: ".$LN.clean_string($your_msg).$LN;
+
 
 require_once('class.phpmailer.php'); 
 // include("class.smtp.php");  // optional, gets called from within classe.phpmailer.php if not already loaded
@@ -122,7 +108,6 @@ $mail->SMTPSecure = "tls"; // sets the prefix to the servier
 $mail->Port       = 587; // set the SMTP port 
 $mail->Username   = "vendas@duriouniformes.com";  // username
 $mail->Password   = "e2m$=*JCVLv."; // password
-
 $mail->SetFrom('vendas@duriouniformes.com', 'Du Rio Uniformes');
 $mail->AddReplyTo($email_from);
 $mail->Subject    = clean_string($email_subject);
@@ -136,7 +121,7 @@ $mail->addBCC($email_bcc, "Du Rio Uniformes");
 if (!$mail->send()) {
 	echo 'Mailer Error: ' . $mail->ErrorInfo;
 } else {
-	// echo 'Pedido enviado com sucesso!.';
+	// echo 'Mensagem enviada com sucesso!.';
 ?>
 	<script>location.replace('<?php echo $thankyou;?>')</script>
 <?php
