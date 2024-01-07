@@ -2564,6 +2564,11 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
+"@sweetalert2/theme-borderless@^5.0.15":
+  version "5.0.15"
+  resolved "https://registry.yarnpkg.com/@sweetalert2/theme-borderless/-/theme-borderless-5.0.15.tgz#1d4da3c2ac61ca39aa8ed6920b9e2bf40213ddd1"
+  integrity sha512-b/aXo629ewNomMSdHaEC5TZgHCWW2blGhU5FhNRWyr6gEONeASvY3rW/8Wwr/fzdF76+hLC7Emgd43m7mP5GVQ==
+
 "@testing-library/dom@^8.5.0":
   version "8.20.1"
   resolved "https://registry.npmjs.org/@testing-library/dom/-/dom-8.20.1.tgz"
@@ -9873,10 +9878,10 @@ svgo@^2.7.0:
     picocolors "^1.0.0"
     stable "^0.1.8"
 
-sweetalert2@^11.7.16:
-  version "11.7.16"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.7.16.tgz#e78f78325fcefd16498e6328c574f3d4446e505c"
-  integrity sha512-vxqVcA358RWdK/XOG1gFtOzT7qBH186Ry4gnW0Xtrx7vIo1mpnR8hG8MxQms4gz3JPbYQ6UIgZn0+hTK7in3Jw==
+sweetalert2@^11.10.2:
+  version "11.10.2"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.10.2.tgz#084fba88028e7ab5667ceed00e4201dda7d25294"
+  integrity sha512-BYlIxGw6OF9Rw2z1wlnh1U+fvHHkvtg4BGyimV9nZxQRGvCBfx9uonxgwuYpJuYqCtM+2W1KOm8iMIEb/2v7Hg==
 
 symbol-tree@^3.2.4:
   version "3.2.4"

@@ -11,8 +11,12 @@
     <link rel="stylesheet" href="@sweetalert2/theme-borderless/borderless.css">
     <title>DeliveryBairro.com | index</title>
     <script src="https://kit.fontawesome.com/939a7fadb5.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="//code.jivosite.com/widget/sZlf9WnJ4q" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="sweetalert2/dist/sweetalert2.min.js"></script>
+    <script>
+      import Swal from 'sweetalert2/dist/sweetalert2.js';
+    </script>
     <style>
       /*botão flutuante WhasApp*/
       :root {
@@ -76,6 +80,7 @@
       }
     </style>
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
@@ -90,7 +95,6 @@
     </a>
   </body>
   <script>
-
     function maskPhoneNumber(value) {
       if(!value) { 
         return '' 
@@ -106,19 +110,17 @@
       input.value = maskPhoneNumber(input.value)
     }
 
-    async function form_WhatsApp() {
-      // value: formValues;
-      await Swal.fire({
-        title: 'Contato via WhatsApp',
-        html:
-          '<p>Por favor, informe seu Nome e Telefone</p>'+
-          '<input id="swal-input1" class="swal2-input" placeholder="Nome e Sobrenome*">' +
-          '<input id="swal-input2" class="swal2-input" placeholder="Tel* (XX) 99999-9999" oninput="applyPhoneNumberMask(this)">',
-       // '<input id="swal-input2" class="swal2-input" placeholder="Telefone*" oninput="this.value=this.value.replace(/[^0-9]/g,\'\')">',
-          showCancelButton: true,
-          confirmButtonText: 'CONTINUAR',
-          cancelButtonText: 'CANCELAR',
-          focusConfirm: false,
+    function form_WhatsApp() {
+      const {value: formValues} = Swal.fire({
+      title: 'Contato via WhatsApp',
+      html:
+        '<p>Por favor, informe seu Nome e Telefone</p>'+
+        '<input id="swal-input1" class="swal2-input" placeholder="Nome e Sobrenome*">' +
+        '<input id="swal-input2" class="swal2-input" placeholder="Tel* (XX) 99999-9999" oninput="applyPhoneNumberMask(this)">',
+        showCancelButton: true,
+        confirmButtonText: 'CONTINUAR',
+        cancelButtonText: 'CANCELAR',
+        focusConfirm: false,
         preConfirm: () => {
           const Full_Name = Swal.getPopup().querySelector('#swal-input1').value;
           const Telephone_Number = Swal.getPopup().querySelector('#swal-input2').value;
@@ -149,5 +151,6 @@
         }
       })
     }
+
   </script>
 </html>
