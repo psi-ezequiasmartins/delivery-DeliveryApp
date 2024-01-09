@@ -73,7 +73,7 @@
           const nome = result.value.nome;
           const telefone = result.value.telefone;
           // Enviando os dados para o servidor Node.js
-          const response = await fetch('http://localhost:3333/send-message', {
+          const response = await fetch('https://srv.deliverybairro.com/send-message', {
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -84,8 +84,8 @@
           });
           if (response.ok) {
             // Redirecione para a API do WhatsApp
-            // window.location.href = `https://api.whatsapp.com/send?phone=5531984107540&text=Olá,+meu+nome+é+${nome},+eu+gostaria+de+fazer+uma+assinatura.+(clique+aqui+p/+enviar)+👉`;
-            window.open(`https://api.whatsapp.com/send?phone=5531984107540&text=Olá,+meu+nome+é+${nome},+eu+gostaria+de+fazer+uma+assinatura.+(clique+aqui+p/+enviar)+👉`, _blank);
+            window.location.href = `https://api.whatsapp.com/send?phone=5531984107540&text=Olá,+meu+nome+é+${nome},+eu+gostaria+de+fazer+uma+assinatura.+(clique+aqui+p/+enviar)+👉`;
+            // window.open(`https://api.whatsapp.com/send?phone=5531984107540&text=Olá,+meu+nome+é+${nome},+eu+gostaria+de+fazer+uma+assinatura.+(clique+aqui+p/+enviar)+👉`, _blank);
           }
         } else if (formValues) {
           Swal.fire(JSON.stringify(formValues));
