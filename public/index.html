@@ -76,6 +76,8 @@
           const response = await fetch('http://localhost:3333/send-message', {
             method: 'POST',
             headers: {
+              Accept: 'application/json',
+              'Accept-encoding': 'gzip, deflate',
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({ nome, telefone }),
@@ -85,7 +87,6 @@
             // window.location.href = `https://api.whatsapp.com/send?phone=5531984107540&text=Olá,+meu+nome+é+${nome},+eu+gostaria+de+fazer+uma+assinatura.+(clique+aqui+p/+enviar)+👉`;
             window.open(`https://api.whatsapp.com/send?phone=5531984107540&text=Olá,+meu+nome+é+${nome},+eu+gostaria+de+fazer+uma+assinatura.+(clique+aqui+p/+enviar)+👉`, _blank);
           }
-
         } else if (formValues) {
           Swal.fire(JSON.stringify(formValues));
         }
