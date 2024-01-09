@@ -128,6 +128,81 @@ padding: 10% 10%;
   color: white;
 }
 
+/* SweetAlert2 */
+.swal2-container, .swal2-input, .swal2-file, .swal2-textarea {
+  box-sizing: border-box;
+  width: auto;
+  transition: border-color .1s,box-shadow .1s;
+  border: 1px solid #333;
+  border-radius: .1875em;
+  background: rgba(0,0,0,3);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0, 0, 0, 0); 
+  color: #FFF;
+  font-size: 1.125em;
+}
+
+/*botão flutuante WhasApp*/
+:root {
+  --icon-color: #fff;
+  --icon-hover: #000;
+  --background-color: #00c800;
+  --background-hover: #009600
+}
+.icon {
+  width: 50px;
+  height: 50px;
+  transform: scale(0.7) translate(25%, 25%);
+  fill: var(--icon-color)
+}
+.float {
+  position: fixed;
+  cursor: pointer;
+  width: 65px;
+  height: 65px;
+  right: 110px;
+  bottom: 20px;
+  transition: 1s;
+  background-color: var(--background-color);
+  border-radius: 50px;
+  animation: pulse 3s infinite;
+  -webkit-animation: pulse 3s infinite;
+  -moz-animation: pulse 3s infinite;
+  -o-animation: pulse 3s infinite;
+  z-index: 99999
+}
+.float:hover {
+  background-color: var(--background-hover)
+}
+.float:hover .icon {
+  fill: var(--icon-hover)
+}
+@-webkit-keyframes pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-o-keyframes pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-ms-keyframes pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-moz-keyframes pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@keyframes pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+
+
 /*
 .titulo {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
