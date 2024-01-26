@@ -1,73 +1,69 @@
-/* SweetAlert2 */
-.swal2-container, .swal2-input, .swal2-file, .swal2-textarea {
-  box-sizing: border-box;
-  width: auto;
-  transition: border-color .1s,box-shadow .1s;
-  border: 1px solid #333;
-  border-radius: .1875em;
-  background: rgba(0,0,0,3);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0, 0, 0, 0); 
-  color: #FFF;
-  font-size: 1.125em;
+:root {
+  --telegram-icon-color: #fff;
+  --telegram-icon-hover: #fff;
+  --telegram-background-color: #0060ff;
+  --telegram-background-hover: #0044b3;
 }
 
-/*botão flutuante WhasApp*/
-:root {
-  --icon-color: #fff;
-  --icon-hover: #000;
-  --background-color: #00c800;
-  --background-hover: #009600
+/* SweetAlert2 */
+.swal2-container, .swal2-input, .swal2-file, .swal2-textarea {
+box-sizing: border-box;
+width: auto;
+transition: border-color .1s,box-shadow .1s;
+border: 1px solid #333;
+border-radius: .1875em;
+background: rgba(0,0,0,3);
+box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0, 0, 0, 0);
+color: #FFF;
+font-size: 1.125em;
 }
-.icon {
-  width: 50px;
-  height: 50px;
-  transform: scale(0.7) translate(25%, 25%);
-  fill: var(--icon-color)
+
+/*botão flutuante Telegram*/
+.telegram-icon {
+  width: 48px;
+  height: 48px;
+  transform: scale(0.6) translate(15%, 28%);
+  fill: var(--telegram-icon-color)
 }
-.float {
+.telegram-float {
   position: fixed;
   cursor: pointer;
-  width: 65px;
-  height: 65px;
+  width: 60px;
+  height: 60px;
   right: 110px;
   bottom: 20px;
   transition: 1s;
-  background-color: var(--background-color);
+  background-color: var(--telegram-background-color);
   border-radius: 50px;
-  animation: pulse 3s infinite;
-  -webkit-animation: pulse 3s infinite;
-  -moz-animation: pulse 3s infinite;
-  -o-animation: pulse 3s infinite;
-  z-index: 99999
+  animation: t-pulse 3s infinite;
+  -webkit-animation: t-pulse 3s infinite;
+  -moz-animation: t-pulse 3s infinite;
+  -o-animation: t-pulse 3s infinite;
+  z-index: 9000
 }
-.float:hover {
-  background-color: var(--background-hover)
+.telegram-float:hover {
+  background-color: var(--telegram-background-hover)
 }
-.float:hover .icon {
-  fill: var(--icon-hover)
+.telegram-float:hover .telegram-icon {
+  fill: var(--telegram-icon-hover)
 }
-@-webkit-keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+@keyframes t-pulse {
+  0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
+  70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
+  100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
 }
-@-o-keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+@-webkit-keyframes t-pulse {
+  0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
+  70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
+  100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
 }
-@-ms-keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+@-moz-keyframes t-pulse {
+  0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
+  70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
+  100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
 }
-@-moz-keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
-}
-@keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+@-o-keyframes t-pulse {
+  0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
+  70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
+  100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
 }
