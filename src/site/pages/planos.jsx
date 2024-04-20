@@ -111,7 +111,7 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 49,90</h2>  
-                  <p>Até 10 produtos</p>
+                  <p>Até 20 produtos</p>
                   <p>Suporte Offline (via e-mail)+<br/>Documentação Online</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
@@ -124,9 +124,9 @@ function Planos() {
                   <h1>Pro</h1>
                 </div>
                 <div className="card-body">
-                  <h2>R$ 179,90</h2>  
+                  <h2>R$ 79,90</h2>  
                   <p>Até 30 produtos</p>
-                  <p>Suporte Online (videoconferência)+<br/>Publicidade no Google Ads*</p>
+                  <p>Suporte Online (videoconferência)+<br/></p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
@@ -138,9 +138,9 @@ function Planos() {
                   <h1>Premium</h1>
                 </div>
                 <div className="card-body">
-                  <h2>R$ 375,00</h2>  
+                  <h2>R$ 179,90</h2>  
                   <p>Até 50 produtos</p>
-                  <p>Suporte Online (acesso remoto)+<br/>Public. Google Ads + Vídeo *</p>
+                  <p>Suporte Online (acesso remoto e por videoconferência)+<br/>Public. Google Ads*</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
