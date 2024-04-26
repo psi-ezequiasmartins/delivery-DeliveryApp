@@ -174,7 +174,8 @@ function Planos() {
                       <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="delivery" />
                     </div>
 
-                    <div className="row">
+                    <div className="row mb-2">
+
                       <div className="col-8">
                         <label htmlFor="plano" className="form-label">Plano</label>
                         <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano"> 
@@ -185,6 +186,7 @@ function Planos() {
                         <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
                         <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
                       </div>
+
                       <div className="col-4">
                         <label htmlFor="categoria" className="form-label">Categoria</label>
                         <select onChange={e => setCategoria(e.target.value)} className="form-select" id="categoria"> 
@@ -209,7 +211,7 @@ function Planos() {
                       <input onChange={e => setResponsavel(e.target.value)} type="text" className="form-control" id="responsavel" />
                     </div>
 
-                    <div className="row">
+                    <div className="row mb-2">
                       <div className="col-8">
                         <label htmlFor="email" className="form-label">E-mail<font color="#FF0000">*</font></label>
                         <input onChange={e => setEmail(e.target.value)} type="email" className="form-control" id="email" />
@@ -251,7 +253,7 @@ function Planos() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
-                <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={Cadastrar}>ENVIAR CADASTRO</button>
+                <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={Cadastrar}>ENVIAR PRÉ-CADASTRO</button>
               </div>
             </div>
           </div>
