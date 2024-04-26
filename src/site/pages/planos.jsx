@@ -178,9 +178,9 @@ function Planos() {
                       <div className="col-8">
                         <label htmlFor="plano" className="form-label">Plano</label>
                         <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano"> 
-                          <option value="BASIC">PLANO BASIC   (até 10 Produtos)</option>
-                          <option value="PRO">PLANO PRO     (até 30 Produtos)</option>
-                          <option value="PREMIUM">PLANO PREMIUM (até 50 Produtos)</option>
+                          <option value="BASIC">Plano Basic (até 20 Produtos)</option>
+                          <option value="PRO">Plano Pro (até 30 Produtos)</option>
+                          <option value="PREMIUM">Plano Premium (até 50 Produtos)</option>
                         </select>
                         <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
                         <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
