@@ -110,9 +110,9 @@ function Planos() {
                   <h1>Basic</h1>
                 </div>
                 <div className="card-body">
-                  <h2>R$ 49,90</h2>  
-                  <p>Até 20 produtos</p>
-                  <p>Suporte Offline (via e-mail)+<br/>Documentação Online</p>
+                  <h2>R$ 0,00</h2>  
+                  <p>Até 10 produtos</p>
+                  <p>Gratuito p/ degustação<br/>Consulte-nos!</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
@@ -152,7 +152,7 @@ function Planos() {
         <div className="row text-center">
           <div className="titulo">
             <h3>(*) Google Ads</h3>
-            <p>Promova o seu Delivery em sua região através do nosso Markting Digital c/ Google Ads.<br/>** Cardápio Online + outros planos e informações, por favor entre em contato conosco.</p>
+            <p>Promova o seu Delivery em sua região através do nosso Markting Digital c/ Google Ads.<br/>Outros planos e recursos, por favor entre em contato conosco.</p>
           </div>
         </div>
 

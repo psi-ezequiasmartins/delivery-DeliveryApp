@@ -7,7 +7,8 @@ function Destaques() {
           <div className="row">
           	<center>
               <h1>Aplicação Web (100% online)</h1>
-              <h3>Gestão Pedidos, Cadastro de Produtos (Cardápio Digital), etc. Tudo em um único lugar!</h3>
+              <h3>Gestão Pedidos, Cadastro de Produtos, Cardápio Digital, etc.<br/>
+              Tudo o que vc precisa em um único lugar!</h3>
             </center>
             <div className="col-lg-4 box">
               <i className="icon fas fa-heart fa-4x vermelho"></i>
