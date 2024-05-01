@@ -98,7 +98,7 @@ function Planos() {
           <div className="row text-center">
             <div className="titulo">
               <h1>Planos e Preços</h1>
-              <p>Escolha o plano sob medida, a partir de R$ 49,90 /mês.</p>
+              <p>Planos pagos a partir de R$ 79,90 /mês, escolha o seu plano:</p>
             </div>
           </div>
 
@@ -112,7 +112,7 @@ function Planos() {
                 <div className="card-body">
                   <h2>R$ 0,00</h2>  
                   <p>Até 10 produtos</p>
-                  <p>Gratuito p/ degustação<br/>Consulte-nos!</p>
+                  <p>Faça parte do nosso catálogo<br/>Cadastre-se grátis!</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>

@@ -13,8 +13,9 @@ function Banner() {
               <div className="bloco">
                 <h1>Simples e fácil de usar!</h1>
                 <p></p>
-                <h4>Gestão de Pedidos e Cardápio Digital para<br/>Bares, Restaurantes, Pizzarias, Sushis, Fast-foods,<br/> Deliveries em Geral. Tudo em um único lugar! Cadastre hoje mesmo o seu Delivery<br/>e receba uma demonstração completa e gratuita<br/>sem compromisso.</h4>
+                <h4>Gestão de Pedidos e Cardápio Digital para Bares, Restaurantes, Pizzarias, Sushis, Fast-foods, Deliveries em Geral. Tudo isso em um único lugar!</h4> 
                 <p></p>
+                <h5>Cadastre hoje mesmo o seu Delivery e receba uma demonstração completa e gratuita sem compromisso.</h5>
                 <a href="#planos-e-precos" type="button" className="btn btn-primary btn-lg btn-app">Cadastre-se</a>
                 <a href="/app/login" type="button" className="btn btn-outline-light btn-lg btn-app">Fazer Login</a>
               </div>
