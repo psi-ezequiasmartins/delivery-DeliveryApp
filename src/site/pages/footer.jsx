@@ -20,6 +20,9 @@ function Footer() {
           <br/><i className="fa fa-envelope"></i> <a href="mailto:#">ezequiasmartins@gmail.com</a>
           <br/><i className="fa fa-phone"></i> +55 31 98410-7540 <i className="fa fa-whatsapp"></i>
           <br/>© 1999-{ano} PSI-SOFTWARE
+<a href="https://www.easycounter.com/">
+<img src="https://www.easycounter.com/counter.php?ezequiasmartins,index-paginainicial" border="0" alt="Free Hit Counter"/></a><br/>
+<a href="https://www.easycounter.com/">Visitas desde 30'Abril'2024</a>
         </p>
       </section>
       );
