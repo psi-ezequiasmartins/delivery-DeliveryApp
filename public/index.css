@@ -24,17 +24,17 @@ font-size: 1.125em;
 
 /*botão flutuante Telegram*/
 .telegram-icon {
-  width: 48px;
-  height: 48px;
-  transform: scale(0.6) translate(15%, 28%);
-  fill: var(--telegram-icon-color)
+  width: 50px;
+  height: 50px;
+  transform: scale(0.7) translate(20%, 30%);
+  fill: var(--whatsapp-icon-color)
 }
 .telegram-float {
   position: fixed;
   cursor: pointer;
-  width: 60px;
-  height: 60px;
-  right: 110px;
+  width: 65px;
+  height: 65px;
+  right: 100px;
   bottom: 20px;
   transition: 1s;
   background-color: var(--telegram-background-color);
