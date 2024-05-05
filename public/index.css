@@ -3,6 +3,10 @@
   --telegram-icon-hover: #fff;
   --telegram-background-color: #0060ff;
   --telegram-background-hover: #0044b3;
+  --whatsapp-icon-color: #fff;
+  --whatsapp-icon-hover: #000;
+  --whatsapp-background-color: #00c800;
+  --whatsapp-background-hover: #009600;
 }
 
 /* SweetAlert2 */
@@ -47,6 +51,7 @@ font-size: 1.125em;
 .telegram-float:hover .telegram-icon {
   fill: var(--telegram-icon-hover)
 }
+
 @keyframes t-pulse {
   0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
   70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
@@ -67,3 +72,60 @@ font-size: 1.125em;
   70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
   100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
 }
+
+/*botao flutuante WhatsApp*/
+.whatsapp-icon {
+  width: 50px;
+  height: 50px;
+  transform: scale(0.8) translate(22%, 20%);
+  fill: var(--whatsapp-icon-color)
+}
+.whatsapp-float {
+  position: fixed;
+  cursor: pointer;
+  width: 65px;
+  height: 65px;
+  right: 180px;
+  bottom: 20px;
+  transition: 1s;
+  background-color: var(--whatsapp-background-color);
+  border-radius: 50px;
+  animation: w-pulse 3s infinite;
+  -webkit-animation: w-pulse 3s infinite;
+  -moz-animation: w-pulse 3s infinite;
+  -o-animation: w-pulse 3s infinite;
+  z-index: 99999
+}
+.whatsapp-float:hover {
+  background-color: var(--whatsapp-background-hover)
+}
+.whatsapp-float:hover .whatsapp-icon {
+  fill: var(--whatsapp-icon-hover)
+}
+
+@keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-webkit-keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-o-keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-ms-keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-moz-keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+
