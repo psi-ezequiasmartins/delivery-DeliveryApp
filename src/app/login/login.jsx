@@ -53,12 +53,12 @@ export default function Login() {
           <img className="mb-4" src="/images/logo.png" alt="" />
         </a>
         <div className="form-floating">
-          <input onChange={ChangeMail} type="email" className="form-control" id="floatingInput" placeholder="E-mail"/>
           <label htmlFor="floatingInput">Email</label>
+          <input onChange={ChangeMail} type="email" className="form-control" id="floatingInput" placeholder="E-mail"/>
         </div>
         <div className="form-floating">
-          <input onChange={ChangePassword} type="password" className="form-control" id="floatingPassword" placeholder="Senha"/>
           <label htmlFor="floatingPassword">Senha</label>
+          <input onChange={ChangePassword} type="password" className="form-control" id="floatingPassword" placeholder="Senha"/>
         </div>
         <div className="form-links">
           <Link to="/app/login/reset" className="mx-3">Esqueci minha senha!</Link><br/>
