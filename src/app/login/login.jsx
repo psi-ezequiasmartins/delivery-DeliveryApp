@@ -3,6 +3,7 @@
  */
 
 import React, { useState } from 'react';
+import Loading from '../../components/loading/loading';
 import { Link, Navigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, ref, get, child } from "firebase/database";
@@ -19,7 +20,10 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [result, setResult] = useState('');
 
+  const [showLoading, setShowLoading] = useState(false);
+
   function signIn() {
+    setShowLoading(true);
     signInWithEmailAndPassword(auth, email, password).then(async(result) => {
       // SIGNED IN
       const id = result.user.uid;
@@ -28,9 +32,11 @@ export default function Login() {
         localStorage.setItem("delivery", snapshot.val().DeliveryName);
         localStorage.setItem("logged", true);
       });
+      setShowLoading(false);
       setResult('S');
     }).catch((error) => {
       console.log(error.code, error.message);
+      setShowLoading(false);
       setResult('N');
     });
   }
@@ -71,6 +77,9 @@ export default function Login() {
 
         <p>&copy; 1999-{ano} PSI-SOFTWARE</p>
       </form>
+
+      {showLoading && <Loading />}
+
     </div>
   )
 }
