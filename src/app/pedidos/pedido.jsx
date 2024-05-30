@@ -78,7 +78,7 @@ export default function Pedido(props) {
         <small className='d-block mt-1 text-secondary'>{props.TokenSMS}</small>
         {props.itens.map((item) => (
           <div className='d-inline-block align-items-start' key={item.ItemID}>
-            <div className='text-left me-4 mt-2 card'>
+            <div className='text-left me-4 mt-2 card-pedido'>
               <img src={item.UrlImagem} className='foto-item' alt='' />
               <small className='d-block text-dark'><b>({item.Qtd}x) {item.Produto}</b></small>
               {item.Acrescimos && (

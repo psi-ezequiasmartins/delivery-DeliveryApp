@@ -17,10 +17,18 @@
   cursor: pointer;
 }
 
-.card {
+.card-pedido {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 200px;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px;
+  border-radius: .25rem;
   padding: 15px;
-  min-height: 200px; /* Defina a altura mínima desejada */
-  border-color: #FFF;
 }
 
 .acrescimos ul {

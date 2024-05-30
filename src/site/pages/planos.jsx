@@ -1,11 +1,6 @@
-/**
- * Planos de Assinatura
- */
-
 import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { Navigate } from 'react-router-dom';
-import './planos.css';
 
 import api from '../../config/mysql';
 
@@ -93,14 +88,14 @@ function Planos() {
 
     return (
       <section id="planos-e-precos">
-        <div className="container">
-
           <div className="row text-center">
             <div className="titulo">
               <h1>Planos e Preços</h1>
               <p>Planos pagos a partir de R$ 79,90 /mês, escolha o seu plano:</p>
             </div>
           </div>
+
+        <div className="container">
 
           <div className="row text-center">
 
