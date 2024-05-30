@@ -102,12 +102,12 @@ function Planos() {
             <div className="col-lg-4">
               <div className="card">
                 <div className="card-header">
-                  <h1>Basic</h1>
+                  <h1>Free</h1>
                 </div>
                 <div className="card-body">
                   <h2>R$ 0,00</h2>  
-                  <p>Até 10 produtos</p>
-                  <p>Faça parte do nosso catálogo<br/>Cadastre-se grátis!</p>
+                  <p>Até 07 produtos</p>
+                  <p>Faça parte do nosso catálogo + <br/>Cadastre-se grátis!</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
@@ -121,7 +121,7 @@ function Planos() {
                 <div className="card-body">
                   <h2>R$ 79,90</h2>  
                   <p>Até 30 produtos</p>
-                  <p>Suporte Online (por videoconferência) + Cardápio Online**</p>
+                  <p>Suporte por videoconferência + <br/>Cardápio Online</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
@@ -135,7 +135,7 @@ function Planos() {
                 <div className="card-body">
                   <h2>R$ 179,90</h2>  
                   <p>Até 50 produtos</p>
-                  <p>Suporte Online (por videoconferência) + Cardápio Online + Google Ads**</p>
+                  <p>Suporte por videoconferência + Cardápio Online + Google Ads*</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
@@ -172,15 +172,15 @@ function Planos() {
                       <div className="col-8">
                         <label htmlFor="plano" className="form-label">Plano</label>
                         <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano"> 
-                          <option value="BASIC">Plano Basic (até 20 Produtos)</option>
-                          <option value="PRO">Plano Pro (até 30 Produtos)</option>
-                          <option value="PREMIUM">Plano Premium (até 50 Produtos)</option>
+                          <option value="FREE">Plano Free (assine grátis até 7 produtos, incluindo bebidas )</option>
+                          <option value="PRO">Plano Pro (até 30 produtos, incluindo bebidas)</option>
+                          <option value="PREMIUM">Plano Premium (até 50 produtos, incluindo bebidas)</option>
                         </select>
                         <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
                         <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
                       </div>
                       <div className="col-4">
-                        <label htmlFor="categoria" className="form-label">Categoria</label>
+                        <label htmlFor="categoria" className="form-label">Categoria do Delivery</label>
                         <select onChange={e => setCategoria(e.target.value)} className="form-select" id="categoria"> 
                           <option value="101">OFERTAS</option>
                           <option value="102">SANDUICHES</option>
@@ -212,7 +212,7 @@ function Planos() {
                       </div>
                     </div>
                     <div className="mb-2">
-                      <label htmlFor="horario" className="form-label">Horário</label>
+                      <label htmlFor="horario" className="form-label">Horário de Funcionamento</label>
                       <input onChange={e => setHorario(e.target.value)} type="text" className="form-control" id="horario" />
                     </div>
                     <input onChange={e => setMinDeliverTime(e.target.value)} type="hidden" id="mindeliverytime" name="mindeliverytime" value="15"/>
@@ -220,7 +220,7 @@ function Planos() {
                     <input onChange={e => setRating(e.target.value)} type="hidden" id="rating" name="rating" value="4.9"/>
                     <input onChange={e => setTaxaEntrega(e.target.value)} type="hidden" id="taxaentrega" name="taxaentrega" value="5" />
                     <div className="mb-2">
-                      <label htmlFor="endereco" className="form-label">Endereço</label>
+                      <label htmlFor="endereco" className="form-label">Endereço completo</label>
                       <input onChange={e => setEndereco(e.target.value)} type="text" className="form-control" id="endereco" />
                       <input onChange={e => setLatitude(e.target.value)} type="hidden" id="latitude" name="latitude" value="-19.999999"/>
                       <input onChange={e => setLongitude(e.target.value)} type="hidden" id="longitude" name="longitude" value="-43.999999"/>
