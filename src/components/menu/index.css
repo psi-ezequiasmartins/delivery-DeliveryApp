@@ -1,7 +1,39 @@
+/* src/components/menu/index.css */
+
 #menu {
   background-color: #000;
   color: white;
-  padding: 10px 10px 10px 10px;
+  padding: 5px 5px 5px 5px;
   height: 100%;
   max-height: 100%;
+}
+
+.img-logo {
+  width: 180px;
+}
+
+.fs-4 {
+  font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  #menu {
+    padding: 5px;
+  }
+
+  .img-logo {
+    width: 80px;
+  }
+
+  .fs-4 {
+    font-size: 1rem;
+  }
+
+  .menu-title {
+    display: none;
+  }
+
+  .menu-title-small {
+    display: block;
+  }
 }

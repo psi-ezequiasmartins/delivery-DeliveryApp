@@ -1,3 +1,5 @@
+/* src/app/pedidos/pedido.css */
+
 .pedido {
   background-color: #FFF;
   min-height: 100px;
@@ -6,28 +8,35 @@
   border: 1px solid rgb(87, 86, 86);
   padding: 15px;
 }
+
 .foto-item {
   max-width: 60px;
 }
+
 .pedido a {
   cursor: pointer;
 }
+
 .card {
   padding: 15px;
   min-height: 200px; /* Defina a altura mínima desejada */
   border-color: #FFF;
 }
+
 .acrescimos ul {
   min-height: 100px;
 }
+
 .obs {
   min-height: 50px; /* Defina a altura mínima desejada */
 }
+
 .bg-warning {
   color: #000;
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-warning-rgb),var(--bs-bg-opacity))!important;
+  background-color: rgba(var(--bs-warning-rgb), var(--bs-bg-opacity)) !important;
 }
+
 .dropdown-menu {
   --bs-dropdown-zindex: 1000;
   --bs-dropdown-min-width: 10rem;
@@ -70,6 +79,7 @@
   border: var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
   border-radius: var(--bs-dropdown-border-radius);
 }
+
 .dropdown-item {
   display: block;
   width: 100%;
@@ -82,5 +92,5 @@
   white-space: nowrap;
   background-color: transparent;
   border: 0;
-  border-radius: var(--bs-dropdown-item-border-radius,0);
+  border-radius: var(--bs-dropdown-item-border-radius, 0);
 }
