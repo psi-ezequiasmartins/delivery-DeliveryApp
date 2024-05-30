@@ -155,22 +155,20 @@ function Planos() {
         <div className="modal fade" id="md_assinatura" aria-hidden="true" aria-labelledby="titulo_modal" tabIndex="-1">
           <div className="modal-dialog modal-lg modal-dialog">
             <div className="modal-content">
+
               <div className="modal-header">
                 <h5 className="modal-title" id="titulo_modal">ASSINATURA (PRÉ-CADASTRO PARA NOVOS DELIVERIES)</h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div className="modal-body">
 
+              <div className="modal-body">
                 <form>
                   <div className="row">
-
                     <div className="mb-2">
                       <label htmlFor="nome" className="form-label">Nome do Delivery<font color="#FF0000">*</font></label>
                       <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="delivery" />
                     </div>
-
                     <div className="row mb-2">
-
                       <div className="col-8">
                         <label htmlFor="plano" className="form-label">Plano</label>
                         <select onChange={e => setPlanoAssinatura(e.target.value)} className="form-select" id="plano"> 
@@ -181,7 +179,6 @@ function Planos() {
                         <input onChange={e => setSituacao(e.target.value)} type="hidden" id="status" name="status" value="ATIVO"/>
                         <input onChange={e => setUrlImagem(e.target.value)} type="hidden" id="urlimagem" name="urlimagem" value=""/>
                       </div>
-
                       <div className="col-4">
                         <label htmlFor="categoria" className="form-label">Categoria</label>
                         <select onChange={e => setCategoria(e.target.value)} className="form-select" id="categoria"> 
@@ -200,12 +197,10 @@ function Planos() {
                         </select>
                       </div>
                     </div>
-
                     <div className="mb-2">
                       <label htmlFor="responsavel" className="form-label">Responsável<font color="#FF0000">*</font></label>
                       <input onChange={e => setResponsavel(e.target.value)} type="text" className="form-control" id="responsavel" />
                     </div>
-
                     <div className="row mb-2">
                       <div className="col-8">
                         <label htmlFor="email" className="form-label">E-mail<font color="#FF0000">*</font></label>
@@ -216,40 +211,35 @@ function Planos() {
                         <input onChange={e => setTelefone(e.target.value)} type="text" className="form-control" id="telefone" />
                       </div>
                     </div>
-
                     <div className="mb-2">
                       <label htmlFor="horario" className="form-label">Horário</label>
                       <input onChange={e => setHorario(e.target.value)} type="text" className="form-control" id="horario" />
                     </div>
-
                     <input onChange={e => setMinDeliverTime(e.target.value)} type="hidden" id="mindeliverytime" name="mindeliverytime" value="15"/>
                     <input onChange={e => setMaxDeliverTime(e.target.value)} type="hidden" id="maxdeliverytime" name="maxdeliverytime" value="45"/>
                     <input onChange={e => setRating(e.target.value)} type="hidden" id="rating" name="rating" value="4.9"/>
                     <input onChange={e => setTaxaEntrega(e.target.value)} type="hidden" id="taxaentrega" name="taxaentrega" value="5" />
-
                     <div className="mb-2">
                       <label htmlFor="endereco" className="form-label">Endereço</label>
-
                       <input onChange={e => setEndereco(e.target.value)} type="text" className="form-control" id="endereco" />
                       <input onChange={e => setLatitude(e.target.value)} type="hidden" id="latitude" name="latitude" value="-19.999999"/>
                       <input onChange={e => setLongitude(e.target.value)} type="hidden" id="longitude" name="longitude" value="-43.999999"/>
                     </div>
-
                     <div className="mb-2">
                       <p>(*) Campos obrigatórios! Após o envio, você receberá em seu e-mail instruções para concluirmos a sua assinatura e criar o seu login de acesso.</p>
                     </div>
-
                     <input onChange={e => setTokenADM(e.target.value)} type="hidden" id="token" name="token" value=""/>
                   </div>
                   {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
                   {success === 'S' ? <Navigate to="/app/login/novo" replace={true} /> : null}
                 </form>
-
               </div>
+
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">CANCELAR</button>
                 <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={Cadastrar}>ENVIAR PRÉ-CADASTRO</button>
               </div>
+
             </div>
           </div>
         </div>
