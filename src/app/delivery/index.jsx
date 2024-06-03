@@ -125,9 +125,9 @@ function Delivery() {
                   <label htmlFor="plano" className="form-label">Plano*</label>
                   {/* <input type="text" className="form-control" id="planodeassinatura" value={planodeassinatura} readOnly />  */}
                   <select value={planoassinatura} className="form-select" id="plano" readOnly> 
-                    <option value="BASIC">Plano BASIC (até 10 Produtos, Suporte Offline via e-mail + Documentação Online) R$ 49,90/mês</option>
-                    <option value="PRO">Plano PRO (até 30 Produtos, Suporte Online via Videoconferência + Google Ads) R$ 179,90/mês</option>
-                    <option value="PREMIUM">Plano PREMIUM (até 50 Produtos - Suporte Online via Acesso Remoto + Google Ads + Vídeo) R$ 375,00/mês</option>
+                    <option value="BASIC">Plano Free | Até 7 produtos, Suporte Offline (via e-mail): R$ 0,00</option>
+                    <option value="PRO">Plano Pro | Até 30 produtos, Suporte Online (videoconferência) + Cardápio Online: R$ 79,90/mês</option>
+                    <option value="PREMIUM">Plano Premium | Até 50 Produtos, Suporte Online (videoconferência) + Cardápio Online + Google Ads + Vídeo: R$ 179,90/mês</option>
                   </select>
                   <input onChange={e => setSituacao(e.target.value)} value={situacao} type="hidden" id="status" name="status" />
                   <input onChange={e => setUrlImagem(e.target.value)} value={urlimagem} type="hidden" id="urlimagem" name="urlimagem" />
@@ -137,17 +137,17 @@ function Delivery() {
                   <label htmlFor="categoria" className="form-label">Categoria*</label>
                   {/* <input type="text" className="form-control" id="categoria" value={categoria} readOnly />  */}
                   <select value={categoria} className="form-select" id="categoria" readOnly> 
-                    <option value="101">OFERTAS</option>
-                    <option value="102">SANDUICHES</option>
-                    <option value="103">HOTDOGS</option>
-                    <option value="104">BEBIDAS</option>
-                    <option value="105">PRATOS E PORÇÕES</option>
-                    <option value="106">SUSHI</option>
-                    <option value="107">FRUTAS E VERDURAS</option>
-                    <option value="108">MEDICAMENTOS</option>
-                    <option value="109">GÁS DE COZINHA</option>
-                    <option value="110">FLORICULTURA</option>
-                    <option value="111">ÁGUA MINERAL</option>
+                    <option value="101">Ofertas</option>
+                    <option value="102">Sanduiches</option>
+                    <option value="103">Hotdog</option>
+                    <option value="104">Bebidas</option>
+                    <option value="105">Pratos e Porções</option>
+                    <option value="106">Sushi</option>
+                    <option value="107">Frutas e Verduras</option>
+                    <option value="108">Medicamentos</option>
+                    <option value="109">Gás de Cozinha</option>
+                    <option value="110">Floricultura</option>
+                    <option value="111">Água Mineral</option>
                   </select>
                 </div>
 
@@ -184,12 +184,12 @@ function Delivery() {
                   <div className="col-3">
                     <label htmlFor="rating" className="form-label">Pontuação*</label>
                     <select value={rating} className="form-select" id="rating" readOnly> 
-                      <option value="4.9">ÓTIMA</option>
-                      <option value="3.5">MUITO BOA</option>
-                      <option value="2.5">REGULAR</option>
-                      <option value="1.0">FRACA</option>
-                      <option value="0.5">RUIM</option>
-                      <option value="0.1">PÉSSIMA</option>
+                      <option value="4.9">Ótima</option>
+                      <option value="3.5">Muito Boa</option>
+                      <option value="2.5">Regular</option>
+                      <option value="1.0">Fraca</option>
+                      <option value="0.5">Ruim</option>
+                      <option value="0.1">Péssima</option>
                     </select>
                   </div>
                   <div className="col-3">
