@@ -1,9 +1,11 @@
 /* banner.css */
-/* #banner .container {
+
+#banner .container {
   display: flex;
   align-items: center;
-  height: 100vh; // Certifique-se de ajustar isso conforme necessário 
-} */
+  justify-content: center;
+  height: 80vh; /* Certifique-se de ajustar isso conforme necessário */
+}
 
 .fade-in {
   animation: fadeIn 1500ms ease-in-out forwards;
@@ -37,21 +39,3 @@
   justify-content: left;
   height: 100%;
 }
-
-/* .img-fluid {
-  max-width: 100%;
-  max-height: 80vh; // Limite a altura máxima da imagem para evitar corte 
-  height: auto;
-  object-fit: contain; // Garante que a imagem seja ajustada dentro do contêiner 
-} */
-
-/* .col-lg-6 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-} */
-
-/* .box {
-  cursor: auto;
-} */

@@ -32,9 +32,9 @@ function Banner() {
             <img src="images/screenshot.jpg" width="500px" alt="deliverybairro.com"/>
           </div>
           <div className="col-lg-6">
-            <div>
+            <div className="bloco">
               <h1>Simples de configurar <br/>e fácil de usar!</h1>
-              <div className={`bloco ${fade ? 'fade-in' : 'fade-out'}`}>
+              <div className={`${fade ? 'fade-in' : 'fade-out'}`}>
                 <h4>{texts[index].split('.')[0]}. {texts[index].split('.')[1]}</h4> 
               </div>
               <h5>Cadastre hoje mesmo o seu Delivery e receba uma demonstração completa e gratuita sem compromisso.</h5>
