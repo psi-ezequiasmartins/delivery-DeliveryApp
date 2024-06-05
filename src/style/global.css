@@ -1,3 +1,14 @@
+:root {
+  --telegram-icon-color: #fff;
+  --telegram-icon-hover: #fff;
+  --telegram-background-color: #0060ff;
+  --telegram-background-hover: #0044b3;
+  --whatsapp-icon-color: #fff;
+  --whatsapp-icon-hover: #000;
+  --whatsapp-background-color: #00c800;
+  --whatsapp-background-hover: #009600;
+}
+
 h1, h2, h3, h4, h5 {
   line-height: 1.5;
 }
@@ -128,6 +139,113 @@ padding: 10% 10%;
   color: white;
 }
 
+/*botão flutuante Telegram*/
+.telegram-icon {
+  width: 50px;
+  height: 50px;
+  transform: scale(0.7) translate(20%, 30%);
+  fill: var(--whatsapp-icon-color)
+}
+.telegram-float {
+  position: fixed;
+  cursor: pointer;
+  width: 65px;
+  height: 65px;
+  right: 100px;
+  bottom: 20px;
+  transition: 1s;
+  background-color: var(--telegram-background-color);
+  border-radius: 50px;
+  animation: t-pulse 3s infinite;
+  -webkit-animation: t-pulse 3s infinite;
+  -moz-animation: t-pulse 3s infinite;
+  -o-animation: t-pulse 3s infinite;
+  z-index: 9000
+}
+.telegram-float:hover {
+  background-color: var(--telegram-background-hover)
+}
+.telegram-float:hover .telegram-icon {
+  fill: var(--telegram-icon-hover)
+}
+
+@keyframes t-pulse {
+  0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
+  70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
+  100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
+}
+@-webkit-keyframes t-pulse {
+  0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
+  70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
+  100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
+}
+@-moz-keyframes t-pulse {
+  0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
+  70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
+  100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
+}
+@-o-keyframes t-pulse {
+  0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
+  70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
+  100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
+}
+
+/*botao flutuante WhatsApp*/
+.whatsapp-icon {
+  width: 50px;
+  height: 50px;
+  transform: scale(0.8) translate(22%, 20%);
+  fill: var(--whatsapp-icon-color)
+}
+.whatsapp-float {
+  position: fixed;
+  cursor: pointer;
+  width: 65px;
+  height: 65px;
+  right: 180px;
+  bottom: 20px;
+  transition: 1s;
+  background-color: var(--whatsapp-background-color);
+  border-radius: 50px;
+  animation: w-pulse 3s infinite;
+  -webkit-animation: w-pulse 3s infinite;
+  -moz-animation: w-pulse 3s infinite;
+  -o-animation: w-pulse 3s infinite;
+  z-index: 99999
+}
+.whatsapp-float:hover {
+  background-color: var(--whatsapp-background-hover)
+}
+.whatsapp-float:hover .whatsapp-icon {
+  fill: var(--whatsapp-icon-hover)
+}
+
+@keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-webkit-keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-o-keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-ms-keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+@-moz-keyframes w-pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
+  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
+}
+
 /* SweetAlert2 */
 .swal2-container, .swal2-input, .swal2-file, .swal2-textarea {
   box-sizing: border-box;
@@ -136,109 +254,7 @@ padding: 10% 10%;
   border: 1px solid #333;
   border-radius: .1875em;
   background: rgba(0,0,0,3);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0, 0, 0, 0); 
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0, 0, 0, 0);
   color: #FFF;
   font-size: 1.125em;
-}
-
-/*botão flutuante WhasApp*/
-:root {
-  --icon-color: #fff;
-  --icon-hover: #000;
-  --background-color: #00c800;
-  --background-hover: #009600
-}
-.icon {
-  width: 50px;
-  height: 50px;
-  transform: scale(0.7) translate(25%, 25%);
-  fill: var(--icon-color)
-}
-.float {
-  position: fixed;
-  cursor: pointer;
-  width: 65px;
-  height: 65px;
-  right: 110px;
-  bottom: 20px;
-  transition: 1s;
-  background-color: var(--background-color);
-  border-radius: 50px;
-  animation: pulse 3s infinite;
-  -webkit-animation: pulse 3s infinite;
-  -moz-animation: pulse 3s infinite;
-  -o-animation: pulse 3s infinite;
-  z-index: 99999
-}
-.float:hover {
-  background-color: var(--background-hover)
-}
-.float:hover .icon {
-  fill: var(--icon-hover)
-}
-@-webkit-keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
-}
-@-o-keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
-}
-@-ms-keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
-}
-@-moz-keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
-}
-@keyframes pulse {
-  0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
-  70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
-  100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
-}
-
-
-/*
-.titulo {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  color:darkslategray;
-}
-
-.card {
-  width: 240px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  margin-left: 20px;
-  color: darkmagenta;
-}
-
-.bloco {
-  display: table-cell;
-  vertical-align: middle;
-  height:400px;
-}
-
-.btn-app {
-  margin: 2% 2% 5% 0;
-}
-
-*/
-
-/*
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;900&family=Ubuntu:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"); 
-
-body{
-  overflow-x: hidden;
-  background-color: #F1F5F8;
-  font-family: "Roboto Slab";
-  color: #000;
-}
-
-*/
+  }
