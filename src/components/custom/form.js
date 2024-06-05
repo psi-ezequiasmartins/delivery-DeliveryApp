@@ -26,7 +26,7 @@ async function formTelegram() {
     html: 
       '<p>Por favor, informe seu Nome e Telefone</p>'+
       '<input id="swal-input1" class="swal2-input" placeholder="Nome" >' +
-      '<input id="swal-input2" class="swal2-input" placeholder="Telefone" oninput="applyPhoneNumberMask(this)" >',
+      `<input id="swal-input2" class="swal2-input" placeholder="Telefone" oninput=${applyPhoneNumberMask(this)} >`,
     showCancelButton: true,
     cancelButtonText: 'CANCELAR',
     focusConfirm: false,

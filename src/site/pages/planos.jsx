@@ -91,7 +91,7 @@ function Planos() {
           <div className="row text-center">
             <div className="titulo">
               <h1>Planos e Preços</h1>
-              <p>Planos pagos a partir de R$ 79,90 /mês, escolha o seu plano:</p>
+              <p>Planos pagos a partir de R$ 79,90 /mês, escolha o plano conforme a sua necessidade:</p>
             </div>
           </div>
 
