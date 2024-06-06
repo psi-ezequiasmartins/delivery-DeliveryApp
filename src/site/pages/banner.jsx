@@ -37,7 +37,7 @@ function Banner() {
               <div className={`${fade ? 'fade-in' : 'fade-out'}`}>
                 <h4>{texts[index].split('.')[0]}. {texts[index].split('.')[1]}</h4> 
               </div>
-              <h5>Cadastre hoje mesmo o seu Delivery e receba uma demonstração completa e gratuita sem compromisso.</h5>
+              <h5>Cadastre hoje mesmo o seu Delivery e faça parte do nosso Catálogo a partir do plano Free.</h5>
               <a href="#planos-e-precos" type="button" className="btn btn-primary btn-lg btn-app">Cadastre-se</a>
               <a href="/app/login" type="button" className="btn btn-outline-light btn-lg btn-app">Fazer Login</a>
             </div>
