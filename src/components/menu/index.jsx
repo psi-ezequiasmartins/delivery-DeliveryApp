@@ -49,19 +49,19 @@ function Menu(props) {
             </Link>
           </li>
 
-          <li>
+          <li className="nav-item">
             <Link to="/app/produtos" className={props.page === "produtos" ? activeLink : inactiveLink}>
               <i className="fs-4 bi-tags"></i> <span className="ms-1 d-none d-sm-inline">Produtos</span>
             </Link>
           </li>
 
-          <li>
+          <li className="nav-item">
             <Link to="/app/extras" className={props.page === "extras" ? activeLink : inactiveLink}>
               <i className="fs-4 bi-paperclip"></i> <span className="ms-1 d-none d-sm-inline">Acréscimos</span>
             </Link>
           </li>
 
-          <li>
+          <li className="nav-item">
             <Link to="/app/delivery" className={props.page === "delivery" ? activeLink : inactiveLink}>
               <i className="fs-4 bi-wallet2"></i> <span className="ms-1 d-none d-sm-inline">Delivery</span>
             </Link>
@@ -72,7 +72,7 @@ function Menu(props) {
             </Link>
           </li> */}
           <hr/>
-          <li>
+          <li className="nav-item">
             <Link to="/" onClick={LougOut} className={props.page === "logout" ? activeLink : inactiveLink}>
               <i className="fs-4 bi-box-arrow-left"></i> <span className="ms-1 d-none d-sm-inline">Sair (LogOut)</span>
             </Link>
