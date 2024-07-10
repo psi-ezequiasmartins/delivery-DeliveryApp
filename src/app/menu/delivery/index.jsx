@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Menu from "../../components/menu";
+import Menu from "../../../components/menu";
 import { redirect } from "react-router-dom";
 import './index.css';
 
-import api from "../../config/mysql";
+import api from "../../../config/apiAxios";
 
-function Delivery() {
-  const vDelivery = localStorage.getItem("delivery"); 
-  const vToken = localStorage.getItem("token");
+export default function Delivery() {
+  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vID = localStorage.getItem("vID");
 
   const [delivery, setDelivery] = useState([]);
 
@@ -33,8 +33,8 @@ function Delivery() {
   const [msg, setMsg] = useState('');
 
   async function loadDeliveryInfo() {
-    if (vToken) {
-      await api.get(`/delivery/${vToken} `) 
+    if (vID) {
+      await api.get(`/delivery/${vID} `) 
       .then((response) => {
         setDelivery(response.data);
         setNome(response.data.Nome);
@@ -63,14 +63,14 @@ function Delivery() {
 
   useEffect(() => {
     loadDeliveryInfo(); // eslint-disable-next-line
-  }, [vToken])
+  }, [vID])
 
   async function Editar() {
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
     } else {
       const json = {
-        "DeliveryID": vToken, 
+        "DeliveryID": vID, 
         "Nome": nome,
         "PlanoAssinatura": planoassinatura, 
         "Situacao": situacao,
@@ -89,7 +89,7 @@ function Delivery() {
         "Longitude": longitude,
         "TokenADM": token
       }
-      await api.put(`/update/delivery/${vToken} `, json).then((response) => {
+      await api.put(`/update/delivery/${vID} `, json).then((response) => {
         console.log(response.data);
         setMsg('Dados atualizados com sucesso!');
         setSuccess('S'); 
@@ -244,5 +244,3 @@ function Delivery() {
     </div>
   )
 }
-
-export default Delivery;

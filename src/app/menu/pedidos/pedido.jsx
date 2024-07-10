@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../config/mysql';
+import api from '../../../config/apiAxios';
 import './pedido.css';
 
 export default function Pedido(props) {
@@ -107,7 +107,7 @@ export default function Pedido(props) {
       <div className='d-flex me-4' id='status'>
         <div className='dropdown'>
           <a className='btn btn-dark dropdown-toggle' href='#status' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
-            STATUS <i className='bi bi-pin-angle'></i>
+            STATUS DO PEDIDO<i className='bi bi-pin-angle'></i>
           </a>
           <ul className='dropdown-menu' aria-labelledby='dropdownMenuLink'>
             <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item'>Novo</a></li>

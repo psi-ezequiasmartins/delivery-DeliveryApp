@@ -2,104 +2,59 @@
  * Cadastro de Login 
  */
 
-import React, { useState } from 'react';
-import { Link, redirect } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
-import { firebase_app } from '../../config/firebase';
-
+import React, { useState, useContext } from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import './novo.css';
 
 export default function Novo() {
-  let vEmail = localStorage.getItem("email");
-  let vDelivery = localStorage.getItem("delivery");
-  let vToken = localStorage.getItem("token");
-
-  const auth = getAuth(firebase_app);
-  const database = getDatabase(firebase_app);
-
-  const [email, setEmail] = useState(vEmail);
-  const [password, setPassword] = useState('');
-  const [confirm_password, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [result, setResult] = useState('');
-
-  function signUp(delivery, token) {
-    setMessage('');
-
-    if (!email || !password) {
-      setMessage('Favor preencher todos os campos!');
-      return;
-    }
-
-    if (password !== confirm_password) {
-      setMessage('As senhas não conferem! Digite-as novamente');
-      return;
-    }
-
-    createUserWithEmailAndPassword(auth, email, password).then(async(result) => {
-      // SIGNED IN
-      const id = result.user.uid;
-      await set(ref(database, `users/${id}`), {
-        "DeliveryID": token,
-        "DeliveryName": delivery,
-      });
-      localStorage.setItem("logged", true);
-      setResult('S');
-    }).catch((error) => {
-      console.log(error.code, error.message);
-      setResult('N');
-      if (error.message === 'Password should be at least 6 characters') {
-        setMessage('A senha deverá conter pelo menos 6 caracteres'); 
-      } else 
-      if (error.message === 'The email address is badly formatted.') {
-        setMessage('O formato do E-mail está incorreto') 
-      } else
-      if (error.message === 'The email address is already in use by another account.') {
-        setMessage('E-mail já em uso por outra conta');
-      } else {
-        setMessage('Erro ao criar conta: ' + error.message);
-      }
-    });
-  }
+  const { msg, result, signUp } = useContext(AuthContext);
+  const [ delivery, setDelivery ] = useState('');
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
+  const [ confirm_password, setConfirmPassword ] = useState('');
 
   var ano = new Date().getFullYear();
 
   return (
     <div className="d-flex align-items-center text-center form-container">
-      <form className="form-signin">
-      <a href="/#">
+      <form className="form-login">
+
+        <a href="/#">
           <img className="mb-4" src="/images/logo.png" alt="" />
         </a>
 
+        <h1 className="h3 mb-2 fw-normal">Novo Usuário</h1>
+
         <div className="form-floating mt-2">
-          <input type="text" className="form-control" id="delivery" value={vDelivery} readOnly /> 
-          <input type="hidden" id="token" name="token" value={vToken} />
-          <label htmlFor="delivery">Delivery</label>
+          <input onChange={(e)=>setDelivery(e.target.value)} type="text" className="form-control" id="delivery" placeholder='Nome do Delivery' />
+          <label htmlFor="email">Delivery</label>
         </div>
 
         <div className="form-floating mt-2">
-          <input onChange={e => setEmail(e.target.value)} type="email" className="form-control" id="email" value={email} placeholder="E-mail" />
+          <input onChange={(e)=>setEmail(e.target.value)} type="email" className="form-control" id="email" placeholder='E-mail' />
           <label htmlFor="email">E-mail</label>
         </div>
 
         <div className="form-floating mt-2">
-          <input onChange={e => setPassword(e.target.value)} type="password" className="form-control" id="password" />
+          <input onChange={(e)=>setPassword(e.target.value)} type="password" className="form-control" id="password" placeholder='Defina sua Senha' />
           <label htmlFor="password">Defina sua Senha</label>
         </div>
 
-        <div className="form-floating">
-          <input onChange={(e) => setConfirmPassword(e.target.value)} type="password" className="form-control" id="confirm_password" />
+        <div className="form-floating mt-2">
+          <input onChange={(e)=>setConfirmPassword(e.target.value)} type="password" className="form-control" id="confirm_password" placeholder='Confirme sua Senha'/>
           <label htmlFor="confirm_password">Confirme sua Senha</label>
         </div> 
+
+        <button onClick={()=>signUp(delivery, email, password, confirm_password)} className="w-100 btn btn-lg btn-dark mt-2" type="button">CADASTRAR ACESSO</button>
 
         <div className="form-links">
           <Link to="/app/login" className="mx-3">Já tenho uma conta</Link>
         </div>
 
-        <button onClick={(e) => signUp(vDelivery, vToken)} className="w-100 btn btn-lg btn-dark mt-2" type="button">CADASTRAR ACESSO</button>
-        {message.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{message}</div> : null}
-        {result === 'S' ? redirect('/app/pedidos') : null}
+        {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
+
+        {result === 'S' ? <Navigate to="/app/pedidos" /> : null}
         <p>&copy; 1999-{ano} PSI-SOFTWARE</p>
       </form>
     </div>

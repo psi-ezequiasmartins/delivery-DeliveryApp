@@ -1,3 +1,17 @@
+body {
+  margin: 0;
+  font-family: "Arial", "Helvetica", "Calibri", "Segoe UI", "Roboto", "Ubuntu", "Oxygen", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Consolas", sans-serif, 
+  -apple-system, BlinkMacSystemFont;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #333333;
+  background: #FFF;
+}
+
+code {
+  font-family: "Arial", "Helvetica", "Calibri", "Consolas", "Courier New", monospace;
+}
+
 :root {
   --telegram-icon-color: #fff;
   --telegram-icon-hover: #fff;
@@ -12,16 +26,12 @@
 h1, h2, h3, h4, h5 {
   line-height: 1.5;
 }
-
 p {
   color: #8B8B8B;
 }
-
 a {
   text-decoration: none;
 }
-
-/* BARRA DE NAVEGAÇÃO */
 .navbar {
   background-color: darkslategrey;
 }
@@ -33,17 +43,14 @@ a {
   color: white;
   padding: 80px 0 100px 0;
 }
-
 #banner img {
   width: 100%;
 }
-
 .bloco {
   display: table-cell;
   vertical-align: middle;
   height:400px;
 }
-
 .btn-app {
   margin: 2% 2% 5% 0;
 }
@@ -53,24 +60,19 @@ a {
 #vantagens {
 padding: 10% 10%;
 }
-
 .vermelho {
   color: red;
 }
-
 .azul {
   color: #0D6EFD;
 }
-
 .verde {
   color: teal;
 }
-
 .box{
   text-align: center;
   padding: 5%;
 }
-
 .icon {
   margin-bottom: 5px;
 }
@@ -85,7 +87,6 @@ padding: 10% 10%;
   padding: 20% 15%;
   text-align: center;
 }
-
 #depoimentos img {
   border-radius: 50%;
   width: 10%;
@@ -98,11 +99,9 @@ padding: 10% 10%;
   padding: 5% 0% 15%;
   color: #323338;
 }
-
 #planos-e-precos .titulo {
   margin-top: 5%;
 }
-
 #planos-e-precos .card {
   margin-top: 5%;
 }
@@ -114,7 +113,6 @@ padding: 10% 10%;
   color: white;
   padding: 80px 0 100px 0;
 }
-
 #mobile img {
   width: 100%;
 }
@@ -126,7 +124,6 @@ padding: 10% 10%;
   text-align: center;
   background-color: #000;
 }
-
 .back-to-top {
   cursor: pointer;
   position: fixed;
@@ -134,7 +131,6 @@ padding: 10% 10%;
   right: 20px;
   display:none;
 }
-
 .footer-links {
   color: white;
 }

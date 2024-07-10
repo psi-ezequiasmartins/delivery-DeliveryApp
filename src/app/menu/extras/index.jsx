@@ -10,15 +10,15 @@ import './index.css';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
-import Menu from "../../components/menu";
+import Menu from '../../../components/menu';
 
-import api from '../../config/mysql';
+import api from '../../../config/apiAxios';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Extras() {
-  const vDelivery = localStorage.getItem("delivery"); 
-  const vToken = localStorage.getItem("token");
+  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vID = localStorage.getItem("vID");
 
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');
@@ -27,13 +27,13 @@ export default function Extras() {
 
   const [extras, setExtras] = useState([]);
   const [extra_id, setExtraID] = useState(null);
-  const [delivery_id, setDeliveryID] = useState(vToken);
+  const [delivery_id, setDeliveryID] = useState(vID);
   const [descricao, setDescricao] = useState('');
   const [vr_unitario, setVrUnitario] = useState(0.00);
 
   useEffect(() => {
     let listagem = []; 
-    api.get(`/listar/extras/delivery/${vToken}`).then(function (result) {
+    api.get(`/listar/extras/delivery/${vID}`).then(function (result) {
       result.data.forEach(snapshot => {
         if (snapshot.Descricao.indexOf(busca) >= 0) {
           listagem.push({
@@ -46,7 +46,7 @@ export default function Extras() {
       });
       setExtras(listagem);
     })
-  }, [busca, excluido, success, vToken]);
+  }, [busca, excluido, success, vID]);
 
   async function Cadastrar() {
     if (descricao.length === 0) {
@@ -54,7 +54,7 @@ export default function Extras() {
     } else {
       const info = {
         "ExtraID": null, 
-        "DeliveryID": vToken,
+        "DeliveryID": vID,
         "Descricao": descricao, 
         "VrUnitario": vr_unitario
       }

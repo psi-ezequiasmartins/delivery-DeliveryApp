@@ -6,22 +6,22 @@ import { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { Impressao } from './impressao';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { firebase_app } from "../../config/firebase";
+import { firebase_app } from "../../../config/apiFirebase";
 import './index.css';
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
-import Menu from "../../components/menu";
+import Menu from '../../../components/menu';
 
-import api from '../../config/mysql';
+import api from '../../../config/apiAxios';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Produtos() {
   const storage = getStorage(firebase_app);
-  const vDelivery = localStorage.getItem("delivery"); 
-  const vToken = localStorage.getItem("token");
+  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vID = localStorage.getItem("vID");
 
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');
@@ -29,7 +29,7 @@ export default function Produtos() {
   const [msg, setMsg] = useState('');
 
   const [produtos, setProdutos] = useState([]);
-  const [delivery_id, setDeliveryID] = useState(vToken);
+  const [delivery_id, setDeliveryID] = useState(vID);
   const [produto_id, setProdutoID] = useState(null);
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -38,7 +38,7 @@ export default function Produtos() {
 
   useEffect(() => {
     let listagem = []; 
-    api.get(`/listar/produtos/delivery/${vToken}`).then(function (result) {
+    api.get(`/listar/produtos/delivery/${vID}`).then(function (result) {
       result.data.forEach(snapshot => {
         if (snapshot.Nome.indexOf(busca) >= 0) {
           listagem.push({
@@ -53,7 +53,7 @@ export default function Produtos() {
       });
       setProdutos(listagem);
     })
-  }, [busca, excluido, success, url_imagem, vToken]);
+  }, [busca, excluido, success, url_imagem, vID]);
 
   async function imgUpload(id) {
     // let produto = produtos.find(item => item.ProdutoID === id);
@@ -152,7 +152,7 @@ export default function Produtos() {
         "Descricao": descricao, 
         "VrUnitario": vr_unitario,
         "UrlImagem": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
-        "DeliveryID": vToken
+        "DeliveryID": vID
       }
       await api.post('/add/produto', info).then(() => {
         setMsg('Produto cadastrado com sucesso!');

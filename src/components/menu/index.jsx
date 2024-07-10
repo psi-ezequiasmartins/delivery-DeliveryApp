@@ -2,15 +2,20 @@
 * src/components/menu/index.jsx
 */
 
-import React, { useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUserEdit, FaPaperclip, FaStore, FaSignOutAlt } from 'react-icons/fa'; 
+import { MdFastfood } from 'react-icons/md';
+import { AuthContext } from '../../context/AuthContext';
+import logo from '../../assets/logo.png';  
 import './index.css';
 
-import imgLogo from '../../assets/logomarca.png';
-import imgLogoMini from '../../assets/logo.png';  // nova imagem menor
+import SessionTimeOFFbyInactivity from '../session/SessionTimeOFFbyInactivity';
 
-function Menu(props) {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+export default function Menu(props) {
+  const { signOut } = useContext(AuthContext);
+  const [ isMobile, setIsMobile ] = useState(window.innerWidth <= 768);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,24 +30,91 @@ function Menu(props) {
   const activeLink    = "nav-link active";
   const inactiveLink  = "nav-link text-white";
 
-  function LougOut() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("delivery");
-    localStorage.removeItem("logged");
+  SessionTimeOFFbyInactivity(handleLogout, 900000); // (timeoff da sessão: 15 minutos = 900000 ms)
+
+  function handleLogout() {
+    signOut();
+    navigate("/app/login");
   }
 
+  const renderMenuItems = (isTabbar = false) => (
+    <ul className={`nav ${isTabbar ? 'nav-justified w-100' : 'nav-pills flex-column mb-auto'}`}>
+      <hr className={!isTabbar ? '' : 'd-none'} />
+      <li className={`nav-item ${isTabbar ? 'text-center' : ''}`}>
+        <Link to="/app/pedidos" className={props.page === "pedidos" ? activeLink : inactiveLink} aria-current="page">
+          <FaUserEdit size={24} className="icon" />
+          {!isTabbar && <span className="ms-1 d-none d-sm-inline">Pedidos</span>}
+        </Link>
+      </li>
+      <li className={`nav-item ${isTabbar ? 'text-center' : ''}`}>
+        <Link to="/app/produtos" className={props.page === "produtos" ? activeLink : inactiveLink}>
+          <MdFastfood size={24} className="icon" />
+          {!isTabbar && <span className="ms-1 d-none d-sm-inline">Produtos</span>}
+        </Link>
+      </li>
+      <li className={`nav-item ${isTabbar ? 'text-center' : ''}`}>
+        <Link to="/app/extras" className={props.page === "extras" ? activeLink : inactiveLink}>
+          <FaPaperclip  size={24} className="icon" />
+          {!isTabbar && <span className="ms-1 d-none d-sm-inline">Acréscimos</span>}
+        </Link>
+      </li>
+      <li className={`nav-item ${isTabbar ? 'text-center' : ''}`}>
+        <Link to="/app/delivery" className={props.page === "delivery" ? activeLink : inactiveLink}>
+          <FaStore  size={24} className="icon" />
+          {!isTabbar && <span className="ms-1 d-none d-sm-inline">Delivery</span>}
+        </Link>
+      </li>
+      <hr className={!isTabbar ? '' : 'd-none'} />
+      <li className={`nav-item ${isTabbar ? 'text-center' : ''}`}>
+        <Link to="/" onClick={handleLogout} className={props.page === "Logout" ? activeLink : inactiveLink}>
+          <FaSignOutAlt size={24} className="icon" />
+          {!isTabbar && <span className="ms-1 d-none d-sm-inline">Sair (LogOut)</span>}
+        </Link>
+      </li>
+    </ul>
+  );
+
   return (
+    <>
+      {/* Menu Sidebar */}
+      {!isMobile && (
+        <div className="menu sidebar" id="menu">
+          <div className="d-flex flex-column align-items-center px-2 pt-2 text-white min-vh-100">
+            <a href="/" onClick={signOut} >
+              <img src={logo} alt="" height="180" className="d-inline-block align-text-top" />
+            </a>
+            <p></p>
+            <span className="fs-4">{isMobile ? 'Menu' : 'Menu Principal'}</span>
+            {renderMenuItems()}
+          </div>
+        </div>
+      )}
+
+      {/* Menu Tabbar */}
+      {isMobile && (
+        <nav className="menu tabbar" id="menu">
+          {renderMenuItems(true)}
+        </nav>
+      )}
+    </>
+  )
+}
+
+/*
     <div className="menu" id="menu">
-    
-      <div className="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2 text-white min-vh-100">    {/* <div className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark"> */}
+      <div className="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2 text-white min-vh-100">
+
         <a href="/" onClick={LougOut} className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
           <img src={isMobile ? imgLogoMini : imgLogo} className="img-logo" alt="logo" /><br/>
         </a>
+
         <p></p>
+
         <span className="fs-4">{isMobile ? 'Menu' : 'Menu Principal'}</span>
 
         <ul className="nav nav-pills flex-column mb-auto">
           <hr/>
+
           <li className="nav-item">
             <Link to="/app/pedidos" className={props.page === "pedidos" ? activeLink : inactiveLink} aria-current="page">
               <i className="fs-4 bi-bar-chart"></i> <span className="ms-1 d-none d-sm-inline">Pedidos</span>
@@ -66,12 +138,9 @@ function Menu(props) {
               <i className="fs-4 bi-wallet2"></i> <span className="ms-1 d-none d-sm-inline">Delivery</span>
             </Link>
           </li>
-          {/* <li>
-            <Link to="/app/config" className={props.page === "config" ? activeLink : inactiveLink}>
-              <i className="fs-4 bi-gear"></i> <span className="ms-1 d-none d-sm-inline">Configurações</span>
-            </Link>
-          </li> */}
+
           <hr/>
+
           <li className="nav-item">
             <Link to="/" onClick={LougOut} className={props.page === "logout" ? activeLink : inactiveLink}>
               <i className="fs-4 bi-box-arrow-left"></i> <span className="ms-1 d-none d-sm-inline">Sair (LogOut)</span>
@@ -80,7 +149,4 @@ function Menu(props) {
         </ul>
       </div>
     </div>
-  )
-}
-
-export default Menu;
+*/
