@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
   margin: 0;
   font-family: "Arial", "Helvetica", "Calibri", "Segoe UI", "Roboto", "Ubuntu", "Oxygen", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Consolas", sans-serif, 
@@ -13,6 +14,9 @@ code {
 }
 
 :root {
+=======
+/* :root {
+>>>>>>> f16ab7f48918e7374f4f0d9e45058242fc308c16
   --telegram-icon-color: #fff;
   --telegram-icon-hover: #fff;
   --telegram-background-color: #0060ff;
@@ -21,7 +25,7 @@ code {
   --whatsapp-icon-hover: #000;
   --whatsapp-background-color: #00c800;
   --whatsapp-background-hover: #009600;
-}
+} */
 
 h1, h2, h3, h4, h5 {
   line-height: 1.5;
@@ -135,8 +139,8 @@ padding: 10% 10%;
   color: white;
 }
 
-/*botão flutuante Telegram*/
-.telegram-icon {
+/* botão flutuante Telegram */
+/* .telegram-icon {
   width: 50px;
   height: 50px;
   transform: scale(0.7) translate(20%, 30%);
@@ -184,10 +188,10 @@ padding: 10% 10%;
   0% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 1)}
   70% {-webkit-box-shadow: 0 0 0 20px rgba(0, 96, 255, 0)}
   100% {-webkit-box-shadow: 0 0 0 0 rgba(0, 96, 255, 0)}
-}
+} */
 
 /*botao flutuante WhatsApp*/
-.whatsapp-icon {
+/* .whatsapp-icon {
   width: 50px;
   height: 50px;
   transform: scale(0.8) translate(22%, 20%);
@@ -240,10 +244,10 @@ padding: 10% 10%;
   0% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 1) }
   70% { -webkit-box-shadow: 0 0 0 20px rgba(0, 200, 0, 0) }
   100% { -webkit-box-shadow: 0 0 0 0 rgba(0, 200, 0, 0) }
-}
+} */
 
 /* SweetAlert2 */
-.swal2-container, .swal2-input, .swal2-file, .swal2-textarea {
+/* .swal2-container, .swal2-input, .swal2-file, .swal2-textarea {
   box-sizing: border-box;
   width: auto;
   transition: border-color .1s,box-shadow .1s;
@@ -253,4 +257,4 @@ padding: 10% 10%;
   box-shadow: inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0, 0, 0, 0);
   color: #FFF;
   font-size: 1.125em;
-  }
+  } */
