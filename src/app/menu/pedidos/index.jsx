@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
-import Menu from "../../components/menu";
+import Menu from "../../../components/menu";
 import Pedido from "./pedido";
 import './index.css';
 
-import api from "../../config/mysql";
+import api from "../../../config/apiAxios";
 
 export default function Pedidos() {
-  const vDelivery = localStorage.getItem("delivery"); 
-  const vToken = localStorage.getItem("token");
+  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vID = localStorage.getItem("vID");
 
   const [pedidos, setPedidos] = useState(null);
 
   async function ListarPedidos() {
-    if (vToken) {
-      await api.get(`/pedidos/abertos/delivery/${vToken}`) 
+    if (vID) {
+      await api.get(`/pedidos/abertos/delivery/${vID}`) 
       .then((response) => {
         setPedidos(response.data);
-        console.count = 0;
+        console.log(pedidos);
+        // console.count = 0;
       }).catch((error)=>{
         console.log(error);
       })
@@ -25,7 +26,7 @@ export default function Pedidos() {
 
   useEffect(() => {
     ListarPedidos(); // eslint-disable-next-line 
-  }, [vToken, pedidos])
+  }, [vID, pedidos])
 
   return  <>
     <div className="container-fluid">
@@ -36,22 +37,22 @@ export default function Pedidos() {
         </div>
 
         <div className="col py-3 me-3">
-            <h1>FILA DE PEDIDOS - {vToken} {vDelivery}</h1>
+            <h1>FILA DE PEDIDOS - {vID} {vDelivery}</h1>
             <button onClick={ListarPedidos} className="btn m-2 btn-primary">ATUALIZAR</button>
             <div className="m-2 mt-2">
               {
                 pedidos?.map((pedido) => {
                   return  <Pedido 
-                            key={pedido.PedidoID}
-                            PedidoID={pedido.PedidoID} 
-                            Data={pedido.Data}
-                            DeliveryID={pedido.token}
-                            Status={pedido.Status}
-                            UserID={pedido.UserID}
-                            Cliente={pedido.Nome}
-                            Endereco={pedido.Endereco}
-                            TokenSMS={pedido.TokenSMS}
-                            itens={pedido.itens}
+                            key={pedido.PEDIDO_ID}
+                            PedidoID={pedido.PEDIDO_ID} 
+                            Data={pedido.DATA}
+                            DeliveryID={vDelivery}
+                            Status={pedido.STATUS}
+                            UserID={pedido.USER_ID}
+                            Cliente={pedido.NOME}
+                            Endereco={pedido.ENDERECO_ENTREGA}
+                            TokenMSG={pedido.TOKEN_MSG}
+                            itens={pedido.ITENS}
                           />
                 })
               }

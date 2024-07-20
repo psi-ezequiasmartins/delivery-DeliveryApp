@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../config/mysql';
+import api from '../../../config/apiAxios';
 import './pedido.css';
 
 export default function Pedido(props) {
@@ -20,10 +20,10 @@ export default function Pedido(props) {
 
   async function AlterarStatus(codigo) {
     setStatus(codigo);
-    await api.put(`/update/status/pedido/${props.PedidoID}`, { status: codigo })
+    await api.put(`/update/status/pedido/${props.PEDIDO_ID}`, { status: codigo })
       .then((response) => {
         console.log(response);
-        sendPushNotification(props.TokenSMS, props.PedidoID, status);
+        sendPushNotification(props.TokenSMS, props.PEDIDO_ID, status);
         if (status === 'FINALIZADO') {
           setVisible(false);
         }
@@ -33,14 +33,14 @@ export default function Pedido(props) {
       });
   }
 
-  async function sendPushNotification(expoPushToken, pedido_id, codigo_status) {
+  async function sendPushNotification(expoPushToken, PEDIDO_ID, codigo_status) {
     const message = {
       to: expoPushToken,
       sound: 'default',
       title: 'DeliveryBairro.com',
-      body: 'Pedido #' + pedido_id + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo_status,
+      body: 'Pedido #' + PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo_status,
       data: {
-        PedidoID: pedido_id,
+        PedidoID: PEDIDO_ID,
         Status: codigo_status,
       },
     };
@@ -62,7 +62,7 @@ export default function Pedido(props) {
   return !visible ? null : (
     <div className={`shadow-sm pedido ${isMobile ? 'flex-column' : 'flex-row justify-content-between'}`}>
       <div>
-        <span><b>Pedido #{props.PedidoID}</b></span>
+        <span><b>PEDIDO #{props.PedidoID}</b></span>
         <span className='badge bg-dark ms-2'>{props.Data}</span>
 
         {status === 'NOVO' && <span className='badge bg-danger ms-2'>NOVO</span>}
@@ -74,18 +74,19 @@ export default function Pedido(props) {
         {status === 'FINALIZADO' && <span className='badge bg-secondary ms-2'>FINALIZADO</span>}
         {status === 'CANCELADO' && <span className='badge bg-secondary ms-2'>CANCELADO</span>}
 
-        <small className='d-block mt-1 text-dark'>{props.Cliente} - {props.Endereco}</small>
-        <small className='d-block mt-1 text-secondary'>{props.TokenSMS}</small>
+        <small className='d-block mt-1 text-dark'>Endereço de Entrega: <b>{props.Endereco}</b></small>
+        <small className='d-block mt-1 text-dark'>Cliente: <b>{props.Cliente}</b></small>
+        {/* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */}
         {props.itens.map((item) => (
-          <div className='d-inline-block align-items-start' key={item.ItemID}>
+          <div className='d-inline-block align-items-start' key={item.ITEM_ID}>
             <div className='text-left me-4 mt-2 card-pedido'>
-              <img src={item.UrlImagem} className='foto-item' alt='' />
-              <small className='d-block text-dark'><b>({item.Qtd}x) {item.Produto}</b></small>
-              {item.Acrescimos && (
+              <img src={item.URL_IMAGEM} className='foto-item' alt='' />
+              <small className='d-block text-dark'><b>({item.QTD}x) {item.PRODUTO_NOME}</b></small>
+              {item.ACRESCIMOS && (
                 <div className='text-dark acrescimos'>
                   <b>Acrescimos:</b>
                   <ul>
-                    {item.Acrescimos.map((acrescimo, index) => (
+                    {item.ACRESCIMOS.map((acrescimo, index) => (
                       <li key={index}>
                         {acrescimo.Descricao}
                       </li>
@@ -93,10 +94,10 @@ export default function Pedido(props) {
                   </ul>
                 </div>
               )}
-              {item.Obs && (
+              {item.OBS && (
                 <div className='text-danger obs'>
-                  <b>Observações:</b><br />
-                  {item.Obs}
+                  <b>OBSSERVAÇÕES:</b><br />
+                  {item.OBS}
                 </div>
               )}
             </div>
@@ -107,7 +108,7 @@ export default function Pedido(props) {
       <div className='d-flex me-4' id='status'>
         <div className='dropdown'>
           <a className='btn btn-dark dropdown-toggle' href='#status' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
-            STATUS <i className='bi bi-pin-angle'></i>
+            STATUS DO PEDIDO <i className='bi bi-pin-angle'></i>
           </a>
           <ul className='dropdown-menu' aria-labelledby='dropdownMenuLink'>
             <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item'>Novo</a></li>

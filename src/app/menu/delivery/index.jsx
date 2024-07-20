@@ -1,59 +1,71 @@
 import React, { useState, useEffect } from "react";
-import Menu from "../../components/menu";
 import { redirect } from "react-router-dom";
+import Menu from "../../../components/menu";
 import './index.css';
 
-import api from "../../config/mysql";
+import api from "../../../config/apiAxios";
 
 function Delivery() {
-  const vDelivery = localStorage.getItem("delivery"); 
-  const vToken = localStorage.getItem("token");
+  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vID = localStorage.getItem("vID");
 
   const [delivery, setDelivery] = useState([]);
 
-  const [nome, setNome] = useState(delivery?.Nome || vDelivery);
-  const [planoassinatura, setPlanoAssinatura] = useState(delivery?.PlanoAssinatura || "BASIC");
-  const [situacao, setSituacao] = useState(delivery?.Situacao || "ATIVO");
-  const [categoria, setCategoria] = useState(delivery?.CategoriaID || 101);
-  const [responsavel, setResponsavel] = useState(delivery?.Responsavel || "");
-  const [email, setEmail] = useState(delivery?.Email || "");
-  const [telefone, setTelefone] = useState(delivery?.Telefone || "");
-  const [horario, setHorario] = useState(delivery?.Horario || "");
-  const [mindeliverytime, setMinDeliverTime] = useState(delivery?.MinDeliveryTime || 15);
-  const [maxdeliverytime, setMaxDeliverTime] = useState(delivery?.MaxDeliveryTime || 45);
-  const [rating, setRating] = useState(delivery?.Rating || 4.9);
-  const [taxaentrega, setTaxaEntrega] = useState(delivery?.TaxaEntrega || 5.0);
-  const [urlimagem, setUrlImagem] = useState(delivery?.UrlImagem || "");
-  const [endereco, setEndereco] = useState(delivery?.Endereco || "");  
-  const [latitude, setLatitude] = useState(delivery?.Latitude || -19.92273710527297); 
-  const [longitude, setLongitude] = useState(delivery?.Longitude || -43.945118685204825);
-  const [token, setTokenADM] = useState(delivery?.TokenADM || "");
+  const [nome, setNome] = useState(delivery?.DELIVERY_NOME || vDelivery);
+  const [planoassinatura, setPlanoAssinatura] = useState(delivery?.PLANO || "BASIC");
+  const [situacao, setSituacao] = useState(delivery?.SITUACAO || "ATIVO");
+  const [categoria, setCategoria] = useState(delivery?.CATEGORIA_ID || 101);
+  const [responsavel, setResponsavel] = useState(delivery?.RESPONSAVEL || "");
+  const [email, setEmail] = useState(delivery?.EMAIL || "");
+  const [telefone, setTelefone] = useState(delivery?.TELEFONE || "");
+  const [horario, setHorario] = useState(delivery?.HORARIO || "");
+  const [mindeliverytime, setMinDeliverTime] = useState(delivery?.MIN_DELIVERY_TIME || 15);
+  const [maxdeliverytime, setMaxDeliverTime] = useState(delivery?.MAX_DELIVERY_TIME || 45);
+  const [taxaentrega, setTaxaEntrega] = useState(delivery?.TAXA_ENTREGA || 5.0);
+  const [rating, setRating] = useState(delivery?.RATING || 4.9);
+  const [urlimagem, setUrlImagem] = useState(delivery?.URL_IMAGEM || "");
+  const [endereco, setEndereco] = useState(delivery?.ENDERECO || "");  
+  const [numero, setNumero] = useState(delivery?.NUMERO || "");
+  const [complemento, setComplemento] = useState(delivery?.COMPLEMENTO || "");
+  const [bairro, setBairro] = useState(delivery?.BAIRRO || "");
+  const [cidade, setCidade] = useState(delivery?.CIDADE || "");
+  const [UF, setUf] = useState(delivery?.UF || "");
+  const [CEP, setCep] = useState(delivery?.CEP || "");
+  // const [latitude, setLatitude] = useState(delivery?.LATITUDE || -19.92273710527297); 
+  // const [longitude, setLongitude] = useState(delivery?.LONGITUDE || -43.945118685204825);
+  const [token_msg, setTokenMSG] = useState(delivery?.TOKEN_MSG || "");
 
   const [success, setSuccess] = useState('N');
   const [msg, setMsg] = useState('');
 
   async function loadDeliveryInfo() {
-    if (vToken) {
-      await api.get(`/delivery/${vToken} `) 
+    if (vID) {
+      await api.get(`/delivery/${vID} `) 
       .then((response) => {
         setDelivery(response.data);
-        setNome(response.data.Nome);
-        setPlanoAssinatura(response.data.PlanoAssinatura); 
-        setSituacao(response.data.Situacao);
-        setCategoria(response.data.CategoriaID)
-        setResponsavel(response.data.Responsavel);
-        setEmail(response.data.Email);
-        setTelefone(response.data.Telefone);
-        setHorario(response.data.Horario);
-        setMinDeliverTime(response.data.MinDeliveryTime);
-        setMaxDeliverTime(response.data.MaxDeliveryTime);
-        setRating(response.data.Rating);
-        setTaxaEntrega(response.data.TaxaEntrega);
-        setUrlImagem(response.data.UrlImagem);
-        setEndereco(response.data.Endereco);
-        setLatitude(response.data.Latitude);
-        setLongitude(response.data.Longitude);
-        setTokenADM(response.data.TokenADM);
+        setNome(response.data.DELIVERY_NOME);
+        setPlanoAssinatura(response.data.PLANO); 
+        setSituacao(response.data.SITUACAO);
+        setCategoria(response.data.CATEGORIA_ID)
+        setResponsavel(response.data.RESPONSAVEL);
+        setEmail(response.data.EMAIL);
+        setTelefone(response.data.TELEFONE);
+        setHorario(response.data.HORARIO);
+        setMinDeliverTime(response.data.MIN_DELIVERY_TIME);
+        setMaxDeliverTime(response.data.MAX_DELIVERY_TIME);
+        setRating(response.data.RATING);
+        setTaxaEntrega(response.data.TAXA_ENTREGA);
+        setUrlImagem(response.data.URL_IMAGEM);
+        setEndereco(response.data.ENDERECO);
+        setNumero(response.data.NUMERO);
+        setComplemento(response.data.COMPLEMENTO);
+        setBairro(response.data.BAIRRO);
+        setCidade(response.data.CIDADE);
+        setUf(response.data.UF);
+        setCep(response.data.CEP);
+        // setLatitude(response.data.Latitude);
+        // setLongitude(response.data.Longitude);
+        setTokenMSG(response.data.TOKEN_MSG);
         console.count = 0;
       }).catch((error)=>{
         console.log(error);
@@ -63,33 +75,39 @@ function Delivery() {
 
   useEffect(() => {
     loadDeliveryInfo(); // eslint-disable-next-line
-  }, [vToken])
+  }, [vID])
 
   async function Editar() {
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
     } else {
       const json = {
-        "DeliveryID": vToken, 
-        "Nome": nome,
-        "PlanoAssinatura": planoassinatura, 
-        "Situacao": situacao,
-        "CategoriaID": categoria,
-        "Responsavel": responsavel,
-        "Email": email,
-        "Telefone": telefone,
-        "Horario": horario,
-        "MinDeliveryTime": mindeliverytime,
-        "MaxDeliveryTime": maxdeliverytime,
-        "Rating": rating,
-        "TaxaEntrega": taxaentrega,
-        "UrlImagem": urlimagem,
-        "Endereco": endereco,
-        "Latitude": latitude, 
-        "Longitude": longitude,
-        "TokenADM": token
+        "DELIVERY_ID": vID, 
+        "DELIVERY_NOME": nome,
+        "PLANO": planoassinatura, 
+        "SITUACAO": situacao,
+        "CATEGORIA_ID": categoria,
+        "RESPONSAVEL": responsavel,
+        "EMAIL": email,
+        "TELEFONE": telefone,
+        "HORARIO": horario,
+        "MIN_DELIVERY_TIME": mindeliverytime,
+        "MAX_DELIVERY_TIME": maxdeliverytime,
+        "RATING": rating,
+        "TAXA_ENTREGA": taxaentrega,
+        "URL_IMAGEM": urlimagem,
+        "ENDERECO": endereco,
+        "NUMERO": numero,
+        "COMPLEMENTO": complemento,
+        "BAIRRO": bairro,
+        "CIDADE": cidade,
+        "UF": UF,
+        "CEP": CEP,
+        // "Latitude": latitude, 
+        // "Longitude": longitude,
+        "TOKEN_MSG": token_msg
       }
-      await api.put(`/update/delivery/${vToken} `, json).then((response) => {
+      await api.put(`/update/delivery/${vID} `, json).then((response) => {
         console.log(response.data);
         setMsg('Dados atualizados com sucesso!');
         setSuccess('S'); 
@@ -123,7 +141,7 @@ function Delivery() {
 
                 <div className="mb-2">
                   <label htmlFor="plano" className="form-label">Plano*</label>
-                  {/* <input type="text" className="form-control" id="planodeassinatura" value={planodeassinatura} readOnly />  */}
+                  {/* <input type="text" className="form-control" id="plano" value={planodeassinatura} readOnly />  */}
                   <select value={planoassinatura} className="form-select" id="plano" readOnly> 
                     <option value="BASIC">Plano Free | Até 7 produtos, Suporte Offline (via e-mail): R$ 0,00</option>
                     <option value="PRO">Plano Pro | Até 30 produtos, Suporte Online (videoconferência) + Cardápio Online: R$ 79,90/mês</option>
@@ -203,7 +221,7 @@ function Delivery() {
                   <input onChange={e => setEndereco(e.target.value)} value={endereco} type="text" className="form-control" id="endereco" />
                 </div>
 
-                <div className="row">
+                {/* <div className="row">
                   <div className="col-6">
                     <label htmlFor="latitude" className="form-label">LATITUDE</label>
                     <input onChange={e => setLatitude(e.target.value)} value={latitude} type="text" className="form-control" id="latitude" />
@@ -212,7 +230,7 @@ function Delivery() {
                     <label htmlFor="longitude" className="form-label">LONGITUDE</label>
                     <input onChange={e => setLongitude(e.target.value)} value={longitude} type="text" className="form-control" id="longitude" />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="mb-2">
                   <p></p>
@@ -226,7 +244,7 @@ function Delivery() {
                   <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
                 </div>
 
-                <input onChange={e => setTokenADM(e.target.value)} value={token} type="hidden" id="token" name="token" />
+                <input onChange={e => setTokenMSG(e.target.value)} value={token_msg} type="hidden" id="token" name="token" />
 
                 {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
                 {success === 'S' ? redirect("/") : null}

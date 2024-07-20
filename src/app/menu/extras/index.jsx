@@ -1,5 +1,5 @@
 /**
- * Cadastro de Extras (acrécimos de pedido)
+ * src/app/extras/index.jsx (acrécimos de pedido)
  */
 
 import { useState, useEffect } from 'react';
@@ -10,15 +10,15 @@ import './index.css';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
-import Menu from "../../components/menu";
+import Menu from "../../../components/menu";
 
-import api from '../../config/mysql';
+import api from '../../../config/apiAxios';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Extras() {
-  const vDelivery = localStorage.getItem("delivery"); 
-  const vToken = localStorage.getItem("token");
+  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vID = localStorage.getItem("vID");
 
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');
@@ -27,36 +27,36 @@ export default function Extras() {
 
   const [extras, setExtras] = useState([]);
   const [extra_id, setExtraID] = useState(null);
-  const [delivery_id, setDeliveryID] = useState(vToken);
+  const [delivery_id, setDeliveryID] = useState(vID);
   const [descricao, setDescricao] = useState('');
   const [vr_unitario, setVrUnitario] = useState(0.00);
 
   useEffect(() => {
     let listagem = []; 
-    api.get(`/listar/extras/delivery/${vToken}`).then(function (result) {
+    api.get(`/listar/extras/delivery/${vID}`).then(function (result) {
       result.data.forEach(snapshot => {
-        if (snapshot.Descricao.indexOf(busca) >= 0) {
+        if (snapshot.DESCRICAO.indexOf(busca) >= 0) {
           listagem.push({
-            ExtraID: snapshot.ExtraID,
-            DeliveryID: snapshot.DeliveryID,
-            Descricao: snapshot.Descricao,
-            VrUnitario: snapshot.VrUnitario
+            "EXTRA_ID": snapshot.EXTRA_ID,
+            "DELIVERY_ID": snapshot.DELIVERY_ID,
+            "DESCRICAO": snapshot.DESCRICAO,
+            "VR_UNITARIO": snapshot.VR_UNITARIO
           });
         }
       });
       setExtras(listagem);
     })
-  }, [busca, excluido, success, vToken]);
+  }, [busca, excluido, success, vID]);
 
   async function Cadastrar() {
     if (descricao.length === 0) {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
       const info = {
-        "ExtraID": null, 
-        "DeliveryID": vToken,
-        "Descricao": descricao, 
-        "VrUnitario": vr_unitario
+        "EXTRA_ID": null, 
+        "DELIVERY_ID": vID,
+        "DESCRICAO": descricao, 
+        "VR_UNITARIO": vr_unitario
       }
       await api.post('/add/extra', info).then(() => {
         setMsg('Item de Acréscimo cadastrado com sucesso!');
@@ -73,10 +73,10 @@ export default function Extras() {
       setMsg('Favor preencher a descrição do Item de Acréscimo.');
     } else {
       let info = { 
-        "ExtraID": extra_id, 
-        "DeliveryID": delivery_id,
-        "Descricao": descricao, 
-        "VrUnitario": vr_unitario
+        "EXTRA_ID": extra_id, 
+        "DELIVERY_ID": delivery_id,
+        "DESCRICAO": descricao, 
+        "VR_UNITARIO": vr_unitario
       }
       api.put(`/update/extra/${extra_id}`, info).then(() => {
         setMsg('');
@@ -90,10 +90,10 @@ export default function Extras() {
 
   function selectById(id){
     api.get(`/extra/${id}`).then((result) => {
-      setExtraID(result.data[0].ExtraID);
-      setDeliveryID(result.data[0].DeliveryID);
-      setDescricao(result.data[0].Descricao);
-      setVrUnitario(result.data[0].VrUnitario);
+      setExtraID(result.data[0].EXTRA_ID);
+      setDeliveryID(result.data[0].DELIVERY_ID);
+      setDescricao(result.data[0].DESCRICAO);
+      setVrUnitario(result.data[0].VR_UNITARIO);
     })
   }
 
@@ -104,11 +104,11 @@ export default function Extras() {
   }
 
   function confirmaExclusao(id) {
-    let extra = extras.find(item => item.ExtraID === id);
+    let extra = extras.find(item => item.EXTRA_ID === id);
 
     Swal.fire({
       title: "Exclusão",
-      text: `Confirma excluir ${extra.Descricao} ?`,
+      text: `Confirma excluir ${extra.DESCRICAO} ?`,
       icon: 'warning',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancelar',
@@ -141,9 +141,9 @@ export default function Extras() {
         <thead>
           <tr className="table-secondary">
             <th scope="col">ID</th>
-            <th scope="col">Delivery</th>
-            <th scope="col">Item</th>
-            <th scope="col">Vr. Unitário</th>
+            <th scope="col">ITEM</th>
+            <th scope="col">VALOR UN.</th>
+            <th scope="col">DELIVERY</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -151,14 +151,14 @@ export default function Extras() {
           {
             props.array.map((extra) => {
               return (
-                <tr key={extra.ExtraID}>
-                  <th scope="row">{extra.ExtraID}</th>
-                  <th scope="row">{extra.DeliveryID}</th>
-                  <td>{extra.Descricao}</td>
-                  <td>R$ { parseFloat(extra.VrUnitario).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
+                <tr key={extra.EXTRA_ID}>
+                  <th scope="row">{extra.EXTRA_ID}</th>
+                  <td>{extra.DESCRICAO}</td>
+                  <td>R$ { parseFloat(extra.VR_UNITARIO).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
+                  <th scope="row">{extra.DELIVERY_ID}</th>
                   <td>
-                    <Link to="#" onClick={()=>props.select(extra.ExtraID)} title="EDITAR ITEM DE ACRÉSCIMO" data-bs-toggle="modal" data-bs-target="#md_editar"><i className="fas fa-user-edit icon-action"></i></Link>
-                    <Link to="#" onClick={()=>props.delete(extra.ExtraID)} title="EXCLUIR ITEM DE ACRÉSCIMO"><i className="fas fa-trash-alt icon-action red"></i></Link>
+                    <Link to="#" onClick={()=>props.select(extra.EXTRA_ID)} title="EDITAR ITEM DE ACRÉSCIMO" data-bs-toggle="modal" data-bs-target="#md_editar"><i className="fas fa-user-edit icon-action"></i></Link>
+                    <Link to="#" onClick={()=>props.delete(extra.EXTRA_ID)} title="EXCLUIR ITEM DE ACRÉSCIMO"><i className="fas fa-trash-alt icon-action red"></i></Link>
                   </td>
                 </tr>
               )
@@ -179,7 +179,7 @@ export default function Extras() {
 
         <div className="col py-3 me-3">
 
-          <h1>Itens de Acréscimo - {vDelivery}</h1>
+          <h1>Itens de Acréscimo - {vID} {vDelivery}</h1>
           <div className="row">
             <div className="col-6">
               <div className="mt-2">
@@ -195,6 +195,7 @@ export default function Extras() {
               </div>
             </div>
           </div>
+
           <Listagem array={extras} select={selectById} delete={confirmaExclusao} />
 
           {/* md_novo */}

@@ -29,7 +29,7 @@ function Banner() {
         <div className="row align-items-center">
 
           <div className="col-lg-6">
-            <img src="images/screenshot.jpg" className="img-fluid" alt="deliverybairro.com"/>
+            <img src="images/banner.jpg" className="img-fluid" alt="deliverybairro.com"/>
           </div>
           <div className="col-lg-6">
             <div className="bloco">

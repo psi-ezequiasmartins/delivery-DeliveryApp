@@ -1,10 +1,16 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom'
+/**
+ * src/components/route/protected.jsx
+ */
 
-export default function SecureRoute({ children }) {
-  const vLogged = localStorage.getItem("logged");
-  if (!vLogged) {
-    return <Navigate to="/" replace />
+import React, { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
+
+export default function PrivateRoute({ children }) {
+  const { authenticated, signOut } = useContext(AuthContext);
+  if (!authenticated) {
+    signOut();
+    return <Navigate to="/app/login" replace />
   }
   return children
 }

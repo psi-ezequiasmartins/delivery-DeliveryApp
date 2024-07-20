@@ -1,7 +1,10 @@
+/**
+* src/config/apiAxios.js
+*/
+
 import Axios from "axios";
 
-const URL = "https://srv.deliverybairro.com";
-// const URL = "http://localhost:3333"; // teste local (08012024-1853)
+const URL =  "http://localhost:3333"; // "https://srv.deliverybairro.com"; 
 
 const api = Axios.create({
   baseURL: URL,

@@ -1,27 +1,26 @@
 /**
- * Cadastro de Produtos
+ * src/app/menu/produtos/index.jsx
  */
 
 import { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { Impressao } from './impressao';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { firebase_app } from "../../config/firebase";
+import { firebase_app } from "../../../config/apiFirebase";
 import './index.css';
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
-import Menu from "../../components/menu";
-
-import api from '../../config/mysql';
+import Menu from '../../../components/menu';
+import api from '../../../config/apiAxios';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Produtos() {
   const storage = getStorage(firebase_app);
-  const vDelivery = localStorage.getItem("delivery"); 
-  const vToken = localStorage.getItem("token");
+  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vID = localStorage.getItem("vID");
 
   const [busca, setBusca] = useState('');
   const [excluido, setExcluido] = useState('');
@@ -29,7 +28,7 @@ export default function Produtos() {
   const [msg, setMsg] = useState('');
 
   const [produtos, setProdutos] = useState([]);
-  const [delivery_id, setDeliveryID] = useState(vToken);
+  const [delivery_id, setDeliveryID] = useState(vID);
   const [produto_id, setProdutoID] = useState(null);
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -38,25 +37,26 @@ export default function Produtos() {
 
   useEffect(() => {
     let listagem = []; 
-    api.get(`/listar/produtos/delivery/${vToken}`).then(function (result) {
+    api.get(`/listar/produtos/delivery/${vID}`).then(function (result) {
       result.data.forEach(snapshot => {
-        if (snapshot.Nome.indexOf(busca) >= 0) {
+        if (snapshot.PRODUTO_NOME.indexOf(busca) >= 0) {
           listagem.push({
-            ProdutoID: snapshot.ProdutoID,
-            Nome: snapshot.Nome,
-            Descricao: snapshot.Descricao,
-            VrUnitario: snapshot.VrUnitario,
-            UrlImagem: snapshot.UrlImagem,
-            DeliveryID: snapshot.DeliveryID
+            "PRODUTO_ID": snapshot.PRODUTO_ID,
+            "PRODUTO_NOME": snapshot.PRODUTO_NOME,
+            "DESCRICAO": snapshot.DESCRICAO,
+            "VR_UNITARIO": snapshot.VR_UNITARIO,
+            "URL_IMAGEM": snapshot.URL_IMAGEM,
+            "DELIVERY_ID": snapshot.DELIVERY_ID
           });
         }
       });
       setProdutos(listagem);
+      console.log(produtos);
     })
-  }, [busca, excluido, success, url_imagem, vToken]);
+  }, [busca, excluido, success, url_imagem, vID]);
 
   async function imgUpload(id) {
-    // let produto = produtos.find(item => item.ProdutoID === id);
+    // let produto = produtos.find(item => item.PRODUTO_ID === id);
 
     const { value: file } = await Swal.fire({
       confirmButtonText: 'ENVIAR',
@@ -147,12 +147,12 @@ export default function Produtos() {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
       const info = {
-        "ProdutoID": null, 
-        "Nome": nome, 
-        "Descricao": descricao, 
-        "VrUnitario": vr_unitario,
-        "UrlImagem": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
-        "DeliveryID": vToken
+        "PRODUTO_ID": null, 
+        "PRODUTO_NOME": nome, 
+        "DESCRICAO": descricao, 
+        "VR_UNITARIO": vr_unitario,
+        "URL_IMAGEM": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
+        "DELIVERY_ID": vID
       }
       await api.post('/add/produto', info).then(() => {
         setMsg('Produto cadastrado com sucesso!');
@@ -169,12 +169,12 @@ export default function Produtos() {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
       let info = { 
-        "ProdutoID": produto_id, 
-        "Nome": nome, 
-        "Descricao": descricao, 
-        "VrUnitario": vr_unitario,
-        "UrlImagem": url_imagem,
-        "DeliveryID": delivery_id
+        "PRODUTO_ID": produto_id, 
+        "PRODUTO_NOME": nome, 
+        "DESCRICAO": descricao, 
+        "VR_UNITARIO": vr_unitario,
+        "URL_IMAGEM": url_imagem,
+        "DELIVERY_ID": delivery_id
       }
       api.put(`/update/produto/${produto_id}`, info).then(() => {
         setMsg('');
@@ -188,12 +188,12 @@ export default function Produtos() {
 
   function selectById(id){
     api.get(`/produto/${id}`).then((result) => {
-      setProdutoID(result.data[0].ProdutoID);
-      setNome(result.data[0].Nome); 
-      setDescricao(result.data[0].Descricao);
-      setVrUnitario(result.data[0].VrUnitario);
-      setUrlImagem(result.data[0].UrlImagem);
-      setDeliveryID(result.data[0].DeliveryID);
+      setProdutoID(result.data[0].PRODUTO_ID);
+      setNome(result.data[0].PRODUTO_NOME); 
+      setDescricao(result.data[0].DESCRICAO);
+      setVrUnitario(result.data[0].VR_UNITARIO);
+      setUrlImagem(result.data[0].URL_IMAGEM);
+      setDeliveryID(result.data[0].DELIVERY_ID);
     })
   }
 
@@ -204,11 +204,10 @@ export default function Produtos() {
   }
 
   function confirmaExclusao(id) {
-    let produto = produtos.find(item => item.ProdutoID === id);
-
+    let produto = produtos.find(item => item.PRODUTO_ID === id);
     Swal.fire({
       title: "Exclusão",
-      text: `Confirma excluir ${produto.Nome} ?`,
+      text: `Confirma excluir ${produto.PRODUTO_NOME} ?`,
       icon: 'warning',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancelar',
@@ -241,10 +240,10 @@ export default function Produtos() {
         <thead>
           <tr className="table-secondary">
             <th scope="col">ID</th>
-            <th scope="col">Imagem</th>
-            <th scope="col">Produto</th>
-            <th scope="col">Vr. Unitário</th>
-            <th scope="col">Delivery</th>
+            <th scope="col">IMAGEM</th>
+            <th scope="col">PRODUTO</th>
+            <th scope="col">VALOR UN.</th>
+            <th scope="col">DELIVERY</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -252,18 +251,18 @@ export default function Produtos() {
           {
             props.array.map((produto) => {
               return (
-                <tr key={produto.ProdutoID}>
-                  <th scope="row">{produto.ProdutoID}</th>
+                <tr key={produto.PRODUTO_ID}>
+                  <th scope="row">{produto.PRODUTO_ID}</th>
                   <td>
-                    <img src={produto.UrlImagem} alt="imagem" width="50" />
+                    <img src={produto.URL_IMAGEM} alt="imagem" width="50" />
                   </td>
-                  <td>{produto.Nome}</td>
-                  <td>R$ { parseFloat(produto.VrUnitario).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
-                  <th scope="row">{produto.DeliveryID}</th>
+                  <td>{produto.PRODUTO_NOME}</td>
+                  <td>R$ { parseFloat(produto.VR_UNITARIO).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
+                  <th scope="row">{produto.DELIVERY_ID}</th>
                   <td>
-                    <Link to="#" onClick={()=>props.select(produto.ProdutoID)} title="EDITAR PRODUTO" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
-                    <Link to="#" onClick={()=>props.image_upload(produto.ProdutoID)} title="UPLOAD DE IMAGEM"><i className="fas fa-file-image icon-action"></i></Link>
-                    <Link to="#" onClick={()=>props.delete(produto.ProdutoID)} title="EXCLUIR PRODUTO"><i className="fas fa-trash-alt icon-action red"></i></Link>
+                    <Link to="#" onClick={()=>props.select(produto.PRODUTO_ID)} title="EDITAR PRODUTO" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
+                    <Link to="#" onClick={()=>props.image_upload(produto.PRODUTO_ID)} title="UPLOAD DE IMAGEM"><i className="fas fa-file-image icon-action"></i></Link>
+                    <Link to="#" onClick={()=>props.delete(produto.PRODUTO_ID)} title="EXCLUIR PRODUTO"><i className="fas fa-trash-alt icon-action red"></i></Link>
                   </td>
                 </tr>
               )
@@ -284,7 +283,7 @@ export default function Produtos() {
 
         <div className="col py-3 me-3">
 
-          <h1>Cadastro de Produtos - {vDelivery}</h1>
+          <h1>Cadastro de Produtos - {vID} {vDelivery}</h1>
           <div className="row">
             <div className="col-6">
               <div className="mt-2">
@@ -300,6 +299,7 @@ export default function Produtos() {
               </div>
             </div>
           </div>
+
           <Listagem array={produtos} select={selectById} delete={confirmaExclusao} image_upload={imgUpload} />
 
           {/* md_novoproduto */}
@@ -345,7 +345,6 @@ export default function Produtos() {
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={img_reset}>CANCELAR</button>
                   <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={Cadastrar}>SALVAR</button>
                 </div>
-
 
               </div>
             </div>

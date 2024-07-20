@@ -1,28 +1,28 @@
 export class Impressao {
-  
+
   constructor(dadosParaImpressao) {
     this.dadosParaImpressao = dadosParaImpressao;
-  }  
+  }
 
   async PreparaDocumento() {
     const corpoDocumento = this.CriaCorpoDocumento();
     const documento = this.GerarDocumento(corpoDocumento);
     return documento;
   }
-  
+
   CriaCorpoDocumento() {
     const header = [
       { text: 'ID', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      { text: 'Produto', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      { text: 'Descrição', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
-      { text: 'Vr. Unitário', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'PRODUTO', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'DESCRIÇÃO', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
+      { text: 'VALOR UN.', bold: true, fontSize: 9, margin: [0, 4, 0, 0] },
     ];
     const body = this.dadosParaImpressao.map((produto) => {
       return [
-        { text: produto.ProdutoID, fontSize: 8 },
-        { text: produto.Nome, fontSize: 8 },
-        { text: produto.Descricao, fontSize: 8 },
-        { text: produto.VrUnitario, fontSize: 8 },
+        { text: produto.PRODUTO_ID, fontSize: 8 },
+        { text: produto.PRODUTO_NOME, fontSize: 8 },
+        { text: produto.DESCRICAO, fontSize: 8 },
+        { text: produto.VR_UNITARIO, fontSize: 8 },
       ];
     });
     const lineHeader = [
@@ -114,7 +114,6 @@ export class Impressao {
         color:'#145E7D',
       }
     },
-    
   };
     return documento;
   }

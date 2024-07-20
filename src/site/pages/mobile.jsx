@@ -16,7 +16,7 @@ function Mobile() {
               <p className="text-white">(*) em breve disponível também para dispositivos iOs (iPhone, iPads, etc)</p>
             </div>
             <div className="col-lg-6">
-              <img src="images/screens.jpg" width="700px" alt="deliverybairro.com"/>
+              <img src="images/mobile.jpg" width="700px" alt="deliverybairro.com"/>
             </div>
 
           </div>

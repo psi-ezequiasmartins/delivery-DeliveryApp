@@ -1,18 +1,18 @@
-.form-container {
+/**
+ * src/app/login/login.css
+ */
+
+ .form-container {
   height: 100vh;
 }
-.form-signin {
+.form-login {
   width: 330px;
   padding: 15px;
   margin: auto;
 }
-.form-signin img {
+.form-login img {
   width: 50%;
   margin: 20px;
-}
-.form-signin input[type="password"] {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 .form-links a {
   text-decoration: none;

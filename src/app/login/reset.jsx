@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { firebase_app } from '../../config/firebase';
+import { firebase_app } from '../../config/apiFirebase';
 import './reset.css';
 
 function Reset() {

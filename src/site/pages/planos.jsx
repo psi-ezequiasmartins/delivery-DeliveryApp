@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { Navigate } from 'react-router-dom';
 
-import api from '../../config/mysql';
+import api from '../../config/apiAxios';
 
 function Planos() {
     // eslint-disable-next-line

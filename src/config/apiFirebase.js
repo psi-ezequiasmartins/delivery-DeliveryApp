@@ -1,3 +1,7 @@
+/**
+* src/config/apiFirebase.js
+*/
+
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
