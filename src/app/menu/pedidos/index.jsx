@@ -16,8 +16,8 @@ export default function Pedidos() {
       await api.get(`/pedidos/abertos/delivery/${vID}`) 
       .then((response) => {
         setPedidos(response.data);
-        console.log(pedidos);
-        // console.count = 0;
+        // console.log(pedidos);
+        console.count = 0;
       }).catch((error)=>{
         console.log(error);
       })
@@ -26,7 +26,8 @@ export default function Pedidos() {
 
   useEffect(() => {
     ListarPedidos(); // eslint-disable-next-line 
-  }, [vID, pedidos])
+  }, [pedidos, vID]) 
+  // verificar monitoramento da constante "pedidos"
 
   return  <>
     <div className="container-fluid">

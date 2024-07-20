@@ -123,10 +123,10 @@ function AuthContextProvider({children}){
 
   function signOut() {
     setAuthenticated(false);
-    localStorage.removeItem("vDeliveryID");
-    localStorage.removeItem("vDeliveryName");
-    localStorage.removeItem("vDeliveryMail");
-    localStorage.removeItem("logged");
+    localStorage.removeItem("vID");
+    localStorage.removeItem("vDelivery");
+    localStorage.removeItem("vMail");
+    localStorage.removeItem("firebase:host:psi-crm-ca846-default-rtdb.firebaseio.com");
     api.defaults.headers.Authorization = undefined;
     console.clear();
   }
