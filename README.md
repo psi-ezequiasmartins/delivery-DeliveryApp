@@ -12,7 +12,7 @@ Projeto Web desenvolvido c/ Reactjs+Bootstrap+Firebase para Gestão de Clientes,
 > yarn start
 
 ## Última Revisão/Atualização:
-05/05/2024
+20/07/2024 16:51
 
 by <a href="https://ezequiasmartins.blogspot.com/" target="_blank">Ezequias Martins</a> ® 1999-2022 Direitos Reservados
 <p><a href="https://ezequiasmartins.blogspot.com/" target="_blank"><img src="/public/images/assinatura.jpg"></a></p>

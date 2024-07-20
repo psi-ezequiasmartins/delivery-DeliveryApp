@@ -39,7 +39,6 @@ export default function Login() {
         <div className="form-links">
           <Link to="/app/login/reset" className="mx-3">Esqueci minha senha!</Link><br/>
           <Link to="/app/login/novo" className="mx-3">Ainda não possui Conta? Junte-se a nós!</Link> 
-          {/*http://deliverybairro.com/#planos-e-precos*/}
         </div>
 
         {msg > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
@@ -49,3 +48,5 @@ export default function Login() {
     </div>
   )
 }
+
+{/*http://deliverybairro.com/#planos-e-precos*/}
