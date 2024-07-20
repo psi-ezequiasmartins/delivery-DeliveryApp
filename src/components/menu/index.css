@@ -1,6 +1,9 @@
 /**
  * src/components/menu/index.css
  */
+/**
+ * src/components/menu/index.css
+ */
 
  #menu {
   background-color: #000;
@@ -9,8 +12,15 @@
 }
 
 .sidebar {
+  padding: 5px;
+}
+
+.sidebar {
   height: 100%;
   max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   display: flex;
   flex-direction: column;
   align-items: center;
