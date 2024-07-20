@@ -5,7 +5,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-/** rotas */
+/** rotas */ //verificação em 20-07-2024 17:00
 
 import Site from "./site/site.jsx";
 

@@ -14,5 +14,5 @@ function App() {
     </AuthContextProvider>
   );
 }
-
+//verificação em 20-07-2024 16:57
 export default App;
