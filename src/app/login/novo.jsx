@@ -3,12 +3,13 @@
  */
 
 import React, { useState, useContext } from 'react';
+import Loading from '../../components/loading/loading';
 import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import './novo.css';
 
 export default function Novo() {
-  const { msg, result, signUp } = useContext(AuthContext);
+  const { loading, msg, result, signUp } = useContext(AuthContext);
 
   const [ delivery, setDelivery ] = useState('');
   const [ email, setEmail ] = useState('');
