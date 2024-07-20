@@ -9,6 +9,7 @@ import './novo.css';
 
 export default function Novo() {
   const { msg, result, signUp } = useContext(AuthContext);
+
   const [ delivery, setDelivery ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
@@ -28,7 +29,7 @@ export default function Novo() {
 
         <div className="form-floating mt-2">
           <input onChange={(e)=>setDelivery(e.target.value)} type="text" className="form-control" id="delivery" placeholder='Nome do Delivery' />
-          <label htmlFor="email">Delivery</label>
+          <label htmlFor="delivery">Delivery</label>
         </div>
 
         <div className="form-floating mt-2">

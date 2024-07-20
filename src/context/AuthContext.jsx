@@ -140,7 +140,8 @@ function AuthContextProvider({children}){
 
 export { AuthContext, AuthContextProvider };
 
-/*
+/* Login com validação do token criptografado
+
     function signIn(email, password) {
       setMessage('');
       // console.log(email, password);
