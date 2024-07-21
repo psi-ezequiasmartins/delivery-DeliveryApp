@@ -45,14 +45,14 @@ export default function Pedidos() {
                 pedidos?.map((pedido) => {
                   return  <Pedido 
                             key={pedido.PEDIDO_ID}
-                            PedidoID={pedido.PEDIDO_ID} 
-                            Data={pedido.DATA}
-                            DeliveryID={vDelivery}
-                            Status={pedido.STATUS}
-                            UserID={pedido.USER_ID}
-                            Cliente={pedido.NOME}
-                            Endereco={pedido.ENDERECO_ENTREGA}
-                            TokenMSG={pedido.TOKEN_MSG}
+                            PEDIDO_ID={pedido.PEDIDO_ID} 
+                            DATA={pedido.DATA}
+                            DELIVERY_ID={vDelivery}
+                            STATUS={pedido.STATUS}
+                            USER_ID={pedido.USER_ID}
+                            CLIENTE={pedido.CLIENTE.toUpperCase()}
+                            ENDERECO_ENTREGA={pedido.ENDERECO_ENTREGA.toUpperCase()}
+                            TOKEN_MSG={pedido.TOKEN_MSG}
                             itens={pedido.ITENS}
                           />
                 })

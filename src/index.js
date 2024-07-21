@@ -13,8 +13,6 @@ root.render(
   <App />
 );
 
-//verificação em 20-07-2024 17:00
-
 /*
   import { formWhatsApp, formTelegram } from '../src/components/custom/form';
   import * as Sentry from '@sentry/react';

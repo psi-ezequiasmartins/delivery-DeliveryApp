@@ -37,7 +37,7 @@ export default function Menu(props) {
 
   function handleLogout() {
     signOut();
-    navigate("/app/login"); 
+    navigate("/"); 
   }
 
   const renderMenuItems = (isTabbar = false) => (

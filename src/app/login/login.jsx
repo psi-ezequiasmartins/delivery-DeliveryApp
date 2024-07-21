@@ -3,12 +3,13 @@
  */
 
 import React, { useState, useContext } from 'react';
+import Loading from '../../components/loading/loading';
 import { Link, Navigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import './login.css';
 
 export default function Login() {
-  const { msg, result, signIn } = useContext(AuthContext);
+  const { loading, msg, result, signIn } = useContext(AuthContext);
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
 
@@ -45,6 +46,7 @@ export default function Login() {
         {result === 'S' ? <Navigate to="/app/pedidos" /> : null}
         <p>&copy; 1999-{ano} PSI-SOFTWARE</p>
       </form>
+      {loading && <Loading />}
     </div>
   )
 }

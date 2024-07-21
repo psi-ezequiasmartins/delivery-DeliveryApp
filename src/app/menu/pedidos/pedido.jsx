@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { MdNotificationAdd } from "react-icons/md";
+import { BsClockHistory } from "react-icons/bs";
+import { GiCook } from "react-icons/gi";
+import { HiMiniShoppingBag } from "react-icons/hi2";
+import { RiEBikeFill } from "react-icons/ri";
+import { IoBagCheckSharp } from "react-icons/io5";
+import { FiCheckCircle } from "react-icons/fi";
+import { AiOutlineStop } from "react-icons/ai";
+
 import api from '../../../config/apiAxios';
 import './pedido.css';
 
 export default function Pedido(props) {
-  const [status, setStatus] = useState(props.Status);
+  const [status, setStatus] = useState(props.STATUS);
   const [visible, setVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -23,7 +32,7 @@ export default function Pedido(props) {
     await api.put(`/update/status/pedido/${props.PEDIDO_ID}`, { status: codigo })
       .then((response) => {
         console.log(response);
-        sendPushNotification(props.TokenSMS, props.PEDIDO_ID, status);
+        sendPushNotification(props.TOKEN_MSG, props.PEDIDO_ID, status);
         if (status === 'FINALIZADO') {
           setVisible(false);
         }
@@ -61,22 +70,44 @@ export default function Pedido(props) {
 
   return !visible ? null : (
     <div className={`shadow-sm pedido ${isMobile ? 'flex-column' : 'flex-row justify-content-between'}`}>
-      <div>
-        <span><b>PEDIDO #{props.PedidoID}</b></span>
-        <span className='badge bg-dark ms-2'>{props.Data}</span>
 
-        {status === 'NOVO' && <span className='badge bg-danger ms-2'>NOVO</span>}
-        {status === 'AGUARDANDO' && <span className='badge bg-warning ms-2'>AGUARDANDO</span>}
-        {status === 'PREPARANDO' && <span className='badge bg-primary ms-2'>PREPARANDO</span>}
-        {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-success ms-2'>PRONTO PARA RETIRADA</span>}
-        {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-warning ms-2'>SAIU PARA ENTREGA</span>}
-        {status === 'RECEBIDO' && <span className='badge bg-dark ms-2'>RECEBIDO</span>}
-        {status === 'FINALIZADO' && <span className='badge bg-secondary ms-2'>FINALIZADO</span>}
-        {status === 'CANCELADO' && <span className='badge bg-secondary ms-2'>CANCELADO</span>}
+      <div className="row" >
+        <div className="col-9">
+          <text-orange><b>{props.USER_ID} {props.CLIENTE}</b></text-orange><br/>
+          <text-orange>{props.ENDERECO_ENTREGA}</text-orange><br/>
+          {/* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */}
+          <text-black><b>PEDIDO #{props.PEDIDO_ID}</b></text-black>
+          <span className='badge bg-dark ms-2'>{props.DATA}</span>
+          {status === 'NOVO' && <span className='badge bg-danger ms-2'>NOVO</span>}
+          {status === 'AGUARDANDO' && <span className='badge bg-warning ms-2'>AGUARDANDO</span>}
+          {status === 'PREPARANDO' && <span className='badge bg-primary ms-2'>PREPARANDO</span>}
+          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-success ms-2'>PRONTO PARA RETIRADA</span>}
+          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-warning ms-2'>SAIU PARA ENTREGA</span>}
+          {status === 'RECEBIDO' && <span className='badge bg-dark ms-2'>RECEBIDO</span>}
+          {status === 'FINALIZADO' && <span className='badge bg-secondary ms-2'>FINALIZADO</span>}
+          {status === 'CANCELADO' && <span className='badge bg-secondary ms-2'>CANCELADO</span>}
+        </div>
 
-        <small className='d-block mt-1 text-dark'>Endereço de Entrega: <b>{props.Endereco}</b></small>
-        <small className='d-block mt-1 text-dark'>Cliente: <b>{props.Cliente}</b></small>
-        {/* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */}
+        <div className="col-2">
+          <div className='dropdown'>
+            <a className='btn btn-dark dropdown-toggle' href='#status' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
+              <i className='bi bi-pin-angle'></i> STATUS
+            </a>
+            <ul className='dropdown-menu' aria-labelledby='dropdownMenuLink'>
+              <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item'><MdNotificationAdd /> Novo Pedido</a></li>
+              <li><a href='#aguardando' onClick={() => AlterarStatus('AGUARDANDO')} className='dropdown-item'><BsClockHistory /> Aguardando</a></li>
+              <li><a href='#preparando' onClick={() => AlterarStatus('PREPARANDO')} className='dropdown-item'><GiCook /> Preparando</a></li>
+              <li><a href='#retirada' onClick={() => AlterarStatus('PRONTO_PARA_RETIRADA')} className='dropdown-item'><HiMiniShoppingBag /> Pronto para retirada</a></li>
+              <li><a href='#entrega' onClick={() => AlterarStatus('SAIU_PARA_ENTREGA')} className='dropdown-item'><RiEBikeFill /> Saiu para entrega</a></li>
+              <li><a href='#recebido' onClick={() => AlterarStatus('RECEBIDO')} className='dropdown-item'><IoBagCheckSharp /> Pedido entrege e recebido</a></li>
+              <li><a href='#finalizado' onClick={() => AlterarStatus('FINALIZADO')} className='dropdown-item'><FiCheckCircle /> Finalizado</a></li>
+              <li><a href='#cancelado' onClick={() => AlterarStatus('CANCELADO')} className='dropdown-item'><AiOutlineStop /> Cancelado</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-column" >
         {props.itens.map((item) => (
           <div className='d-inline-block align-items-start' key={item.ITEM_ID}>
             <div className='text-left me-4 mt-2 card-pedido'>
@@ -105,23 +136,6 @@ export default function Pedido(props) {
         ))}
       </div>
 
-      <div className='d-flex me-4' id='status'>
-        <div className='dropdown'>
-          <a className='btn btn-dark dropdown-toggle' href='#status' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
-            STATUS DO PEDIDO <i className='bi bi-pin-angle'></i>
-          </a>
-          <ul className='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-            <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item'>Novo</a></li>
-            <li><a href='#aguardando' onClick={() => AlterarStatus('AGUARDANDO')} className='dropdown-item'>Aguardando</a></li>
-            <li><a href='#preparando' onClick={() => AlterarStatus('PREPARANDO')} className='dropdown-item'>Preparando</a></li>
-            <li><a href='#retirada' onClick={() => AlterarStatus('PRONTO_PARA_RETIRADA')} className='dropdown-item'>Pronto para retirada</a></li>
-            <li><a href='#entrega' onClick={() => AlterarStatus('SAIU_PARA_ENTREGA')} className='dropdown-item'>Saiu para Entrega</a></li>
-            <li><a href='#recebido' onClick={() => AlterarStatus('RECEBIDO')} className='dropdown-item'>Recebido</a></li>
-            <li><a href='#finalizado' onClick={() => AlterarStatus('FINALIZADO')} className='dropdown-item'>Finalizado</a></li>
-            <li><a href='#cancelado' onClick={() => AlterarStatus('CANCELADO')} className='dropdown-item'>Cancelado</a></li>
-          </ul>
-        </div>
-      </div>
     </div>
   );
 }
