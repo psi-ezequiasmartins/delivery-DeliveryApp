@@ -127,7 +127,7 @@ export default function Pedido(props) {
               )}
               {item.OBS && (
                 <div className='text-danger obs'>
-                  <b>OBSSERVAÇÕES:</b><br />
+                  <b>OBSERVAÇÕES:</b><br />
                   {item.OBS}
                 </div>
               )}
