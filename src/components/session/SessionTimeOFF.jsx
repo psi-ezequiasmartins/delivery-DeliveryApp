@@ -1,32 +1,34 @@
 /**
- * src/session/SessionTimeOFFbyInactivity.js
+ * src/context/SessionTimeOFF.jsx
  */
 
 import { useEffect, useRef } from 'react';
 
-export default function SessionTimeOFFbyInactivity(onTimeout, timeout = 900000) {
+export default function SessionTimeout({ onTimeout, timeout }) {
   const timeoutRef = useRef(null);
 
+  function resetTimeout() {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    // console.log("Timeout redefinido.");
+    timeoutRef.current = setTimeout(() => {
+      // console.log("Tempo de inatividade excedido. Chamando onTimeout.");
+      onTimeout();
+    }, timeout);
+  }
+
+  function handleActivity() {
+    resetTimeout();
+  }
+
   useEffect(() => {
-    const resetTimeout = () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-      timeoutRef.current = setTimeout(onTimeout, timeout);
-    };
-
-    const handleActivity = () => {
-      resetTimeout();
-    };
-
-    // Monitorando eventos de atividade do usuário
+    // console.log("Iniciando monitoramento de inatividade.");
+    resetTimeout();
     window.addEventListener('mousemove', handleActivity);
     window.addEventListener('mousedown', handleActivity);
     window.addEventListener('keydown', handleActivity);
     window.addEventListener('touchstart', handleActivity);
-
-    // timeout inicial
-    resetTimeout();
 
     return () => {
       if (timeoutRef.current) {
@@ -37,6 +39,7 @@ export default function SessionTimeOFFbyInactivity(onTimeout, timeout = 900000) 
       window.removeEventListener('keydown', handleActivity);
       window.removeEventListener('touchstart', handleActivity);
     };
+    // eslint-disable-next-line
   }, [onTimeout, timeout]);
 
   return null;

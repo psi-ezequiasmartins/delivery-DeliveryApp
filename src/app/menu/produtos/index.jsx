@@ -53,6 +53,7 @@ export default function Produtos() {
       setProdutos(listagem);
       console.log(produtos);
     })
+    // eslint-disable-next-line
   }, [busca, excluido, success, url_imagem, vID]);
 
   async function imgUpload(id) {

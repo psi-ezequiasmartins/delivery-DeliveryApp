@@ -51,4 +51,4 @@ export default function Login() {
   )
 }
 
-{/*http://deliverybairro.com/#planos-e-precos*/}
+/* http://deliverybairro.com/#planos-e-precos */

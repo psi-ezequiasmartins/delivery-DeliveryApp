@@ -2,7 +2,7 @@
 * src/components/menu/index.jsx
 */
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
 import { FaStore, FaSignOutAlt } from 'react-icons/fa';
@@ -13,7 +13,7 @@ import { BiFoodMenu } from 'react-icons/bi';
 import logo from '../../assets/logo.png';
 import './index.css';
 
-import SessionTimeOFFbyInactivity from '../session/SessionTimeOFFbyInactivity.jsx';
+import SessionTimeout from '../session/SessionTimeOFF.jsx';
 
 export default function Menu(props) {
   const { signOut } = useContext(AuthContext);
@@ -28,17 +28,16 @@ export default function Menu(props) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isMobile]);
+
+  const handleLogout = useCallback(() => { // Envolva handleLogout com useCallback
+    // console.log("Função handleLogout chamada.");
+    signOut();
+    navigate("/#"); // retorna para a página inicial
+  }, [signOut, navigate]); // Adicione signOut e navigate como dependências
 
   const activeLink    = "nav-link active";
   const inactiveLink  = "nav-link text-white";
-
-  SessionTimeOFFbyInactivity(handleLogout, 900000); // (timeoff da sessão: 15 minutos = 900000 ms)
-
-  function handleLogout() {
-    signOut();
-    navigate("/"); 
-  }
 
   const renderMenuItems = (isTabbar = false) => (
     <ul className={`nav ${isTabbar ? 'nav-justified w-100' : 'nav-pills flex-column mb-auto'}`}>
@@ -79,6 +78,8 @@ export default function Menu(props) {
 
   return (
     <>
+      <SessionTimeout onTimeout={handleLogout} timeout={900000} /> {/* 15 minutos em milessegundos (teste: 3 minutos) */}
+
       {/* Menu Sidebar */}
       {!isMobile && (
         <div className="menu sidebar" id="menu">

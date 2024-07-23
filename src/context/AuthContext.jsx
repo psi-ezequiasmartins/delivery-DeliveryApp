@@ -9,7 +9,6 @@ import { firebase_app } from '../config/apiFirebase';
 
 import api from '../config/apiAxios';
 
-
 const AuthContext = createContext();
 
 function AuthContextProvider({children}){
@@ -21,6 +20,16 @@ function AuthContextProvider({children}){
   const [ result, setResult ]= useState('');
 
   useEffect(() => {
+    setLoading(true);
+    const token = localStorage.getItem('token');
+    if (token) {
+      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+      setAuthenticated(true);
+    }
+    setLoading(false);
+  }, []);
+  
+  useEffect(() => {
     if (msg) {
       const timer = setTimeout(() => {
         setMessage('');
@@ -31,7 +40,7 @@ function AuthContextProvider({children}){
 
   function signIn(email, password) {
     setMessage('');
-    console.log(email, password);
+    // console.log(email, password);
     signInWithEmailAndPassword(auth, email, password).then(async(result) => {
       const id = result.user.uid; 
 
@@ -46,9 +55,9 @@ function AuthContextProvider({children}){
 
       try {
         const response = await api.post('/authenticate', { USER_ID: id, CHV: 1 });
-        console.log({ USER_ID: id, CHV: 1 });
+        // console.log({ USER_ID: id, CHV: 1 });
         const token = response.data?.token; // Verifica se 'data' e 'token' estão definidos
-        console.log(`Tamanho do token: ${token.length}`);
+        // console.log(`Tamanho do token: ${token.length}`);
         if (token) {
           localStorage.setItem('token', JSON.stringify(token));
           api.defaults.headers.Authorization = `Bearer ${token}`;

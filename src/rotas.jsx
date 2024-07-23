@@ -28,9 +28,7 @@ export default function Rotas() {
                 <Route path='/app/login' element={<Login/>} />
                 <Route path='/app/login/novo' element={<Novo/>} />
                 <Route path='/app/login/reset' element={<Reset/>} />
-
                 {/* SecureRoutes */}
-
                 <Route path="/app/pedidos" element={
                     <SecureRoute>
                         <Pedidos/> 
@@ -51,9 +49,7 @@ export default function Rotas() {
                         <Delivery/>
                     </SecureRoute>
                 } />
-
                 {/* SecureRoutes */}
-
                 </Routes>
         </BrowserRouter>
     )
