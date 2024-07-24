@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { redirect } from "react-router-dom";
 import InputMask from 'react-input-mask';
 import Menu from "../../../components/menu";
 import './index.css';
@@ -12,8 +11,9 @@ function Delivery() {
 
   const [delivery, setDelivery] = useState([]);
 
-  const [nome, setNome] = useState(delivery?.DELIVERY_NOME || vDelivery);
-  const [planoassinatura, setPlanoAssinatura] = useState(delivery?.PLANO || "BASIC");
+  const [delivery_id, setDeliveryID] = useState(delivery?.DELIVERY_ID || vID);
+  const [delivery_nome, setDeliveryNome] = useState(delivery?.DELIVERY_NOME || vDelivery);
+  const [plano, setPlanoAssinatura] = useState(delivery?.PLANO || "BASIC");
   const [situacao, setSituacao] = useState(delivery?.SITUACAO || "ATIVO");
   const [categoria, setCategoria] = useState(delivery?.CATEGORIA_ID || 101);
   const [responsavel, setResponsavel] = useState(delivery?.RESPONSAVEL || "");
@@ -25,17 +25,15 @@ function Delivery() {
   const [taxaentrega, setTaxaEntrega] = useState(delivery?.TAXA_ENTREGA || 5.0);
   const [rating, setRating] = useState(delivery?.RATING || 4.9);
   const [urlimagem, setUrlImagem] = useState(delivery?.URL_IMAGEM || "");
-  const [CEP, setCep] = useState(delivery?.CEP || "");
   const [endereco, setEndereco] = useState(delivery?.ENDERECO || "");
   const [numero, setNumero] = useState(delivery?.NUMERO || "");
   const [complemento, setComplemento] = useState(delivery?.COMPLEMENTO || "");
   const [bairro, setBairro] = useState(delivery?.BAIRRO || "");
   const [cidade, setCidade] = useState(delivery?.CIDADE || "");
   const [UF, setUf] = useState(delivery?.UF || "");
-
+  const [CEP, setCep] = useState(delivery?.CEP || "");
   const [token_msg, setTokenMSG] = useState(delivery?.TOKEN_MSG || "");
 
-  const [success, setSuccess] = useState('N');
   const [msg, setMsg] = useState('');
 
   async function loadDeliveryInfo() {
@@ -43,7 +41,9 @@ function Delivery() {
       await api.get(`/delivery/${vID} `)
         .then((response) => {
           setDelivery(response.data);
-          setNome(response.data.DELIVERY_NOME);
+
+          setDeliveryID(response.data.DELIVERY_ID);
+          setDeliveryNome(response.data.DELIVERY_NOME);
           setPlanoAssinatura(response.data.PLANO);
           setSituacao(response.data.SITUACAO);
           setCategoria(response.data.CATEGORIA_ID)
@@ -56,13 +56,13 @@ function Delivery() {
           setRating(response.data.RATING);
           setTaxaEntrega(response.data.TAXA_ENTREGA);
           setUrlImagem(response.data.URL_IMAGEM);
-          setCep(response.data.CEP);
           setEndereco(response.data.ENDERECO);
           setNumero(response.data.NUMERO);
           setComplemento(response.data.COMPLEMENTO);
           setBairro(response.data.BAIRRO);
           setCidade(response.data.CIDADE);
           setUf(response.data.UF);
+          setCep(response.data.CEP);
           setTokenMSG(response.data.TOKEN_MSG);
           console.count = 0;
         }).catch((error) => {
@@ -76,13 +76,13 @@ function Delivery() {
   }, [vID])
 
   async function saveDeliveryInfo() {
-    if (nome.length === 0) {
+    if (delivery_nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
     } else {
       const jsonData = {
-        "DELIVERY_ID": vID,
-        "DELIVERY_NOME": nome,
-        "PLANO": planoassinatura,
+        "DELIVERY_ID": delivery_id,
+        "DELIVERY_NOME": delivery_nome,
+        "PLANO": plano,
         "SITUACAO": situacao,
         "CATEGORIA_ID": categoria,
         "RESPONSAVEL": responsavel,
@@ -94,22 +94,20 @@ function Delivery() {
         "RATING": rating,
         "TAXA_ENTREGA": taxaentrega,
         "URL_IMAGEM": urlimagem,
+        "CEP": CEP,
         "ENDERECO": endereco,
         "NUMERO": numero,
         "COMPLEMENTO": complemento,
         "BAIRRO": bairro,
         "CIDADE": cidade,
         "UF": UF,
-        "CEP": CEP,
         "TOKEN_MSG": token_msg
       }
       await api.put(`/update/delivery/${vID} `, jsonData).then((response) => {
         console.log('Atualização de dados do Delivery: ', response.data);
         setMsg('Dados atualizados com sucesso!');
-        setSuccess('S');
       }).catch((error) => {
         setMsg(error);
-        setSuccess("N");
       });
     }
   }
@@ -172,13 +170,13 @@ function Delivery() {
               <div className="row">
 
                 <div className="mb-2">
-                  <label htmlFor="nome" className="form-label">Nome do Delivery</label>
-                  <input type="text" id="nome" name="NOME" value={nome} className="form-control" onChange={e => setNome(e.target.value)} />
+                  <label htmlFor="delivery_nome" className="form-label">Nome do Delivery</label>
+                  <input type="text" id="delivery_nome" name="DELIVERY_NOME" value={delivery_nome} className="form-control" onChange={e => setDeliveryNome(e.target.value)} />
                 </div>
 
                 <div className="mb-2">
                   <label htmlFor="plano" className="form-label">Plano*</label>
-                  <select id="plano" name="PLANO" value={planoassinatura} className="form-select" readOnly>
+                  <select id="plano" name="PLANO" value={plano} className="form-select" readOnly>
                     <option value="BASIC">Plano Free | Até 10 produtos, Suporte Offline (via e-mail): R$ 0,00</option>
                     <option value="PRO">Plano Pro | Até 30 produtos, Suporte Online (videoconferência ou WhatsApp) + Cardápio Digital: R$ 79,90/mês</option>
                     <option value="PREMIUM">Plano Premium | Até 50 Produtos, Suporte Online + Cardápio Digital + Google Ads: R$ 179,90/mês</option>
@@ -288,10 +286,9 @@ function Delivery() {
                   </div>
                 </div>
 
-                <input type="hidden" id="token_msg" value={token_msg} onChange={e => setTokenMSG(e.target.value)} />
+                <input type="hidden" id="token_msg" name="TOKEN_MSG" value={token_msg} onChange={e => setTokenMSG(e.target.value)} />
 
                 {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                {success === 'S' ? redirect("/app/pedidos") : null}
 
               </div>
             </form>

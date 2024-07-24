@@ -33,7 +33,7 @@ export default function Menu(props) {
   const handleLogout = useCallback(() => { // Envolva handleLogout com useCallback
     // console.log("Função handleLogout chamada.");
     signOut();
-    navigate("/#"); // retorna para a página inicial
+    navigate("/"); // retorna para a página inicial
   }, [signOut, navigate]); // Adicione signOut e navigate como dependências
 
   const activeLink    = "nav-link active";
