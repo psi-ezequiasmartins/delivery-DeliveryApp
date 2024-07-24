@@ -3,10 +3,10 @@ import './banner.css'
 
 function Banner() {
   const texts = [
-    "Gestão de Pedidos Simplificada para Deliveries em Geral de forma ágil e descomplicada + Cardápio Digital integrado ao WhatsApp",
-    "Solução Completa para Seu Delivery! Agilize a gestão de pedidos do seu bar, restaurante ou fastfood de forma automática e simples",
-    "Cardápio Digital e Gestão de Pedidos sem complicações, ideal para todos os tipos de delivery: Bares, Restaurantes, Pizzarias, Hamburguerias, Sushi, etc. ",
-    "Sistema prático para Bares, Restaurantes, Pizzarias, Sushis, Deliveries em geral. Gestão de Pedidos e Cardápio Digital, tudo em único lugar",
+    "Solução Completa para Seu Delivery! Agilize a gestão de pedidos do seu bar, restaurante ou fastfood de forma prática e simples",
+    "Ideal para todos os tipos de delivery: Bares, Restaurantes, Fastfoods, Água Mineral, Gás de Cozinha, Farmácias, Floriculturas, etc. ",
+    "Sistema prático para Bares, Restaurantes, Fastfoods, Deliveries em geral. Gestão de Pedidos e Cardápio Digital em único lugar",
+    "Gestão de Pedidos para Deliveries em Geral de forma ágil e descomplicada + Cardápio Digital integrado ao WhatsApp",
   ];
 
   const [index, setIndex] = useState(0);
