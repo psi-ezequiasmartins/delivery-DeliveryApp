@@ -106,8 +106,8 @@ function Planos() {
                 </div>
                 <div className="card-body">
                   <h2>R$ 0,00</h2>  
-                  <p>Até 07 produtos</p>
-                  <p>Faça parte do nosso catálogo + <br/>Cadastre-se grátis!</p>
+                  <p>Até 10 produtos</p>
+                  <p>Cadastre-se grátis e <br/>faça parte do nosso catálogo!</p>
                   <a className="btn btn-lg btn-outline-primary" data-bs-toggle="modal" href="#md_assinatura" role="button">Assine agora</a>
                 </div>
               </div>
