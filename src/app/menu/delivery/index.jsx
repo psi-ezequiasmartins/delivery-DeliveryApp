@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { redirect } from "react-router-dom";
+import InputMask from 'react-input-mask';
 import Menu from "../../../components/menu";
 import './index.css';
 
 import api from "../../../config/apiAxios";
 
 function Delivery() {
-  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vDelivery = localStorage.getItem("vDelivery");
   const vID = localStorage.getItem("vID");
 
   const [delivery, setDelivery] = useState([]);
@@ -19,20 +20,19 @@ function Delivery() {
   const [email, setEmail] = useState(delivery?.EMAIL || "");
   const [telefone, setTelefone] = useState(delivery?.TELEFONE || "");
   const [horario, setHorario] = useState(delivery?.HORARIO || "");
-  const [mindeliverytime, setMinDeliverTime] = useState(delivery?.MIN_DELIVERY_TIME || 15);
-  const [maxdeliverytime, setMaxDeliverTime] = useState(delivery?.MAX_DELIVERY_TIME || 45);
+  const [mindeliverytime, setMinDeliveryTime] = useState(delivery?.MIN_DELIVERY_TIME || 15);
+  const [maxdeliverytime, setMaxDeliveryTime] = useState(delivery?.MAX_DELIVERY_TIME || 45);
   const [taxaentrega, setTaxaEntrega] = useState(delivery?.TAXA_ENTREGA || 5.0);
   const [rating, setRating] = useState(delivery?.RATING || 4.9);
   const [urlimagem, setUrlImagem] = useState(delivery?.URL_IMAGEM || "");
-  const [endereco, setEndereco] = useState(delivery?.ENDERECO || "");  
+  const [CEP, setCep] = useState(delivery?.CEP || "");
+  const [endereco, setEndereco] = useState(delivery?.ENDERECO || "");
   const [numero, setNumero] = useState(delivery?.NUMERO || "");
   const [complemento, setComplemento] = useState(delivery?.COMPLEMENTO || "");
   const [bairro, setBairro] = useState(delivery?.BAIRRO || "");
   const [cidade, setCidade] = useState(delivery?.CIDADE || "");
   const [UF, setUf] = useState(delivery?.UF || "");
-  const [CEP, setCep] = useState(delivery?.CEP || "");
-  // const [latitude, setLatitude] = useState(delivery?.LATITUDE || -19.92273710527297); 
-  // const [longitude, setLongitude] = useState(delivery?.LONGITUDE || -43.945118685204825);
+
   const [token_msg, setTokenMSG] = useState(delivery?.TOKEN_MSG || "");
 
   const [success, setSuccess] = useState('N');
@@ -40,36 +40,34 @@ function Delivery() {
 
   async function loadDeliveryInfo() {
     if (vID) {
-      await api.get(`/delivery/${vID} `) 
-      .then((response) => {
-        setDelivery(response.data);
-        setNome(response.data.DELIVERY_NOME);
-        setPlanoAssinatura(response.data.PLANO); 
-        setSituacao(response.data.SITUACAO);
-        setCategoria(response.data.CATEGORIA_ID)
-        setResponsavel(response.data.RESPONSAVEL);
-        setEmail(response.data.EMAIL);
-        setTelefone(response.data.TELEFONE);
-        setHorario(response.data.HORARIO);
-        setMinDeliverTime(response.data.MIN_DELIVERY_TIME);
-        setMaxDeliverTime(response.data.MAX_DELIVERY_TIME);
-        setRating(response.data.RATING);
-        setTaxaEntrega(response.data.TAXA_ENTREGA);
-        setUrlImagem(response.data.URL_IMAGEM);
-        setEndereco(response.data.ENDERECO);
-        setNumero(response.data.NUMERO);
-        setComplemento(response.data.COMPLEMENTO);
-        setBairro(response.data.BAIRRO);
-        setCidade(response.data.CIDADE);
-        setUf(response.data.UF);
-        setCep(response.data.CEP);
-        // setLatitude(response.data.Latitude);
-        // setLongitude(response.data.Longitude);
-        setTokenMSG(response.data.TOKEN_MSG);
-        console.count = 0;
-      }).catch((error)=>{
-        console.log(error);
-      })
+      await api.get(`/delivery/${vID} `)
+        .then((response) => {
+          setDelivery(response.data);
+          setNome(response.data.DELIVERY_NOME);
+          setPlanoAssinatura(response.data.PLANO);
+          setSituacao(response.data.SITUACAO);
+          setCategoria(response.data.CATEGORIA_ID)
+          setResponsavel(response.data.RESPONSAVEL);
+          setEmail(response.data.EMAIL);
+          setTelefone(response.data.TELEFONE);
+          setHorario(response.data.HORARIO);
+          setMinDeliveryTime(response.data.MIN_DELIVERY_TIME);
+          setMaxDeliveryTime(response.data.MAX_DELIVERY_TIME);
+          setRating(response.data.RATING);
+          setTaxaEntrega(response.data.TAXA_ENTREGA);
+          setUrlImagem(response.data.URL_IMAGEM);
+          setCep(response.data.CEP);
+          setEndereco(response.data.ENDERECO);
+          setNumero(response.data.NUMERO);
+          setComplemento(response.data.COMPLEMENTO);
+          setBairro(response.data.BAIRRO);
+          setCidade(response.data.CIDADE);
+          setUf(response.data.UF);
+          setTokenMSG(response.data.TOKEN_MSG);
+          console.count = 0;
+        }).catch((error) => {
+          console.log(error);
+        })
     }
   }
 
@@ -77,14 +75,14 @@ function Delivery() {
     loadDeliveryInfo(); // eslint-disable-next-line
   }, [vID])
 
-  async function Editar() {
+  async function saveDeliveryInfo() {
     if (nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Delivery.');
     } else {
-      const json = {
-        "DELIVERY_ID": vID, 
+      const jsonData = {
+        "DELIVERY_ID": vID,
         "DELIVERY_NOME": nome,
-        "PLANO": planoassinatura, 
+        "PLANO": planoassinatura,
         "SITUACAO": situacao,
         "CATEGORIA_ID": categoria,
         "RESPONSAVEL": responsavel,
@@ -103,18 +101,57 @@ function Delivery() {
         "CIDADE": cidade,
         "UF": UF,
         "CEP": CEP,
-        // "Latitude": latitude, 
-        // "Longitude": longitude,
         "TOKEN_MSG": token_msg
       }
-      await api.put(`/update/delivery/${vID} `, json).then((response) => {
-        console.log(response.data);
+      await api.put(`/update/delivery/${vID} `, jsonData).then((response) => {
+        console.log('Atualização de dados do Delivery: ', response.data);
         setMsg('Dados atualizados com sucesso!');
-        setSuccess('S'); 
+        setSuccess('S');
       }).catch((error) => {
         setMsg(error);
-        setSuccess("N"); 
+        setSuccess("N");
       });
+    }
+  }
+
+  function phoneMask(value) {
+    if (!value) return "";
+    value = value.replace(/\D/g, '');
+    value = value.replace(/(\d{2})(\d)/, "($1) $2");
+    value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+    return value;
+  }
+
+  async function SearchAddressByCEP(cep) {
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      if (!response.ok) throw new Error('Erro na consulta do CEP');
+      const data = await response.json();
+      if (data.erro) throw new Error('CEP não encontrado');
+      return data;
+    } catch (error) {
+      console.error('Erro na busca do endereço pelo CEP:', error);
+      return null;
+    }
+  }
+
+  async function handleInputPhone(e) {
+    setTelefone(phoneMask(e.target.value));
+  }
+
+  async function handleInputCEP(e) {
+    setCep(e.target.value);
+    if (e.target.value.length === 9) {
+      const cleanedCEP = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+      const addressData = await SearchAddressByCEP(cleanedCEP);
+      if (addressData) {
+        setEndereco(addressData.logradouro); setNumero(''); setComplemento('');
+        setBairro(addressData.bairro);
+        setCidade(addressData.localidade);
+        setUf(addressData.uf);
+      } else {
+        setMsg({ text: 'CEP não encontrado ou inválido', type: 1 });
+      }
     }
   }
 
@@ -136,25 +173,22 @@ function Delivery() {
 
                 <div className="mb-2">
                   <label htmlFor="nome" className="form-label">Nome do Delivery</label>
-                  <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
+                  <input type="text" id="nome" name="NOME" value={nome} className="form-control" onChange={e => setNome(e.target.value)} />
                 </div>
 
                 <div className="mb-2">
                   <label htmlFor="plano" className="form-label">Plano*</label>
-                  {/* <input type="text" className="form-control" id="plano" value={planodeassinatura} readOnly />  */}
-                  <select value={planoassinatura} className="form-select" id="plano" readOnly> 
-                    <option value="BASIC">Plano Free | Até 7 produtos, Suporte Offline (via e-mail): R$ 0,00</option>
-                    <option value="PRO">Plano Pro | Até 30 produtos, Suporte Online (videoconferência) + Cardápio Online: R$ 79,90/mês</option>
-                    <option value="PREMIUM">Plano Premium | Até 50 Produtos, Suporte Online (videoconferência) + Cardápio Online + Google Ads + Vídeo: R$ 179,90/mês</option>
+                  <select id="plano" name="PLANO" value={planoassinatura} className="form-select" readOnly>
+                    <option value="BASIC">Plano Free | Até 10 produtos, Suporte Offline (via e-mail): R$ 0,00</option>
+                    <option value="PRO">Plano Pro | Até 30 produtos, Suporte Online (videoconferência ou WhatsApp) + Cardápio Digital: R$ 79,90/mês</option>
+                    <option value="PREMIUM">Plano Premium | Até 50 Produtos, Suporte Online + Cardápio Digital + Google Ads: R$ 179,90/mês</option>
                   </select>
-                  <input onChange={e => setSituacao(e.target.value)} value={situacao} type="hidden" id="status" name="status" />
-                  <input onChange={e => setUrlImagem(e.target.value)} value={urlimagem} type="hidden" id="urlimagem" name="urlimagem" />
+                  <input type="hidden" id="status" name="STATUS" value={situacao} onChange={e => setSituacao(e.target.value)} />
                 </div>
 
                 <div className="mb-2">
                   <label htmlFor="categoria" className="form-label">Categoria*</label>
-                  {/* <input type="text" className="form-control" id="categoria" value={categoria} readOnly />  */}
-                  <select value={categoria} className="form-select" id="categoria" readOnly> 
+                  <select id="categoria" name="CATEGORIA" value={categoria} className="form-select" readOnly>
                     <option value="101">Ofertas</option>
                     <option value="102">Sanduiches</option>
                     <option value="103">Hotdog</option>
@@ -171,37 +205,37 @@ function Delivery() {
 
                 <div className="mb-2">
                   <label htmlFor="responsavel" className="form-label">Responsável</label>
-                  <input onChange={e => setResponsavel(e.target.value)} value={responsavel} type="text" className="form-control" id="responsavel" />
+                  <input type="text" id="responsavel" name="RESPONSAVEL" value={responsavel} className="form-control" onChange={e => setResponsavel(e.target.value)} />
                 </div>
 
-                <div className="row">
+                <div className="row mb-2">
                   <div className="col-8">
                     <label htmlFor="email" className="form-label">E-mail</label>
-                    <input onChange={e => setEmail(e.target.value)} value={email} type="email" className="form-control" id="email" />
+                    <input type="email" id="email" name="EMAIL" className="form-control" onChange={e => setEmail(e.target.value)} value={email} />
                   </div>
                   <div className="col-4">
                     <label htmlFor="telefone" className="form-label">Telefone</label>
-                    <input onChange={e => setTelefone(e.target.value)} value={telefone} type="text" className="form-control" id="telefone" />
+                    <input type="text" id="telefone" name="TELEFONE" value={telefone} className="form-control" onChange={e => handleInputPhone(e)} />
                   </div>
                 </div>
 
                 <div className="mb-2">
                   <label htmlFor="horario" className="form-label">Horário</label>
-                  <input onChange={e => setHorario(e.target.value)} value={horario} type="text" className="form-control" id="horario" />
+                  <input type="text" id="horario" name="HORARIO" value={horario} className="form-control" onChange={e => setHorario(e.target.value)} />
                 </div>
 
-                <div className="row">
+                <div className="row mb-2">
                   <div className="col-3">
                     <label htmlFor="mindeliverytime" className="form-label">Tempo Mín.</label>
-                    <input onChange={e => setMinDeliverTime(e.target.value)} value={mindeliverytime} type="text" className="form-control" id="minideliverytime" />
+                    <input type="text" id="mindeliverytime" name="MIN_DELIVERY_TIME" value={mindeliverytime} className="form-control" onChange={e => setMinDeliveryTime(e.target.value)} />
                   </div>
                   <div className="col-3">
                     <label htmlFor="maxdeliverytime" className="form-label">Tempo Máx.</label>
-                    <input onChange={e => setMaxDeliverTime(e.target.value)} value={maxdeliverytime} type="text" className="form-control" id="maxdeliverytime" />
+                    <input type="text" id="maxdeliverytime" name="MAX_DELIVERY_TIME" value={maxdeliverytime} className="form-control" onChange={e => setMaxDeliveryTime(e.target.value)} />
                   </div>
                   <div className="col-3">
-                    <label htmlFor="rating" className="form-label">Pontuação*</label>
-                    <select value={rating} className="form-select" id="rating" readOnly> 
+                    <label htmlFor="rating" className="form-label">Pontuação (avaliação)*</label>
+                    <select id="rating" name="RATING" value={rating} className="form-select" readOnly>
                       <option value="4.9">Ótima</option>
                       <option value="3.5">Muito Boa</option>
                       <option value="2.5">Regular</option>
@@ -212,51 +246,61 @@ function Delivery() {
                   </div>
                   <div className="col-3">
                     <label htmlFor="taxaentrega" className="form-label">Taxa Entrega</label>
-                    <input onChange={e => setTaxaEntrega(e.target.value)} value={taxaentrega} type="text" className="form-control" id="taxaentrega" />
+                    <input type="text" id="taxaentrega" name="TAXA_ENTREGA" value={taxaentrega} className="form-control" onChange={e => setTaxaEntrega(e.target.value)} />
+                    <input type="hidden" id="urlimagem" name="URL_IMAGEM" value={urlimagem} onChange={e => setUrlImagem(e.target.value)} />
                   </div>
                 </div>
 
-                <div className="mb-2">
-                  <label htmlFor="endereco" className="form-label">Endereço</label>
-                  <input onChange={e => setEndereco(e.target.value)} value={endereco} type="text" className="form-control" id="endereco" />
+                <div className="row mb-2">
+                  <div className="col-md-3">
+                    <label htmlFor="CEP" className="form-label">CEP</label>
+                    <InputMask mask="99999-999" id="CEP" name="CEP" value={CEP} className="form-control" onChange={e => handleInputCEP(e)} />
+                  </div>
                 </div>
 
-                {/* <div className="row">
-                  <div className="col-6">
-                    <label htmlFor="latitude" className="form-label">LATITUDE</label>
-                    <input onChange={e => setLatitude(e.target.value)} value={latitude} type="text" className="form-control" id="latitude" />
+                <div className="row mb-2">
+                  <div className="col-md-6">
+                    <label htmlFor="endereco" className="form-label">Endereço</label>
+                    <input type="text" id="endereco" name="ENDERECO" value={endereco} className="form-control" onChange={e => setEndereco(e.target.value)} />
                   </div>
-                  <div className="col-6">
-                    <label htmlFor="longitude" className="form-label">LONGITUDE</label>
-                    <input onChange={e => setLongitude(e.target.value)} value={longitude} type="text" className="form-control" id="longitude" />
+                  <div className="col-md-3">
+                    <label htmlFor="numero" className="form-label">Número</label>
+                    <input type="text" id="numero" name="NUMERO" value={numero} className="form-control" onChange={e => setNumero(e.target.value)} />
                   </div>
-                </div> */}
-
-                <div className="mb-2">
-                  <p></p>
-                  <p>(*) Alguns campos são protegidos (somente para leitura), para atualizar e/ou modificá-los, entre em contato conosco.</p>
-                  <p>Como obter as suas coordenadas no Google Maps:</p>
-                  <p>
-                    1. No computador, abra o link abaixo para Google Maps.<br/>
-                    2. Digite o seu endereço na caixa de pesquisa (busca) do Mapa, será apontado um marcador (ícone na cor vermelha) que vc deverá clicar com o botao direito do mouse, ou tocar e aguardar abrir uma janela pop-up. A latitude e a longitude vão aparecer no formato decimal na parte superior.<br/>
-                    3. Para copiar as coordenadas automaticamente, clique (ou toque) na latitude e longitude informadas.
-                  </p>
-                  <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
+                  <div className="col-md-3">
+                    <label htmlFor="complemento" className="form-label">Complemento</label>
+                    <input type="text" id="complemento" name="COMPLEMENTO" value={complemento} className="form-control" onChange={e=>setComplemento(e.target.value)} />
+                  </div>
                 </div>
 
-                <input onChange={e => setTokenMSG(e.target.value)} value={token_msg} type="hidden" id="token" name="token" />
+                <div className="row mb-2">
+                  <div className="col-md-6">
+                    <label htmlFor="bairro" className="form-label">Bairro</label>
+                    <input type="text" id="bairro" name="BAIRRO" value={bairro} className="form-control" onChange={e => setBairro(e.target.value)} />
+                  </div>
+                  <div className="col-md-3">
+                    <label htmlFor="cidade" className="form-label">Cidade</label>
+                    <input type="text" id="cidade" name="CIDADE" value={cidade} className="form-control" onChange={e => setCidade(e.target.value)} />
+                  </div>
+                  <div className="col-md-3">
+                    <label htmlFor="UF" className="form-label">UF</label>
+                    <input type="text" id="UF" name="UF" value={UF} className="form-control" onChange={e => setUf(e.target.value)} />
+                  </div>
+                </div>
+
+                <input type="hidden" id="token_msg" value={token_msg} onChange={e => setTokenMSG(e.target.value)} />
 
                 {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-                {success === 'S' ? redirect("/") : null}
+                {success === 'S' ? redirect("/app/pedidos") : null}
 
               </div>
             </form>
 
             <div className="footer">
-              <button type="button" className="btn btn-dark" onClick={Editar} >SALVAR DADOS</button>
+              <button type="button" className="btn btn-dark" onClick={saveDeliveryInfo} >SALVAR DADOS</button>
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>
@@ -264,3 +308,40 @@ function Delivery() {
 }
 
 export default Delivery;
+
+
+/* 
+  const [latitude, setLatitude] = useState(delivery?.LATITUDE || -19.92273710527297); 
+  const [longitude, setLongitude] = useState(delivery?.LONGITUDE || -43.945118685204825);
+...
+  setLatitude(response.data.Latitude);
+  setLongitude(response.data.Longitude);
+...
+  "LATITUDE": latitude, 
+  "LONGITUDE": longitude,
+...
+<div className="row">
+  <div className="col-6">
+    <label htmlFor="latitude" className="form-label">LATITUDE</label>
+    <input onChange={e => setLatitude(e.target.value)} value={latitude} type="text" className="form-control" id="latitude" />
+  </div>
+  <div className="col-6">
+    <label htmlFor="longitude" className="form-label">LONGITUDE</label>
+    <input onChange={e => setLongitude(e.target.value)} value={longitude} type="text" className="form-control" id="longitude" />
+  </div>
+</div>
+
+<div className="mb-2">
+  <p></p>
+  <p>(*) Alguns campos são protegidos (somente para leitura), para atualizar e/ou modificá-los, entre em contato conosco.</p>
+  <p>Como obter as suas coordenadas no Google Maps:</p>
+  <p>
+    1. No computador, abra o link abaixo para Google Maps.<br/>
+    2. Digite o seu endereço na caixa de pesquisa (busca) do Mapa, será apontado um marcador (ícone na cor vermelha) que vc deverá clicar com o botao direito do mouse, ou tocar e aguardar abrir uma janela pop-up. A latitude e a longitude vão aparecer no formato decimal na parte superior.<br/>
+    3. Para copiar as coordenadas automaticamente, clique (ou toque) na latitude e longitude informadas.
+  </p>
+  <p>* <a href="https://maps.google.com/" target="_blank" rel="noreferrer">Clique aqui</a> para acessar o Google Maps</p>
+</div> 
+
+*/
+
