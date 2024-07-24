@@ -7,10 +7,6 @@
   height: 80vh; 
 }
 
-.h4 {
-  color: orange;
-}
-
 .fade-in {
   animation: fadeIn 1500ms ease-in-out forwards;
 }
