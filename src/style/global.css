@@ -12,9 +12,15 @@ code {
   font-family: "Arial", "Helvetica", "Calibri", "Consolas", "Courier New", monospace;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h5 {
   line-height: 1.5;
 }
+
+h4 {
+  color: orange;
+  line-height: 1.5;
+}
+
 p {
   color: #8B8B8B;
 }
