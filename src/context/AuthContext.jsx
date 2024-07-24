@@ -11,7 +11,7 @@ import api from '../config/apiAxios';
 
 const AuthContext = createContext();
 
-function AuthContextProvider({children}){
+function AuthProvider({children}){
   const auth = getAuth(firebase_app);
   const db = getDatabase();
   const [ authenticated, setAuthenticated ] = useState(false);
@@ -167,4 +167,4 @@ function AuthContextProvider({children}){
   )
 }
 
-export { AuthContext, AuthContextProvider };
+export { AuthContext, AuthProvider };

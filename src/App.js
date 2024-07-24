@@ -3,15 +3,14 @@
  */
 
 import React from 'react';
-import { AuthContextProvider } from './context/AuthContext';
-
+import { AuthProvider } from './context/AuthContext';
 import Rotas from './rotas';
 
 function App() {
   return (
-    <AuthContextProvider>
+    <AuthProvider>
       <Rotas/>
-    </AuthContextProvider>
+    </AuthProvider>
   );
 }
 
