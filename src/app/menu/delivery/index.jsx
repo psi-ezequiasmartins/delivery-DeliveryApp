@@ -34,7 +34,7 @@ function Delivery() {
   const [CEP, setCep] = useState(delivery?.CEP || "");
   const [token_msg, setTokenMSG] = useState(delivery?.TOKEN_MSG || "");
 
-  const [msg, setMsg] = useState('');
+  const [msg, setMsg] = useState({ text: '', type: 0 });
 
   async function loadDeliveryInfo() {
     if (vID) {
@@ -77,7 +77,7 @@ function Delivery() {
 
   async function saveDeliveryInfo() {
     if (delivery_nome.length === 0) {
-      setMsg('Favor preencher o campo Nome do Delivery.');
+      setMsg({ text: 'Favor preencher o campo Nome do Delivery', type: 1 });
     } else {
       const jsonData = {
         "DELIVERY_ID": delivery_id,
@@ -105,9 +105,9 @@ function Delivery() {
       }
       await api.put(`/update/delivery/${vID} `, jsonData).then((response) => {
         console.log('Atualização de dados do Delivery: ', response.data);
-        setMsg('Dados atualizados com sucesso!');
+        setMsg({ text: 'Dados atualizados com sucesso!', type: 0 });
       }).catch((error) => {
-        setMsg(error);
+        setMsg({ text: 'Erro: '+error, type: 1 });
       });
     }
   }
@@ -152,6 +152,15 @@ function Delivery() {
       }
     }
   }
+
+  useEffect(() => {
+    if (msg) {
+      const timer = setTimeout(() => {
+        setMsg({text: '', type: 0});
+      }, 3000); // Oculta a mensagem após 3 segundos
+      return () => clearTimeout(timer); // Limpa o timer se o componente for desmontado
+    }
+  }, [msg]);
 
   return (
     <div className="container-fluid">
@@ -288,16 +297,18 @@ function Delivery() {
 
                 <input type="hidden" id="token_msg" name="TOKEN_MSG" value={token_msg} onChange={e => setTokenMSG(e.target.value)} />
 
-                {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
-
               </div>
             </form>
 
-            <div className="footer">
-              <button type="button" className="btn btn-dark" onClick={saveDeliveryInfo} >SALVAR DADOS</button>
-            </div>
-          </div>
+            <button type="button" className="btn btn-dark" onClick={saveDeliveryInfo} >SALVAR DADOS</button>
 
+            {msg.text && (
+              <div className={msg.type !== 0 ? "alert alert-danger" : "alert alert-info"} role="alert">
+                {msg.text}
+              </div>
+            )}
+
+          </div>
         </div>
       </div>
     </div>

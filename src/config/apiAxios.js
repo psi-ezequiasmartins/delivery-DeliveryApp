@@ -4,12 +4,13 @@
 
 import Axios from "axios";
 
-const URL =  "http://localhost:3359"; // "https://srv.deliverybairro.com"; //  
+const URL = "https://srv.deliverybairro.com"; // "http://localhost:3359"; // 
 
 const api = Axios.create({
   baseURL: URL,
   headers: {
     'Content-Type':'application/json',
+    'Access-Control-Allow-Origin': '*',
     'Accept': '*/*'
   }
 });

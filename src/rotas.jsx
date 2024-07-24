@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 /** rotas */
 
-import Site from "./site/site.jsx";
+import Site from './site/index.jsx';
 
 import Login from "./app/login/login.jsx";
 import Novo from "./app/login/novo.jsx";
