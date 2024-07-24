@@ -168,36 +168,3 @@ function AuthContextProvider({children}){
 }
 
 export { AuthContext, AuthContextProvider };
-
-/* Login sem validação do token criptografado
-  function signIn(email, password) {
-    setLoading(true);
-    console.log(email, password);
-    signInWithEmailAndPassword(auth, email, password).then(async(result) => {
-      // SIGNED IN
-      const id = result.user.uid;
-      console.log(id);
-      const userData = ref(db, 'users/'+id);
-      onValue(userData, (snapshot) => {
-        const data = snapshot.val();
-        console.log(data);
-        localStorage.setItem("logged", true);
-        localStorage.setItem("vID", data.DeliveryID);
-        localStorage.setItem("vDelivery", data.DeliveryName);
-        localStorage.setItem("vMail", data.DeliveryMail);
-      });
-
-      setLoading(false);
-      setAuthenticated(true);
-      setResult('S');
-    }).catch((error) => {
-      // console.log(error.code, error.message);
-      setMessage('E-mail e/ou senha inválidos!');
-
-      setLoading(false);
-      setAuthenticated(false);
-      setResult('N');
-    });
-  }
-
-*/
