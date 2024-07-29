@@ -73,16 +73,16 @@ export default function Pedido(props) {
 
       <div className="row" >
         <div className="col-9">
-          <text-orange><b>{props.USER_ID} {props.CLIENTE}</b></text-orange><br/>
-          <text-orange>{props.ENDERECO_ENTREGA}</text-orange><br/>
+          <text-black><b>{props.USER_ID} {props.CLIENTE}</b></text-black><br/>
+          <text-black>{props.ENDERECO_ENTREGA}</text-black><br/>
           {/* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */}
           <text-black><b>PEDIDO #{props.PEDIDO_ID}</b></text-black>
           <span className='badge bg-dark ms-2'>{props.DATA}</span>
           {status === 'NOVO' && <span className='badge bg-danger ms-2'>NOVO</span>}
-          {status === 'AGUARDANDO' && <span className='badge bg-warning ms-2'>AGUARDANDO</span>}
-          {status === 'PREPARANDO' && <span className='badge bg-primary ms-2'>PREPARANDO</span>}
-          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-success ms-2'>PRONTO PARA RETIRADA</span>}
-          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-warning ms-2'>SAIU PARA ENTREGA</span>}
+          {status === 'AGUARDANDO' && <span className='badge bg-secondary ms-2'>AGUARDANDO</span>}
+          {status === 'PREPARANDO' && <span className='badge bg-success ms-2'>PREPARANDO</span>}
+          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-info ms-2'>PRONTO PARA RETIRADA</span>}
+          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-primary ms-2'>SAIU PARA ENTREGA</span>}
           {status === 'RECEBIDO' && <span className='badge bg-dark ms-2'>RECEBIDO</span>}
           {status === 'FINALIZADO' && <span className='badge bg-secondary ms-2'>FINALIZADO</span>}
           {status === 'CANCELADO' && <span className='badge bg-secondary ms-2'>CANCELADO</span>}
@@ -94,14 +94,14 @@ export default function Pedido(props) {
               <i className='bi bi-pin-angle'></i> STATUS
             </a>
             <ul className='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-              <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item'><MdNotificationAdd /> Novo Pedido</a></li>
-              <li><a href='#aguardando' onClick={() => AlterarStatus('AGUARDANDO')} className='dropdown-item'><BsClockHistory /> Aguardando</a></li>
-              <li><a href='#preparando' onClick={() => AlterarStatus('PREPARANDO')} className='dropdown-item'><GiCook /> Preparando</a></li>
-              <li><a href='#retirada' onClick={() => AlterarStatus('PRONTO_PARA_RETIRADA')} className='dropdown-item'><HiMiniShoppingBag /> Pronto para retirada</a></li>
-              <li><a href='#entrega' onClick={() => AlterarStatus('SAIU_PARA_ENTREGA')} className='dropdown-item'><RiEBikeFill /> Saiu para entrega</a></li>
-              <li><a href='#recebido' onClick={() => AlterarStatus('RECEBIDO')} className='dropdown-item'><IoBagCheckSharp /> Pedido entrege e recebido</a></li>
-              <li><a href='#finalizado' onClick={() => AlterarStatus('FINALIZADO')} className='dropdown-item'><FiCheckCircle /> Finalizado</a></li>
-              <li><a href='#cancelado' onClick={() => AlterarStatus('CANCELADO')} className='dropdown-item'><AiOutlineStop /> Cancelado</a></li>
+              <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item'>Novo Pedido <MdNotificationAdd /></a></li>
+              <li><a href='#aguardando' onClick={() => AlterarStatus('AGUARDANDO')} className='dropdown-item'>Aguardando <BsClockHistory /></a></li>
+              <li><a href='#preparando' onClick={() => AlterarStatus('PREPARANDO')} className='dropdown-item'>Preparando <GiCook /></a></li>
+              <li><a href='#retirada' onClick={() => AlterarStatus('PRONTO_PARA_RETIRADA')} className='dropdown-item'> Pronto para retirada <HiMiniShoppingBag /></a></li>
+              <li><a href='#entrega' onClick={() => AlterarStatus('SAIU_PARA_ENTREGA')} className='dropdown-item'>Saiu para entrega <RiEBikeFill /></a></li>
+              <li><a href='#recebido' onClick={() => AlterarStatus('RECEBIDO')} className='dropdown-item'>Pedido entrege e recebido <IoBagCheckSharp /></a></li>
+              <li><a href='#finalizado' onClick={() => AlterarStatus('FINALIZADO')} className='dropdown-item'>Finalizado <FiCheckCircle /></a></li>
+              <li><a href='#cancelado' onClick={() => AlterarStatus('CANCELADO')} className='dropdown-item'>Cancelado <AiOutlineStop /></a></li>
             </ul>
           </div>
         </div>
@@ -112,24 +112,26 @@ export default function Pedido(props) {
           <div className='d-inline-block align-items-start' key={item.ITEM_ID}>
             <div className='text-left me-4 mt-2 card-pedido'>
               <img src={item.URL_IMAGEM} className='foto-item' alt='' />
-              <small className='d-block text-dark'><b>({item.QTD}x) {item.PRODUTO_NOME}</b></small>
-              {item.ACRESCIMOS && (
-                <div className='text-dark acrescimos'>
-                  <b>Acrescimos:</b>
-                  <ul>
-                    {item.ACRESCIMOS.map((acrescimo, index) => (
-                      <li key={index}>
-                        {acrescimo.Descricao}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <small className='d-block text-dark'><b>( {item.QTD}x ) {item.PRODUTO_NOME}</b></small>
+              <br/>
+              {(item.ACRESCIMOS.length) > 0 
+                ? <div className='text-dark acrescimos'>
+                    <b>Acrescimos:</b>
+                    <ul>
+                      {item.ACRESCIMOS.map((acrescimo, index) => (
+                        <li key={index}>
+                          {acrescimo.Descricao}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                : null
+              }
               {item.OBS && (
-                <div className='text-danger obs'>
+                <text-orange>
                   <b>OBSERVAÇÕES:</b><br />
                   {item.OBS}
-                </div>
+                </text-orange>
               )}
             </div>
           </div>
