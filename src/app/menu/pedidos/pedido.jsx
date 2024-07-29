@@ -77,15 +77,15 @@ export default function Pedido(props) {
           <text-black>{props.ENDERECO_ENTREGA}</text-black><br/>
           {/* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */}
           <text-black><b>PEDIDO #{props.PEDIDO_ID}</b></text-black>
-          <span className='badge bg-dark ms-2'>{props.DATA}</span>
-          {status === 'NOVO' && <span className='badge bg-danger ms-2'>NOVO</span>}
-          {status === 'AGUARDANDO' && <span className='badge bg-secondary ms-2'>AGUARDANDO</span>}
-          {status === 'PREPARANDO' && <span className='badge bg-success ms-2'>PREPARANDO</span>}
-          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-info ms-2'>PRONTO PARA RETIRADA</span>}
-          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-primary ms-2'>SAIU PARA ENTREGA</span>}
-          {status === 'RECEBIDO' && <span className='badge bg-dark ms-2'>RECEBIDO</span>}
-          {status === 'FINALIZADO' && <span className='badge bg-secondary ms-2'>FINALIZADO</span>}
-          {status === 'CANCELADO' && <span className='badge bg-secondary ms-2'>CANCELADO</span>}
+          <span className='badge bg-dark m-2'>{props.DATA}</span>
+          {status === 'NOVO' && <span className='badge bg-danger mr-2'>NOVO</span>}
+          {status === 'AGUARDANDO' && <span className='badge bg-warning mr-2'>AGUARDANDO</span>}
+          {status === 'PREPARANDO' && <span className='badge bg-success mr-2'>PREPARANDO</span>}
+          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-info mr-2'>PRONTO PARA RETIRADA</span>}
+          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-primary mr-2'>SAIU PARA ENTREGA</span>}
+          {status === 'RECEBIDO' && <span className='badge bg-dark mr-2'>RECEBIDO</span>}
+          {status === 'FINALIZADO' && <span className='badge bg-secondary mr-2'>FINALIZADO</span>}
+          {status === 'CANCELADO' && <span className='badge bg-secondary mr-2'>CANCELADO</span>}
         </div>
 
         <div className="col-2">
