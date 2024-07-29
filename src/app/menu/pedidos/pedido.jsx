@@ -90,7 +90,7 @@ export default function Pedido(props) {
 
         <div className="col-2">
           <div className='dropdown'>
-            <a className='btn btn-dark dropdown-toggle' href='#status' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
+            <a className='btn btn-primary dropdown-toggle' href='#status' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
               <i className='bi bi-pin-angle'></i> STATUS
             </a>
             <ul className='dropdown-menu' aria-labelledby='dropdownMenuLink'>
