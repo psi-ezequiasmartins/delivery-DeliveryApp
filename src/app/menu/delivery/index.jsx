@@ -317,7 +317,6 @@ function Delivery() {
 
 export default Delivery;
 
-
 /* 
   const [latitude, setLatitude] = useState(delivery?.LATITUDE || -19.92273710527297); 
   const [longitude, setLongitude] = useState(delivery?.LONGITUDE || -43.945118685204825);

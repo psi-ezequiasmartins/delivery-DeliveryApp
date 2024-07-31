@@ -99,7 +99,7 @@ function AuthProvider({children}){
       const id = result.user.uid;
 
       set(ref(db, 'users/'+id), {
-        DeliveryID: id,
+        DeliveryID: id, // substituir pelo ID resultante do cadastro do Delivery no backend
         DeliveryName: delivery,
         DeliveryMail: email
       });

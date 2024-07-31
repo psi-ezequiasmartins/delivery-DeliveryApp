@@ -6,7 +6,7 @@ import './index.css';
 import api from "../../../config/apiAxios";
 
 export default function Pedidos() {
-  const vDelivery = localStorage.getItem("vDelivery"); 
+  const vDelivery = localStorage.getItem("vDelivery");
   const vID = localStorage.getItem("vID");
 
   const [pedidos, setPedidos] = useState(null);
@@ -15,8 +15,7 @@ export default function Pedidos() {
     if (vID) {
       await api.get(`/pedidos/abertos/delivery/${vID}`) 
       .then((response) => {
-        setPedidos(response.data);
-        // console.log(pedidos);
+        setPedidos(response.data); // console.log(pedidos);
         console.count = 0;
       }).catch((error)=>{
         console.log(error);
@@ -27,7 +26,25 @@ export default function Pedidos() {
   useEffect(() => {
     ListarPedidos(); // eslint-disable-next-line 
   }, [pedidos, vID]) 
-  // verificar monitoramento da constante "pedidos"
+
+  async function loadDeliveryAddress() {
+    if (vID) {
+      await api.get(`/delivery/${vID} `)
+        .then((response) => {
+          let address = "";
+          address += response.data.ENDERECO+", ";
+          address += response.data.NUMERO+" "+response.data.COMPLEMENTO+", ";
+          address += response.data.BAIRRO+" "+response.data.CIDADE+"-"+response.data.UF+" ";
+          address += response.data.CEP;
+          localStorage.setItem("vDeliveryAddress", address);
+          console.count = 0;
+        }).catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
+  loadDeliveryAddress();
 
   return  <>
     <div className="container-fluid">

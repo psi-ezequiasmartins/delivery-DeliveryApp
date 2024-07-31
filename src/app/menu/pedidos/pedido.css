@@ -24,7 +24,7 @@
   cursor: pointer;
 }
 .foto-item {
-  max-width: 60px;
+  max-width: 100px;
 }
 .card-pedido {
   position: relative;

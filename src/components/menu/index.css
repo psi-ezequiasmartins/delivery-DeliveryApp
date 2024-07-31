@@ -5,13 +5,9 @@
  * src/components/menu/index.css
  */
 
- #menu {
+#menu {
   background-color: #000;
   color: white;
-  padding: 5px;
-}
-
-.sidebar {
   padding: 5px;
 }
 

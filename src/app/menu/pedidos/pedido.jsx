@@ -1,4 +1,9 @@
+/**
+ * src/app/menu/pedidos/pedido.jsx
+ */
+
 import React, { useState, useEffect } from 'react';
+
 import { MdNotificationAdd } from "react-icons/md";
 import { BsClockHistory } from "react-icons/bs";
 import { GiCook } from "react-icons/gi";
@@ -9,12 +14,16 @@ import { FiCheckCircle } from "react-icons/fi";
 import { AiOutlineStop } from "react-icons/ai";
 
 import api from '../../../config/apiAxios';
+// import MapCard from '../../../components/mapbox';
 import './pedido.css';
 
 export default function Pedido(props) {
   const [status, setStatus] = useState(props.STATUS);
   const [visible, setVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // const deliveryAddress = localStorage.getItem("vDeliveryAddress");
+  // const userAddress = props.ENDERECO_ENTREGA;
 
   useEffect(() => {
     function handleResize() {
@@ -72,20 +81,19 @@ export default function Pedido(props) {
     <div className={`shadow-sm pedido ${isMobile ? 'flex-column' : 'flex-row justify-content-between'}`}>
 
       <div className="row" >
-        <div className="col-9">
+        <div className="col-8">
           <text-black><b>{props.USER_ID} {props.CLIENTE}</b></text-black><br/>
           <text-black>{props.ENDERECO_ENTREGA}</text-black><br/>
-          {/* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */}
           <text-black><b>PEDIDO #{props.PEDIDO_ID}</b></text-black>
           <span className='badge bg-dark m-2'>{props.DATA}</span>
-          {status === 'NOVO' && <span className='badge bg-danger mr-2'>NOVO</span>}
-          {status === 'AGUARDANDO' && <span className='badge bg-warning mr-2'>AGUARDANDO</span>}
-          {status === 'PREPARANDO' && <span className='badge bg-success mr-2'>PREPARANDO</span>}
-          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-info mr-2'>PRONTO PARA RETIRADA</span>}
-          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-primary mr-2'>SAIU PARA ENTREGA</span>}
+          {status === 'NOVO' && <span className='badge bg-success mr-2'>NOVO</span>}
+          {status === 'AGUARDANDO' && <span className='badge bg-danger mr-2'>AGUARDANDO</span>}
+          {status === 'PREPARANDO' && <span className='badge bg-warning mr-2'>PREPARANDO</span>}
+          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-primary mr-2'>PRONTO PARA RETIRADA</span>}
+          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-info mr-2'>SAIU PARA ENTREGA</span>}
           {status === 'RECEBIDO' && <span className='badge bg-dark mr-2'>RECEBIDO</span>}
           {status === 'FINALIZADO' && <span className='badge bg-secondary mr-2'>FINALIZADO</span>}
-          {status === 'CANCELADO' && <span className='badge bg-secondary mr-2'>CANCELADO</span>}
+          {status === 'CANCELADO' && <span className='badge bg-danger mr-2'>CANCELADO</span>}
         </div>
 
         <div className="col-2">
@@ -105,9 +113,14 @@ export default function Pedido(props) {
             </ul>
           </div>
         </div>
+
       </div>
 
       <div className="flex-column" >
+        {/* <div id="map">
+          { MapCard(deliveryAddress, userAddress) } 
+        </div> */}
+
         {props.itens.map((item) => (
           <div className='d-inline-block align-items-start' key={item.ITEM_ID}>
             <div className='text-left me-4 mt-2 card-pedido'>
@@ -137,7 +150,8 @@ export default function Pedido(props) {
           </div>
         ))}
       </div>
-
     </div>
   );
 }
+
+/* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */
