@@ -1,4 +1,5 @@
 import React from 'react';
+import logomarca from '../../assets/logomarca.png'
 
 function Menu() {
     return (
@@ -7,8 +8,7 @@ function Menu() {
           <div className="container">
 
             <a className="navbar-brand" href="/#">
-              <img src="imagens/favicon.png" alt="" height="32" className="d-inline-block align-text-top"/>
-              <span className="logotipo">&nbsp;&nbsp;DeliveryBairro.com</span>
+              <img src={logomarca} alt="deliverybairro.com" height="50" className="d-inline-block align-text-top"/>
             </a>
 
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

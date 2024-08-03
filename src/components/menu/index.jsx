@@ -10,7 +10,7 @@ import { IoFastFood } from 'react-icons/io5';
 import { GiShoppingBag } from 'react-icons/gi';
 import { BiFoodMenu } from 'react-icons/bi';
 
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo-black.png';
 import './index.css';
 
 import SessionTimeout from '../session/SessionTimeOFF.jsx';
