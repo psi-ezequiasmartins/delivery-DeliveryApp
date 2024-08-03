@@ -15,13 +15,6 @@ root.render(
 
 /*
   import { formWhatsApp, formTelegram } from '../src/components/custom/form';
-  import * as Sentry from '@sentry/react';
-
-  Sentry.init({
-    enableInExpoDevelopment: true,
-    dsn: "https://76cab4f207161a649d922c8690e95e7f@o4505409112309760.ingest.sentry.io/4505697799897088",
-    tracesSampleRate: 1.0,
-  });  
 
     <script type="text/javascript" src="./custom-form.js"></script>
     
@@ -37,4 +30,14 @@ root.render(
         <path d="M34.67,31.75C34.22,33,32,34.21,31,34.31S30,35.12,24.5,33s-9-7.77-9.27-8.13S13,21.92,13,19.27a6.08,6.08,0,0,1,1.89-4.5,2,2,0,0,1,1.45-.67c.36,0,.72.05,1,.05s.77-.18,1.22.9,1.54,3.72,1.67,4a1,1,0,0,1,.05.95,3.53,3.53,0,0,1-.54.89c-.28.32-.58.71-.82.95s-.55.56-.24,1.09a16.48,16.48,0,0,0,3,3.73,14.93,14.93,0,0,0,4.37,2.68c.54.26.86.22,1.17-.14s1.36-1.58,1.72-2.12.72-.45,1.22-.26,3.17,1.47,3.71,1.74.9.41,1,.63A4.4,4.4,0,0,1,34.67,31.75Z" />
       </svg>
     </a> 
+*/
+
+/*
+  import * as Sentry from '@sentry/react';
+
+  Sentry.init({
+    enableInExpoDevelopment: true,
+    dsn: "https://76cab4f207161a649d922c8690e95e7f@o4505409112309760.ingest.sentry.io/4505697799897088",
+    tracesSampleRate: 1.0,
+  });
 */
