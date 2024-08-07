@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import banner from '../../assets/banner.jpg';
 import './banner.css'
 
 function Banner() {
   const texts = [
-    "Solução Completa para Seu Delivery! Agilize a gestão de pedidos do seu bar, restaurante ou fastfood de forma prática e simples",
-    "Ideal para todos os tipos de delivery: Bares, Restaurantes, Fastfoods, Água Mineral, Gás de Cozinha, Farmácias, Floriculturas, etc. ",
-    "Sistema prático para Bares, Restaurantes, Fastfoods, Deliveries em geral. Gestão de Pedidos e Cardápio Digital em único lugar",
-    "Gestão de Pedidos para Deliveries em Geral de forma ágil e descomplicada + Cardápio Digital integrado ao WhatsApp",
+    "Agilize a gestão de pedidos do seu bar, restaurante ou fastfood de forma muito prática e simples!",
+    "Gestão de Pedidos para Deliveries em Geral de forma ágil e descomplicada.",
+    "Sistema prático e simplificado para Delivery + Cardápio Digital c/ envio de pedidos via WhatsApp.",
+    "Bares, Restaurantes, Pizzarias, Fastfoods, Farmácias, Floriculturas, Gáz de Cozinha, Água Mineral, etc.",
   ];
 
   const [index, setIndex] = useState(0);
@@ -29,15 +30,15 @@ function Banner() {
         <div className="row align-items-center">
 
           <div className="col-lg-6">
-            <img src="images/banner.jpg" className="img-fluid" alt="deliverybairro.com"/>
+            <img src={banner} className="img-fluid" alt="deliverybairro.com"/>
           </div>
           <div className="col-lg-6">
             <div className="bloco">
               <h1>Simples de configurar <br/>e fácil de usar!</h1>
               <div className={`${fade ? 'fade-in' : 'fade-out'}`}>
-                <h4>{texts[index].split('.')[0]}. {texts[index].split('.')[1]}</h4> 
+                <h4>{texts[index]}</h4>
               </div>
-              <h5>Cadastre hoje mesmo o seu Delivery e faça parte do nosso Catálogo a partir do plano Free.</h5>
+              <h5>Cadastre gratuitamente o seu Delivery hoje mesmo e faça parte do nosso Catálogo! Pague apenas R$ 0,99 por pedido enviado pela nossa plataforma.</h5>
               <a href="#planos-e-precos" type="button" className="btn btn-primary btn-lg btn-app">Cadastre-se</a>
               <a href="/app/login" type="button" className="btn btn-outline-light btn-lg btn-app">Fazer Login</a>
             </div>

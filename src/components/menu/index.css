@@ -8,7 +8,9 @@
   padding: 5px;
 }
 
+
 .sidebar {
+  width: 200px;
   height: 100%;
   max-height: 100%;
   display: flex;
@@ -26,7 +28,7 @@
   display: none; /* Oculta por padrão */
   flex-direction: row;
   justify-content: space-around;
-  padding: 10px 0;
+  /* padding: 10px 0; */
   background-color: #000;
   z-index: 9999;
 }
@@ -68,5 +70,12 @@
 @media (min-width: 769px) {
   .tabbar {
     display: none;
+  }
+}
+
+@media (min-width: 576px) {
+  .px-sm-2 {
+      padding-right: 0 !important;
+      padding-left: 0 !important;
   }
 }
