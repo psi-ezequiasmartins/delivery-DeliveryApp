@@ -20,18 +20,18 @@ function Delivery() {
   const [email, setEmail] = useState(delivery?.EMAIL || "");
   const [telefone, setTelefone] = useState(delivery?.TELEFONE || "");
   const [horario, setHorario] = useState(delivery?.HORARIO || "");
-  const [mindeliverytime, setMinDeliveryTime] = useState(delivery?.MIN_DELIVERY_TIME || 15);
-  const [maxdeliverytime, setMaxDeliveryTime] = useState(delivery?.MAX_DELIVERY_TIME || 45);
-  const [taxaentrega, setTaxaEntrega] = useState(delivery?.TAXA_ENTREGA || 5.0);
+  const [min_delivery_time, setMinDeliveryTime] = useState(delivery?.MIN_DELIVERY_TIME || 15);
+  const [max_delivery_time, setMaxDeliveryTime] = useState(delivery?.MAX_DELIVERY_TIME || 45);
+  const [taxa_entrega, setTaxaEntrega] = useState(delivery?.TAXA_ENTREGA || 5.0);
   const [rating, setRating] = useState(delivery?.RATING || 4.9);
-  const [urlimagem, setUrlImagem] = useState(delivery?.URL_IMAGEM || "");
+  const [url_imagem, setUrlImagem] = useState(delivery?.URL_IMAGEM || "");
+  const [CEP, setCep] = useState(delivery?.CEP || "");
   const [endereco, setEndereco] = useState(delivery?.ENDERECO || "");
   const [numero, setNumero] = useState(delivery?.NUMERO || "");
   const [complemento, setComplemento] = useState(delivery?.COMPLEMENTO || "");
   const [bairro, setBairro] = useState(delivery?.BAIRRO || "");
   const [cidade, setCidade] = useState(delivery?.CIDADE || "");
   const [UF, setUf] = useState(delivery?.UF || "");
-  const [CEP, setCep] = useState(delivery?.CEP || "");
   const [token_msg, setTokenMSG] = useState(delivery?.TOKEN_MSG || "");
 
   const [msg, setMsg] = useState({ text: '', type: 0 });
@@ -89,11 +89,11 @@ function Delivery() {
         "EMAIL": email,
         "TELEFONE": telefone,
         "HORARIO": horario,
-        "MIN_DELIVERY_TIME": mindeliverytime,
-        "MAX_DELIVERY_TIME": maxdeliverytime,
+        "MIN_DELIVERY_TIME": min_delivery_time,
+        "MAX_DELIVERY_TIME": max_delivery_time,
         "RATING": rating,
-        "TAXA_ENTREGA": taxaentrega,
-        "URL_IMAGEM": urlimagem,
+        "TAXA_ENTREGA": taxa_entrega,
+        "URL_IMAGEM": url_imagem,
         "CEP": CEP,
         "ENDERECO": endereco,
         "NUMERO": numero,
@@ -234,11 +234,11 @@ function Delivery() {
                 <div className="row mb-2">
                   <div className="col-3">
                     <label htmlFor="mindeliverytime" className="form-label">Tempo Mín.</label>
-                    <input type="text" id="mindeliverytime" name="MIN_DELIVERY_TIME" value={mindeliverytime} className="form-control" onChange={e => setMinDeliveryTime(e.target.value)} />
+                    <input type="text" id="mindeliverytime" name="MIN_DELIVERY_TIME" value={min_delivery_time} className="form-control" onChange={e => setMinDeliveryTime(e.target.value)} />
                   </div>
                   <div className="col-3">
                     <label htmlFor="maxdeliverytime" className="form-label">Tempo Máx.</label>
-                    <input type="text" id="maxdeliverytime" name="MAX_DELIVERY_TIME" value={maxdeliverytime} className="form-control" onChange={e => setMaxDeliveryTime(e.target.value)} />
+                    <input type="text" id="maxdeliverytime" name="MAX_DELIVERY_TIME" value={max_delivery_time} className="form-control" onChange={e => setMaxDeliveryTime(e.target.value)} />
                   </div>
                   <div className="col-3">
                     <label htmlFor="rating" className="form-label">Pontuação (avaliação)*</label>
@@ -253,8 +253,8 @@ function Delivery() {
                   </div>
                   <div className="col-3">
                     <label htmlFor="taxaentrega" className="form-label">Taxa Entrega</label>
-                    <input type="text" id="taxaentrega" name="TAXA_ENTREGA" value={taxaentrega} className="form-control" onChange={e => setTaxaEntrega(e.target.value)} />
-                    <input type="hidden" id="urlimagem" name="URL_IMAGEM" value={urlimagem} onChange={e => setUrlImagem(e.target.value)} />
+                    <input type="text" id="taxaentrega" name="TAXA_ENTREGA" value={taxa_entrega} className="form-control" onChange={e => setTaxaEntrega(e.target.value)} />
+                    <input type="hidden" id="urlimagem" name="URL_IMAGEM" value={url_imagem} onChange={e => setUrlImagem(e.target.value)} />
                   </div>
                 </div>
 

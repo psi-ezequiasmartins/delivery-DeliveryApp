@@ -1,10 +1,10 @@
 /**
-* src/config/apiAxios.js
-*/
+ * src/config/apiAxios.js
+ */
 
 import Axios from "axios";
 
-const URL = "https://srv.deliverybairro.com"; //"http://localhost:3359"; // 
+const URL = "https://srv.deliverybairro.com"; // "http://localhost:3359"; // 
 
 const api = Axios.create({
   baseURL: URL,
