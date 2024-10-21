@@ -91,7 +91,7 @@ function Planos() {
           <div className="row text-center">
             <div className="titulo">
               <h1>Planos e Preços</h1>
-              <p>Planos pagos a partir de R$ 79,90 /mês, escolha o plano conforme a sua necessidade:</p>
+              <p>Taxa de Adesão a partir de R$ 79,90, escolha o plano conforme a sua necessidade:</p>
             </div>
           </div>
 
@@ -157,7 +157,7 @@ function Planos() {
             <div className="modal-content">
 
               <div className="modal-header">
-                <h5 className="modal-title" id="titulo_modal">ASSINATURA (PRÉ-CADASTRO PARA NOVOS DELIVERIES)</h5>
+                <h5 className="modal-title" id="titulo_modal">CADASTRE SEU DELIVERY GRATUITAMENTE!</h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
