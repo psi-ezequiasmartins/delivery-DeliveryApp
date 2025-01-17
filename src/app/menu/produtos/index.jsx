@@ -36,25 +36,23 @@ export default function Produtos() {
   const [url_imagem, setUrlImagem] = useState('');
 
   useEffect(() => {
-    let listagem = []; 
-    api.get(`/listar/produtos/delivery/${vID}`).then(function (result) {
-      result.data.forEach(snapshot => {
-        if (snapshot.PRODUTO_NOME.indexOf(busca) >= 0) {
-          listagem.push({
-            "PRODUTO_ID": snapshot.PRODUTO_ID,
-            "PRODUTO_NOME": snapshot.PRODUTO_NOME,
-            "DESCRICAO": snapshot.DESCRICAO,
-            "VR_UNITARIO": snapshot.VR_UNITARIO,
-            "URL_IMAGEM": snapshot.URL_IMAGEM,
-            "DELIVERY_ID": snapshot.DELIVERY_ID
-          });
-        }
-      });
-      setProdutos(listagem);
-      console.log(produtos);
-    })
-    // eslint-disable-next-line
-  }, [busca, excluido, success, url_imagem, vID]);
+    async function fetchProdutos() {
+      try {
+        const result = await api.get(`/listar/produtos/delivery/${vID}`);
+        const searchLower = busca.toLowerCase();
+        const listagem = result.data.filter((snapshot) =>
+          snapshot.PRODUTO_ID.toString().includes(searchLower) ||
+          snapshot.PRODUTO_NOME.toLowerCase().includes(searchLower) ||
+          snapshot.DESCRICAO.toLowerCase().includes(searchLower) ||
+          snapshot.VR_UNITARIO.toLowerCase().includes(searchLower)
+        );
+        setProdutos(listagem);
+      } catch (error) {
+        console.error('Error fetching professores:', error);
+      }
+    }
+    fetchProdutos();
+  }, [busca, excluido, msg, vID]);
 
   async function imgUpload(id) {
     // let produto = produtos.find(item => item.PRODUTO_ID === id);
@@ -244,8 +242,7 @@ export default function Produtos() {
             <th scope="col">IMAGEM</th>
             <th scope="col">PRODUTO</th>
             <th scope="col">VALOR UN.</th>
-            <th scope="col">DELIVERY</th>
-            <th scope="col"></th>
+            <th scope="col">AÇÕES</th>
           </tr>
         </thead>
         <tbody>
@@ -254,12 +251,9 @@ export default function Produtos() {
               return (
                 <tr key={produto.PRODUTO_ID}>
                   <th scope="row">{produto.PRODUTO_ID}</th>
-                  <td>
-                    <img src={produto.URL_IMAGEM} alt="imagem" width="50" />
-                  </td>
+                  <td><img src={produto.URL_IMAGEM} alt="imagem" width="50" /></td>
                   <td>{produto.PRODUTO_NOME}</td>
                   <td>R$ { parseFloat(produto.VR_UNITARIO).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
-                  <th scope="row">{produto.DELIVERY_ID}</th>
                   <td>
                     <Link to="#" onClick={()=>props.select(produto.PRODUTO_ID)} title="EDITAR PRODUTO" data-bs-toggle="modal" data-bs-target="#md_editarproduto"><i className="fas fa-user-edit icon-action"></i></Link>
                     <Link to="#" onClick={()=>props.image_upload(produto.PRODUTO_ID)} title="UPLOAD DE IMAGEM"><i className="fas fa-file-image icon-action"></i></Link>
