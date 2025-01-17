@@ -141,10 +141,9 @@ export default function Extras() {
         <thead>
           <tr className="table-secondary">
             <th scope="col">ID</th>
-            <th scope="col">ITEM</th>
+            <th scope="col">ITEM EXTRA</th>
             <th scope="col">VALOR UN.</th>
-            <th scope="col">DELIVERY</th>
-            <th scope="col"></th>
+            <th scope="col">AÇÕES</th>
           </tr>
         </thead>
         <tbody>
@@ -155,7 +154,6 @@ export default function Extras() {
                   <th scope="row">{extra.EXTRA_ID}</th>
                   <td>{extra.DESCRICAO}</td>
                   <td>R$ { parseFloat(extra.VR_UNITARIO).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') }</td>
-                  <th scope="row">{extra.DELIVERY_ID}</th>
                   <td>
                     <Link to="#" onClick={()=>props.select(extra.EXTRA_ID)} title="EDITAR ITEM DE ACRÉSCIMO" data-bs-toggle="modal" data-bs-target="#md_editar"><i className="fas fa-user-edit icon-action"></i></Link>
                     <Link to="#" onClick={()=>props.delete(extra.EXTRA_ID)} title="EXCLUIR ITEM DE ACRÉSCIMO"><i className="fas fa-trash-alt icon-action red"></i></Link>
