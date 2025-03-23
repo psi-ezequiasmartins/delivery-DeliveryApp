@@ -112,7 +112,7 @@ export default function Pedido(props) {
                     <ul>
                       {item.ACRESCIMOS.map((acrescimo, index) => (
                         <li key={index}>
-                          {acrescimo.Descricao}
+                          {acrescimo.DESCRICAO} - R$ {parseFloat(acrescimo.VR_UNITARIO).toFixed(2)}
                         </li>
                       ))}
                     </ul>
