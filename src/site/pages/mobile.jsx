@@ -18,9 +18,10 @@ function Mobile() {
                   href="https://drive.google.com/file/d/1unq8uZQD2B53R36XFHgxm65tHMRypLeP/view?usp=drive_link" 
                   type="button" 
                   className="btn btn-dark btn-lg btn-app"
-                >DOWNLOAD<br/>BUILD 7644633 · 22032025-211654<br/>UserApp v3.0 <i className="fa fa-android"></i></a>
+                >DOWNLOAD<br/>UserApp v3.0 <i className="fa fa-android"></i></a>
+                <p className="text-white">(*) em breve disponível também para dispositivos iOs (iPhone, iPads, etc)</p>
+                <p>BUILD 7644633 · 22032025-211654</p>
               </div>
-              <p className="text-white">(*) em breve disponível também para dispositivos iOs (iPhone, iPads, etc)</p>
             </div>
             <div className="col-lg-6">
               <img src="images/mobile.jpg" width="700px" alt="deliverybairro.com"/>
