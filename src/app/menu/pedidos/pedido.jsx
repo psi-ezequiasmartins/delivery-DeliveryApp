@@ -29,7 +29,6 @@ export default function Pedido(props) {
     function handleResize() {
       setIsMobile(window.innerWidth <= 768);
     }
-
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -41,7 +40,13 @@ export default function Pedido(props) {
     await api.put(`/update/status/pedido/${props.PEDIDO_ID}`, { status: codigo })
       .then((response) => {
         console.log(response);
-        sendPushNotification(props.TOKEN_MSG, props.PEDIDO_ID, status);
+        json = {
+          pushToken: props.TOKEN_MSG,
+          title: 'psi-Delivery',
+          body: 'Pedido #' + props.PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo, 
+        }
+        api.post('/send-notification', json);
+
         if (status === 'FINALIZADO') {
           setVisible(false);
         }
@@ -49,32 +54,6 @@ export default function Pedido(props) {
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  async function sendPushNotification(expoPushToken, PEDIDO_ID, codigo_status) {
-    const message = {
-      to: expoPushToken,
-      sound: 'default',
-      title: 'DeliveryBairro.com',
-      body: 'Pedido #' + PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo_status,
-      data: {
-        PedidoID: PEDIDO_ID,
-        Status: codigo_status,
-      },
-    };
-
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      referrerPolicy: 'strict-origin-when-cross-origin',
-      mode: 'no-cors',
-      headers: {
-        Accept: '*',
-        'Accept-encoding': 'gzip, deflate',
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(message),
-    });
   }
 
   return !visible ? null : (
@@ -155,3 +134,29 @@ export default function Pedido(props) {
 }
 
 /* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */
+
+  // async function sendPushNotification(expoPushToken, PEDIDO_ID, codigo_status) {
+  //   const message = {
+  //     to: expoPushToken,
+  //     sound: 'default',
+  //     title: 'DeliveryBairro.com',
+  //     body: 'Pedido #' + PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo_status,
+  //     data: {
+  //       PedidoID: PEDIDO_ID,
+  //       Status: codigo_status,
+  //     },
+  //   };
+
+  //   await fetch('https://exp.host/--/api/v2/push/send', {
+  //     method: 'POST',
+  //     referrerPolicy: 'strict-origin-when-cross-origin',
+  //     mode: 'no-cors',
+  //     headers: {
+  //       Accept: '*',
+  //       'Accept-encoding': 'gzip, deflate',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(message),
+  //   });
+  // }
