@@ -40,7 +40,7 @@ export default function Pedido(props) {
     await api.put(`/update/status/pedido/${props.PEDIDO_ID}`, { status: codigo })
       .then((response) => {
         console.log(response);
-        json = {
+        const json = {
           pushToken: props.TOKEN_MSG,
           title: 'psi-Delivery',
           body: 'Pedido #' + props.PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo, 
