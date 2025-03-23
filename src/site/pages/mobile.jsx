@@ -1,3 +1,7 @@
+/**
+ * src/site/pages/mobile.jsx
+ */
+
 import React from 'react';
 
 function Mobile() {
