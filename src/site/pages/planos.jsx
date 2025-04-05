@@ -71,7 +71,7 @@ function Planos() {
           "Longitude": longitude,
           "TokenADM": token
         }
-        api.post('/add/delivery', info).then((response) => {
+        api.post('/api/add/delivery', info).then((response) => {
           localStorage.setItem("token", response.data.DeliveryID);
           localStorage.setItem("delivery", response.data.Nome);
           localStorage.setItem("email", response.data.Email);

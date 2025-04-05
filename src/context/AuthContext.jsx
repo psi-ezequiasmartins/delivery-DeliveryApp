@@ -54,7 +54,7 @@ function AuthProvider({children}){
       });
 
       try {
-        const response = await api.post('/authenticate', { USER_ID: id, CHV: 1 });
+        const response = await api.post('/api/authenticate', { USER_ID: id, CHV: 1 });
         // console.log({ USER_ID: id, CHV: 1 });
         const token = response.data?.token; // Verifica se 'data' e 'token' estão definidos
         // console.log(`Tamanho do token: ${token.length}`);
@@ -104,7 +104,7 @@ function AuthProvider({children}){
         DeliveryMail: email
       });
 
-      const response = await api.post('/authenticate', { USER_ID: id, CHV: 1 });
+      const response = await api.post('/api/authenticate', { USER_ID: id, CHV: 1 });
       const token = response.data?.token;
       if (token) {
         localStorage.setItem('token', JSON.stringify(token));

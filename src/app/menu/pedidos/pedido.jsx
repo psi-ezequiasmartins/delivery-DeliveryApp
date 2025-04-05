@@ -37,7 +37,7 @@ export default function Pedido(props) {
 
   async function AlterarStatus(codigo) {
     setStatus(codigo);
-    await api.put(`/update/status/pedido/${props.PEDIDO_ID}`, { status: codigo })
+    await api.put(`/api/update/status/pedido/${props.PEDIDO_ID}`, { status: codigo })
       .then((response) => {
         console.log(response);
         const json = {
@@ -45,7 +45,7 @@ export default function Pedido(props) {
           title: 'psi-Delivery',
           body: 'Pedido #' + props.PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo, 
         }
-        api.post('/send-notification', json);
+        api.post('/api/send-notification', json);
 
         if (status === 'FINALIZADO') {
           setVisible(false);
@@ -81,15 +81,14 @@ export default function Pedido(props) {
               <i className='bi bi-pin-angle'></i> STATUS
             </a>
             <ul className='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-              <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item'>Novo Pedido <MdNotificationAdd /></a></li>
-              <li><a href='#aguardando' onClick={() => AlterarStatus('AGUARDANDO')} className='dropdown-item'>Aguardando <BsClockHistory /></a></li>
-              <li><a href='#preparando' onClick={() => AlterarStatus('PREPARANDO')} className='dropdown-item'>Preparando <GiCook /></a></li>
-              <li><a href='#retirada' onClick={() => AlterarStatus('PRONTO_PARA_RETIRADA')} className='dropdown-item'> Pronto para retirada <HiMiniShoppingBag /></a></li>
-              <li><a href='#entrega' onClick={() => AlterarStatus('SAIU_PARA_ENTREGA')} className='dropdown-item'>Saiu para entrega <RiEBikeFill /></a></li>
-              <li><a href='#recebido' onClick={() => AlterarStatus('RECEBIDO')} className='dropdown-item'>Pedido entrege e recebido <IoBagCheckSharp /></a></li>
-              <li><a href='#finalizado' onClick={() => AlterarStatus('FINALIZADO')} className='dropdown-item'>Finalizado <FiCheckCircle /></a></li>
-              <li><a href='#cancelado' onClick={() => AlterarStatus('CANCELADO')} className='dropdown-item'>Cancelado <AiOutlineStop /></a></li>
-            </ul>
+            <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item' style={{ color: 'red', fontSize: 18 }}><MdNotificationAdd /> NOVO</a></li>
+              <li><a href='#aguardando' onClick={() => AlterarStatus('AGUARDANDO')} className='dropdown-item' style={{ color: 'orange', fontSize: 18 }}><BsClockHistory /> AGUARDANDO...</a></li>
+              <li><a href='#preparando' onClick={() => AlterarStatus('PREPARANDO')} className='dropdown-item' style={{ color: 'gray', fontSize: 18 }}><GiCook /> PREPARANDO...</a></li>
+              <li><a href='#retirada' onClick={() => AlterarStatus('PRONTO_PARA_RETIRADA')} className='dropdown-item' style={{ color: 'green', fontSize: 18 }}><HiMiniShoppingBag /> PRONTO PARA RETIRADA</a></li>
+              <li><a href='#entrega' onClick={() => AlterarStatus('SAIU_PARA_ENTREGA')} className='dropdown-item' style={{ color: '#019FF5', fontSize: 18 }}><RiEBikeFill /> SAIU PARA ENTREGA...</a></li>
+              <li><a href='#recebido' onClick={() => AlterarStatus('RECEBIDO')} className='dropdown-item' style={{ color: 'black', fontSize: 18 }}><IoBagCheckSharp /> ENTREGE E RECEBIDO</a></li>
+              <li><a href='#finalizado' onClick={() => AlterarStatus('FINALIZADO')} className='dropdown-item' style={{ color: 'green', fontSize: 18 }}><FiCheckCircle /> FINALIZADO</a></li>
+              <li><a href='#cancelado' onClick={() => AlterarStatus('CANCELADO')} className='dropdown-item' style={{ color: 'red', fontSize: 18 }}><AiOutlineStop /> CANCELADO</a></li>            </ul>
           </div>
         </div>
 

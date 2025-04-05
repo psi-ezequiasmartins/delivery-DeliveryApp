@@ -33,7 +33,7 @@ export default function Extras() {
 
   useEffect(() => {
     let listagem = []; 
-    api.get(`/listar/extras/delivery/${vID}`).then(function (result) {
+    api.get(`/api/listar/extras/delivery/${vID}`).then(function (result) {
       result.data.forEach(snapshot => {
         if (snapshot.DESCRICAO.indexOf(busca) >= 0) {
           listagem.push({
@@ -58,7 +58,7 @@ export default function Extras() {
         "DESCRICAO": descricao, 
         "VR_UNITARIO": vr_unitario
       }
-      await api.post('/add/extra', info).then(() => {
+      await api.post('/api/add/extra', info).then(() => {
         setMsg('Item de Acréscimo cadastrado com sucesso!');
         setSuccess('S');
       }).catch((error) => {
@@ -78,7 +78,7 @@ export default function Extras() {
         "DESCRICAO": descricao, 
         "VR_UNITARIO": vr_unitario
       }
-      api.put(`/update/extra/${extra_id}`, info).then(() => {
+      api.put(`/api/update/extra/${extra_id}`, info).then(() => {
         setMsg('');
         setSuccess("S");
       }).catch((error) =>{
@@ -89,7 +89,7 @@ export default function Extras() {
   }
 
   function selectById(id){
-    api.get(`/extra/${id}`).then((result) => {
+    api.get(`/api/extra/${id}`).then((result) => {
       setExtraID(result.data[0].EXTRA_ID);
       setDeliveryID(result.data[0].DELIVERY_ID);
       setDescricao(result.data[0].DESCRICAO);
@@ -98,7 +98,7 @@ export default function Extras() {
   }
 
   function deleteByID(id) {
-    api.delete(`/delete/extra/${id}`).then(() => {
+    api.delete(`/api/delete/extra/${id}`).then(() => {
     setExcluido(id);
     })
   }

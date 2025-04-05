@@ -38,7 +38,7 @@ export default function Produtos() {
   useEffect(() => {
     async function fetchProdutos() {
       try {
-        const result = await api.get(`/listar/produtos/delivery/${vID}`);
+        const result = await api.get(`/api/listar/produtos/delivery/${vID}`);
         const searchLower = busca.toLowerCase();
         const listagem = result.data.filter((snapshot) =>
           snapshot.PRODUTO_ID.toString().includes(searchLower) ||
@@ -128,7 +128,7 @@ export default function Produtos() {
             console.log('File available at', downloadURL);
             setUrlImagem(downloadURL);
             // alert(id.toString()+' '+downloadURL); 
-            api.put(`/update/imagem/produto/${id} `, {"url_imagem": downloadURL}).then(response => {
+            api.put(`/api/update/imagem/produto/${id} `, {"url_imagem": downloadURL}).then(response => {
               console.log(response.data);
             });
           });
@@ -153,7 +153,7 @@ export default function Produtos() {
         "URL_IMAGEM": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
         "DELIVERY_ID": vID
       }
-      await api.post('/add/produto', info).then(() => {
+      await api.post('/api/add/produto', info).then(() => {
         setMsg('Produto cadastrado com sucesso!');
         setSuccess('S');
       }).catch((error) => {
@@ -175,7 +175,7 @@ export default function Produtos() {
         "URL_IMAGEM": url_imagem,
         "DELIVERY_ID": delivery_id
       }
-      api.put(`/update/produto/${produto_id}`, info).then(() => {
+      api.put(`/api/update/produto/${produto_id}`, info).then(() => {
         setMsg('');
         setSuccess('S');
       }).catch((error) =>{
@@ -186,7 +186,7 @@ export default function Produtos() {
   }
 
   function selectById(id){
-    api.get(`/produto/${id}`).then((result) => {
+    api.get(`/api/produto/${id}`).then((result) => {
       setProdutoID(result.data[0].PRODUTO_ID);
       setNome(result.data[0].PRODUTO_NOME); 
       setDescricao(result.data[0].DESCRICAO);
@@ -197,7 +197,7 @@ export default function Produtos() {
   }
 
   function deleteByID(id) {
-    api.delete(`/delete/produto/${id}`).then(() => {
+    api.delete(`/api/delete/produto/${id}`).then(() => {
     setExcluido(id);
     })
   }

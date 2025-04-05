@@ -13,7 +13,7 @@ export default function Pedidos() {
 
   async function ListarPedidos() {
     if (vID) {
-      await api.get(`/pedidos/abertos/delivery/${vID}`) 
+      await api.get(`/api/pedidos/abertos/delivery/${vID}`) 
       .then((response) => {
         setPedidos(response.data); // console.log(pedidos);
         console.count = 0;
@@ -29,7 +29,7 @@ export default function Pedidos() {
 
   async function loadDeliveryAddress() {
     if (vID) {
-      await api.get(`/delivery/${vID} `)
+      await api.get(`/api/delivery/${vID} `)
         .then((response) => {
           let address = "";
           address += response.data.ENDERECO+", ";

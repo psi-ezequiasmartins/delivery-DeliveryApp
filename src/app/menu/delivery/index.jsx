@@ -38,7 +38,7 @@ function Delivery() {
 
   async function loadDeliveryInfo() {
     if (vID) {
-      await api.get(`/delivery/${vID} `)
+      await api.get(`/api/delivery/${vID} `)
         .then((response) => {
           setDelivery(response.data);
 
@@ -103,7 +103,7 @@ function Delivery() {
         "UF": UF,
         "TOKEN_MSG": token_msg
       }
-      await api.put(`/update/delivery/${vID} `, jsonData).then((response) => {
+      await api.put(`/api/update/delivery/${vID} `, jsonData).then((response) => {
         console.log('Atualização de dados do Delivery: ', response.data);
         setMsg({ text: 'Dados atualizados com sucesso!', type: 0 });
       }).catch((error) => {
