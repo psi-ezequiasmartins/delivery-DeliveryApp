@@ -41,11 +41,12 @@ export default function Pedido(props) {
       .then((response) => {
         console.log(response);
         const json = {
-          pushToken: props.TOKEN_MSG,
+          pushToken: props.TOKEN_MSG || 'ExponentPushToken[W47L3BHJyJxjUEa5vomnqd]',
           title: 'psi-Delivery',
           body: 'Pedido #' + props.PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo, 
         }
-        api.post('/api/send-notification', json);
+        console.log(json);
+        // api.post('/api/send-notification', json);
 
         if (status === 'FINALIZADO') {
           setVisible(false);
@@ -65,13 +66,13 @@ export default function Pedido(props) {
           <text-black>{props.ENDERECO_ENTREGA}</text-black><br/>
           <text-black><b>PEDIDO #{props.PEDIDO_ID}</b></text-black>
           <span className='badge bg-dark m-2'>{props.DATA}</span>
-          {status === 'NOVO' && <span className='badge bg-success mr-2'>NOVO</span>}
-          {status === 'AGUARDANDO' && <span className='badge bg-danger mr-2'>AGUARDANDO</span>}
-          {status === 'PREPARANDO' && <span className='badge bg-warning mr-2'>PREPARANDO</span>}
-          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-primary mr-2'>PRONTO PARA RETIRADA</span>}
-          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-info mr-2'>SAIU PARA ENTREGA</span>}
+          {status === 'NOVO' && <span className='badge bg-danger mr-2'>NOVO</span>}
+          {status === 'AGUARDANDO' && <span className='badge bg-warning mr-2'>AGUARDANDO</span>}
+          {status === 'PREPARANDO' && <span className='badge bg-secondary mr-2'>PREPARANDO</span>}
+          {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-success mr-2'>PRONTO PARA RETIRADA</span>}
+          {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-primary mr-2'>SAIU PARA ENTREGA</span>}
           {status === 'RECEBIDO' && <span className='badge bg-dark mr-2'>RECEBIDO</span>}
-          {status === 'FINALIZADO' && <span className='badge bg-secondary mr-2'>FINALIZADO</span>}
+          {status === 'FINALIZADO' && <span className='badge bg-success mr-2'>FINALIZADO</span>}
           {status === 'CANCELADO' && <span className='badge bg-danger mr-2'>CANCELADO</span>}
         </div>
 

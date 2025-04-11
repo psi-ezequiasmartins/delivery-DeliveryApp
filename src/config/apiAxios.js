@@ -4,7 +4,7 @@
 
 import Axios from "axios";
 
-const URL = "http://192.168.0.7:3357"; // "https://srv.deliverybairro.com"; // 
+const URL = "https://srv.deliverybairro.com"; // "http://192.168.0.7:3357"; // 
 
 const api = Axios.create({
   baseURL: URL,
