@@ -23,7 +23,7 @@ function Planos() {
     const [endereco, setEndereco] = useState("");  
     const [latitude, setLatitude] = useState(-19.92273710527297); 
     const [longitude, setLongitude] = useState(-43.945118685204825);
-    const [token, setTokenADM] = useState("");
+    const [pushToken, setPushToken] = useState("");
 
     const [success, setSuccess] = useState('N');
     const [msg, setMsg] = useState('');
@@ -69,7 +69,7 @@ function Planos() {
           "Endereco": endereco,
           "Latitude": latitude, 
           "Longitude": longitude,
-          "TokenADM": token
+          "PushToken": pushToken
         }
         api.post('/api/add/delivery', info).then((response) => {
           localStorage.setItem("token", response.data.DeliveryID);
@@ -228,7 +228,7 @@ function Planos() {
                     <div className="mb-2">
                       <p>(*) Campos obrigatórios! Após o envio, você receberá em seu e-mail instruções para concluirmos a sua assinatura e criar o seu login de acesso.</p>
                     </div>
-                    <input onChange={e => setTokenADM(e.target.value)} type="hidden" id="token" name="token" value=""/>
+                    <input onChange={e => setPushToken(e.target.value)} type="hidden" id="pushToken" name="pushToken" value=""/>
                   </div>
                   {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
                   {success === 'S' ? <Navigate to="/app/login/novo" replace={true} /> : null}

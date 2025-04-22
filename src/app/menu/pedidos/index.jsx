@@ -72,7 +72,7 @@ export default function Pedidos() {
                             USER_ID={pedido.USER_ID}
                             CLIENTE={pedido.CLIENTE.toUpperCase()}
                             ENDERECO_ENTREGA={pedido.ENDERECO_ENTREGA.toUpperCase()}
-                            TOKEN_MSG={pedido.TOKEN_MSG}
+                            PUSH_TOKEN={pedido.PUSH_TOKEN}
                             itens={pedido.ITENS}
                           />
                 })

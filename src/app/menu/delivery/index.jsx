@@ -36,7 +36,7 @@ function Delivery() {
   const [bairro, setBairro] = useState(delivery?.BAIRRO || "");
   const [cidade, setCidade] = useState(delivery?.CIDADE || "");
   const [UF, setUf] = useState(delivery?.UF || "");
-  const [token_msg, setTokenMSG] = useState(delivery?.TOKEN_MSG || "");
+  const [pushToken, setPushToken] = useState(delivery?.PUSH_TOKEN || "");
 
   const [msg, setMsg] = useState({ text: '', type: 0 });
 
@@ -67,7 +67,7 @@ function Delivery() {
           setCidade(response.data.CIDADE);
           setUf(response.data.UF);
           setCep(response.data.CEP);
-          setTokenMSG(response.data.TOKEN_MSG);
+          setPushToken(response.data.PUSH_TOKEN);
           console.count = 0;
         }).catch((error) => {
           console.log(error);
@@ -105,7 +105,7 @@ function Delivery() {
         "BAIRRO": bairro,
         "CIDADE": cidade,
         "UF": UF,
-        "TOKEN_MSG": token_msg
+        "PUSH_TOKEN": pushToken
       }
       await api.put(`/api/update/delivery/${vID} `, jsonData).then((response) => {
         console.log('Atualização de dados do Delivery: ', response.data);
@@ -299,7 +299,7 @@ function Delivery() {
                   </div>
                 </div>
 
-                <input type="hidden" id="token_msg" name="TOKEN_MSG" value={token_msg} onChange={e => setTokenMSG(e.target.value)} />
+                <input type="hidden" id="pushToken" name="PUSH_TOKEN" value={pushToken} onChange={e => setPushToken(e.target.value)} />
 
               </div>
             </form>

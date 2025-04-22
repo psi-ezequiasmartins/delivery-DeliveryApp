@@ -41,7 +41,7 @@ export default function Pedido(props) {
         const json = {
           title: 'psi-Delivery',
           body: 'Pedido #' + props.PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo, 
-          pushToken: props.TOKEN_MSG || 'ExponentPushToken[W47L3BHJyJxjUEa5vomnqd]',
+          pushToken: props.PUSH_TOKEN || null,
         }
         console.log(json);
         if (status === 'FINALIZADO') {
