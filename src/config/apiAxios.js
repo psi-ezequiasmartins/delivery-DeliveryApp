@@ -3,8 +3,7 @@
  */
 
 import Axios from "axios";
-
-const URL = "https://srv.deliverybairro.com"; // "http://192.168.0.7:3357"; // 
+const URL = "http://192.168.0.4:3357"; // "https://srv.deliverybairro.com"; // process.env.BASE_URL; // 
 
 const api = Axios.create({
   baseURL: URL,

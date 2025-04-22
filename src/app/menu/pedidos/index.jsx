@@ -1,3 +1,7 @@
+/**
+ * src/app/menu/pedidos/index.jsx
+ */
+
 import { useState, useEffect } from "react";
 import Menu from "../../../components/menu";
 import Pedido from "./pedido";
@@ -12,14 +16,13 @@ export default function Pedidos() {
   const [pedidos, setPedidos] = useState(null);
 
   async function ListarPedidos() {
-    if (vID) {
-      await api.get(`/api/pedidos/abertos/delivery/${vID}`) 
-      .then((response) => {
-        setPedidos(response.data); // console.log(pedidos);
-        console.count = 0;
-      }).catch((error)=>{
-        console.log(error);
-      })
+    try {
+      const response = await api.get(`/api/pedidos/abertos/delivery/${vID}`);
+      setPedidos(response.data); // console.log(pedidos);
+      console.count = 0;            
+    } catch (error) {
+      console.log(error);
+      setPedidos([]); 
     }
   }
 

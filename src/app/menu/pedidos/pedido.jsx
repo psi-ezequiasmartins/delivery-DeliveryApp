@@ -14,16 +14,12 @@ import { FiCheckCircle } from "react-icons/fi";
 import { AiOutlineStop } from "react-icons/ai";
 
 import api from '../../../config/apiAxios';
-// import MapCard from '../../../components/mapbox';
 import './pedido.css';
 
 export default function Pedido(props) {
   const [status, setStatus] = useState(props.STATUS);
   const [visible, setVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-  // const deliveryAddress = localStorage.getItem("vDeliveryAddress");
-  // const userAddress = props.ENDERECO_ENTREGA;
 
   useEffect(() => {
     function handleResize() {
@@ -37,24 +33,23 @@ export default function Pedido(props) {
 
   async function AlterarStatus(codigo) {
     setStatus(codigo);
-    await api.put(`/api/update/status/pedido/${props.PEDIDO_ID}`, { status: codigo })
-      .then((response) => {
+    await api.put(`/api/update/status/pedido`, { 
+      orderId: props.PEDIDO_ID, 
+      status: codigo 
+    }).then((response) => {
         console.log(response);
         const json = {
-          pushToken: props.TOKEN_MSG || 'ExponentPushToken[W47L3BHJyJxjUEa5vomnqd]',
           title: 'psi-Delivery',
           body: 'Pedido #' + props.PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo, 
+          pushToken: props.TOKEN_MSG || 'ExponentPushToken[W47L3BHJyJxjUEa5vomnqd]',
         }
         console.log(json);
-        // api.post('/api/send-notification', json);
-
         if (status === 'FINALIZADO') {
           setVisible(false);
         }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   return !visible ? null : (
@@ -63,7 +58,7 @@ export default function Pedido(props) {
       <div className="row" >
         <div className="col-8">
           <text-black><b>{props.USER_ID} {props.CLIENTE}</b></text-black><br/>
-          <text-black>{props.ENDERECO_ENTREGA}</text-black><br/>
+          <text-gray>{props.ENDERECO_ENTREGA}</text-gray><br/>
           <text-black><b>PEDIDO #{props.PEDIDO_ID}</b></text-black>
           <span className='badge bg-dark m-2'>{props.DATA}</span>
           {status === 'NOVO' && <span className='badge bg-danger mr-2'>NOVO</span>}
@@ -96,9 +91,6 @@ export default function Pedido(props) {
       </div>
 
       <div className="flex-column" >
-        {/* <div id="map">
-          { MapCard(deliveryAddress, userAddress) } 
-        </div> */}
 
         {props.itens.map((item) => (
           <div className='d-inline-block align-items-start' key={item.ITEM_ID}>
@@ -133,30 +125,3 @@ export default function Pedido(props) {
   );
 }
 
-/* <small className='d-block mt-1 text-secondary'>{props.TokenMSG}</small> */
-
-  // async function sendPushNotification(expoPushToken, PEDIDO_ID, codigo_status) {
-  //   const message = {
-  //     to: expoPushToken,
-  //     sound: 'default',
-  //     title: 'DeliveryBairro.com',
-  //     body: 'Pedido #' + PEDIDO_ID + ' atualizado em ' + new Date().toLocaleString() + ' Status: ' + codigo_status,
-  //     data: {
-  //       PedidoID: PEDIDO_ID,
-  //       Status: codigo_status,
-  //     },
-  //   };
-
-  //   await fetch('https://exp.host/--/api/v2/push/send', {
-  //     method: 'POST',
-  //     referrerPolicy: 'strict-origin-when-cross-origin',
-  //     mode: 'no-cors',
-  //     headers: {
-  //       Accept: '*',
-  //       'Accept-encoding': 'gzip, deflate',
-  //       'Access-Control-Allow-Origin': '*',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(message),
-  //   });
-  // }

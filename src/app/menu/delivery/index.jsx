@@ -1,3 +1,7 @@
+/**
+ * src/app/menu/delivery/index.jsx
+ */
+
 import React, { useState, useEffect } from "react";
 import InputMask from 'react-input-mask';
 import Menu from "../../../components/menu";

@@ -12,6 +12,11 @@
   color: #000;
   background-color: #FFF;
 }
+.pedido text-gray {
+  color: gray;
+  font-size: 12px;
+  background-color: #FFF;
+}
 .pedido text-orange {
   color: orangered;
   background-color: #FFF;
