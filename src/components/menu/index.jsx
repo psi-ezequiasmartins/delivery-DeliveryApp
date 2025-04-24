@@ -78,7 +78,7 @@ export default function Menu(props) {
 
   return (
     <>
-      <SessionTimeout onTimeout={handleLogout} timeout={900000} /> {/* 15 minutos em milessegundos (teste: 3 minutos) */}
+      <SessionTimeout onTimeout={handleLogout} timeout={900000} /> {/* 15 minutos em milessegundos */}
 
       {/* Menu Sidebar */}
       {!isMobile && (
