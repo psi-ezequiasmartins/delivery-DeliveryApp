@@ -326,11 +326,27 @@ export default function Produtos() {
                           <p>Listar itens extras? (se houver para este produto)</p>
                           <div className="d-flex align-items-center">
                             <div className="form-check me-3">
-                              <input onChange={e => setItensExtras("S")} type="radio" className="form-check-input" id="itens_extras_sim" name="itens_extras" checked={itens_extras === "S"} required />
+                              <input 
+                                onChange={e => setItensExtras("S")} 
+                                type="radio" 
+                                className="form-check-input" 
+                                id="itens_extras_sim" 
+                                name="itens_extras" 
+                                checked={itens_extras === "S"} 
+                                required 
+                              />
                               <label htmlFor="itens_extras_sim" className="form-check-label">Sim</label>
                             </div>
                             <div className="form-check"> 
-                              <input onChange={e => setItensExtras("N")} type="radio" className="form-check-input" id="itens_extras_nao" name="itens_extras" checked={itens_extras === "N"} required />
+                              <input 
+                                onChange={e => setItensExtras("N")} 
+                                type="radio" 
+                                className="form-check-input" 
+                                id="itens_extras_nao" 
+                                name="itens_extras" 
+                                checked={itens_extras === "N"} 
+                                required 
+                              />
                               <label htmlFor="itens_extras_nao" className="form-check-label">Não</label>
                             </div>
                           </div>
@@ -405,11 +421,27 @@ export default function Produtos() {
                           <p>Listar itens extras? (se houver para este produto)</p>
                           <div className="d-flex align-items-center">
                             <div className="form-check me-3">
-                              <input onChange={e => setItensExtras("S")} type="radio" className="form-check-input" id="itens_extras_sim" name="itens_extras" checked={itens_extras === "S"} required />
+                              <input 
+                                onChange={e => setItensExtras("S")} 
+                                type="radio" 
+                                className="form-check-input" 
+                                id="itens_extras_sim" 
+                                name="itens_extras" 
+                                checked={itens_extras === "S"} 
+                                required 
+                              />
                               <label htmlFor="itens_extras_sim" className="form-check-label">Sim</label>
                             </div>
                             <div className="form-check">
-                              <input onChange={e => setItensExtras("N")} type="radio" className="form-check-input" id="itens_extras_nao" name="itens_extras" checked={itens_extras === "N"} required />
+                              <input 
+                                onChange={e => setItensExtras("N")} 
+                                type="radio" 
+                                className="form-check-input" 
+                                id="itens_extras_nao" 
+                                name="itens_extras" 
+                                checked={itens_extras === "N"} 
+                                required 
+                              />
                               <label htmlFor="itens_extras_nao" className="form-check-label">Não</label>
                             </div>
                           </div>
