@@ -30,9 +30,11 @@ export default function Produtos() {
   const [produtos, setProdutos] = useState([]);
   const [delivery_id, setDeliveryID] = useState(vID);
   const [produto_id, setProdutoID] = useState(null);
-  const [nome, setNome] = useState('');
+  const [produto_nome, setProdutoNome] = useState('');
   const [descricao, setDescricao] = useState('');
   const [vr_unitario, setVrUnitario] = useState(0.00);
+  const [itens_extras, setItensExtras] = useState('S');  
+  const [itens_obs, setItensObs] = useState('S');
   const [url_imagem, setUrlImagem] = useState('');
 
   useEffect(() => {
@@ -81,18 +83,14 @@ export default function Produtos() {
 
       console.log('File', file.name);
 
-      // Create the file metadata
       /** @type {any} */
       const metadata = {
         contentType: 'image/jpeg'
       };
 
-      // Upload file and metadata to the object 'images/mountains.jpg'
       const storageRef = ref(storage, '/produtos/' + file.name);
       const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-      // Listen for state changes, errors, and completion of the upload.
       uploadTask.on('state_changed', (snapshot) => {
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log('Upload is ' + progress + '% done');
           switch (snapshot.state) {
@@ -106,28 +104,19 @@ export default function Produtos() {
               // do nothing
           }
         }, (error) => {
-          // A full list of error codes is available at
-          // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
             case 'storage/unauthorized':
-              // User doesn't have permission to access the object
               break;
             case 'storage/canceled':
-              // User canceled the upload
               break;
-              // ...
             case 'storage/unknown':
-              // Unknown error occurred, inspect error.serverResponse
               break;
             default:
-              // do nothing 
           }
         }, () => {
-          // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
             console.log('File available at', downloadURL);
             setUrlImagem(downloadURL);
-            // alert(id.toString()+' '+downloadURL); 
             api.put(`/api/update/imagem/produto/${id} `, {"url_imagem": downloadURL}).then(response => {
               console.log(response.data);
             });
@@ -142,18 +131,20 @@ export default function Produtos() {
   }
 
   async function Cadastrar() {
-    if (nome.length === 0) {
+    if (produto_nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
-      const info = {
-        "PRODUTO_ID": null, 
-        "PRODUTO_NOME": nome, 
+      const vrUnitarioFormatted = vr_unitario.toString().replace(',', '.'); 
+      const json = {
+        "PRODUTO_NOME": produto_nome, 
         "DESCRICAO": descricao, 
-        "VR_UNITARIO": vr_unitario,
-        "URL_IMAGEM": (url_imagem !== "" ? url_imagem : "https://via.placeholder.com/50x50"),
-        "DELIVERY_ID": vID
+        "VR_UNITARIO": vrUnitarioFormatted, 
+        "URL_IMAGEM": url_imagem !== "" ? url_imagem : "https://placehold.co/500x500", 
+        "ITENS_EXTRAS": itens_extras, 
+        "ITENS_OBS": itens_obs, 
+        "DELIVERY_ID": vID 
       }
-      await api.post('/api/add/produto', info).then(() => {
+      await api.post('/api/add/produto', json).then(() => {
         setMsg('Produto cadastrado com sucesso!');
         setSuccess('S');
       }).catch((error) => {
@@ -164,15 +155,18 @@ export default function Produtos() {
   }
 
   function Editar() {
-    if (nome.length === 0) {
+    if (produto_nome.length === 0) {
       setMsg('Favor preencher o campo Nome do Produto.');
     } else {
+      const vrUnitarioFormatted = vr_unitario.toString().replace(',', '.'); 
       let info = { 
         "PRODUTO_ID": produto_id, 
-        "PRODUTO_NOME": nome, 
+        "PRODUTO_NOME": produto_nome, 
         "DESCRICAO": descricao, 
-        "VR_UNITARIO": vr_unitario,
+        "VR_UNITARIO": vrUnitarioFormatted,
         "URL_IMAGEM": url_imagem,
+        "ITENS_EXTRAS": itens_extras,
+        "ITENS_OBS": itens_obs,
         "DELIVERY_ID": delivery_id
       }
       api.put(`/api/update/produto/${produto_id}`, info).then(() => {
@@ -188,10 +182,12 @@ export default function Produtos() {
   function selectById(id){
     api.get(`/api/produto/${id}`).then((result) => {
       setProdutoID(result.data[0].PRODUTO_ID);
-      setNome(result.data[0].PRODUTO_NOME); 
+      setProdutoNome(result.data[0].PRODUTO_NOME); 
       setDescricao(result.data[0].DESCRICAO);
       setVrUnitario(result.data[0].VR_UNITARIO);
       setUrlImagem(result.data[0].URL_IMAGEM);
+      setItensExtras(result.data[0].ITENS_EXTRAS);
+      setItensObs(result.data[0].ITENS_OBS);
       setDeliveryID(result.data[0].DELIVERY_ID);
     })
   }
@@ -311,25 +307,56 @@ export default function Produtos() {
                 <div className="modal-body">
                   <form>
                     <div className="row">
+
                       <div className="col-sm-6">
                         <div className="mb-2">
-                          <label htmlFor="nome" className="form-label">Nome do Produto</label>
-                          <input onChange={e => setNome(e.target.value)} type="text" className="form-control" id="nome" />
+                          <label htmlFor="produto_nome" className="form-label">Nome do Produto</label>
+                          <input onChange={e => setProdutoNome(e.target.value)} type="text" className="form-control" id="produto_nome" />
                         </div>
                         <div className="mb-2">
                           <label htmlFor="descricao" className="form-label">Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} type="text" className="form-control" style={{height: 152}} rows="3" id="descricao" ></textarea>
+                          <textarea onChange={e => setDescricao(e.target.value)} type="text" className="form-control" style={{height: 90}} rows="3" id="descricao" ></textarea>
                         </div>
                         <div className="mb-2">
                           <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
                           <input onChange={e => setVrUnitario(e.target.value)} type="text" className="form-control" id="vr_unitario" />
                         </div>
+
+                        <div className="mb-2">
+                          <p>Listar itens extras? (se houver para este produto)</p>
+                          <div className="d-flex align-items-center">
+                            <div className="form-check me-3">
+                              <input onChange={e => setItensExtras("S")} type="radio" className="form-check-input" id="itens_extras_sim" name="itens_extras" checked={itens_extras === "S"} required />
+                              <label htmlFor="itens_extras_sim" className="form-check-label">Sim</label>
+                            </div>
+                            <div className="form-check"> 
+                              <input onChange={e => setItensExtras("N")} type="radio" className="form-check-input" id="itens_extras_nao" name="itens_extras" checked={itens_extras === "N"} required />
+                              <label htmlFor="itens_extras_nao" className="form-check-label">Não</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mb-2">
+                          <p>Acrescentar obs. p/ este produto no pedido?</p>
+                          <div className="d-flex align-items-center">
+                            <div className="form-check me-3">
+                              <input onChange={e => setItensObs("S")} type="radio" className="form-check-input" id="itens_obs_sim" name="itens_obs" checked={itens_obs === "S"} required />
+                              <label htmlFor="itens_obs_sim" className="form-check-label">Sim</label>
+                            </div>
+                            <div className="form-check"> 
+                              <input onChange={e => setItensObs("N")} type="radio" className="form-check-input" id="itens_obs_nao" name="itens_obs" checked={itens_obs === "N"} required />
+                              <label htmlFor="itens_obs_nao" className="form-check-label">Não</label>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
 
                       <div className="col-sm-6">
                         Imagem do Produto:<br/>
-                        <img className="ref" src={ "https://via.placeholder.com/500" } alt="Imagem do Produto" width="320" />
+                        <img className="ref" src={ "https://placehold.co/500" } alt="Imagem do Produto" width="320" />
                       </div>
+
                     </div>
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
                     {success === 'S' ? <Navigate to="/app/produtos" replace={true} /> : null}
@@ -362,23 +389,53 @@ export default function Produtos() {
 
                       <div className="col-sm-6">
                         <div className="mb-2">
-                          <label htmlFor="nome" className="form-label">Nome do Produto</label>
-                          <input onChange={e => setNome(e.target.value)} value={nome} type="text" className="form-control" id="nome" />
+                          <label htmlFor="produto_nome" className="form-label">Nome do Produto</label>
+                          <input onChange={e => setProdutoNome(e.target.value)} value={produto_nome} type="text" className="form-control" id="produto_nome" />
                         </div>
                         <div className="mb-2">
                           <label htmlFor="descricao" className="form-label">Descrição</label>
-                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 152}} rows="3" id="descricao" ></textarea>
+                          <textarea onChange={e => setDescricao(e.target.value)} value={descricao} className="form-control" style={{height: 90}} rows="3" id="descricao" ></textarea>
                         </div>
                         <div className="mb-2">
                           <label htmlFor="vr_unitario" className="form-label">Valor Unitário</label>
                           <input onChange={e => setVrUnitario(e.target.value)} value={vr_unitario} type="text" className="form-control" id="vr_unitario" />
                         </div>
+
+                        <div className="mb-2">
+                          <p>Listar itens extras? (se houver para este produto)</p>
+                          <div className="d-flex align-items-center">
+                            <div className="form-check me-3">
+                              <input onChange={e => setItensExtras("S")} type="radio" className="form-check-input" id="itens_extras_sim" name="itens_extras" checked={itens_extras === "S"} required />
+                              <label htmlFor="itens_extras_sim" className="form-check-label">Sim</label>
+                            </div>
+                            <div className="form-check">
+                              <input onChange={e => setItensExtras("N")} type="radio" className="form-check-input" id="itens_extras_nao" name="itens_extras" checked={itens_extras === "N"} required />
+                              <label htmlFor="itens_extras_nao" className="form-check-label">Não</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mb-2">
+                          <p>Acrescentar obs. p/ este produto no pedido?</p>
+                          <div className="d-flex align-items-center">
+                            <div className="form-check me-3">
+                              <input onChange={e => setItensObs("S")} type="radio" className="form-check-input" id="itens_obs_sim" name="itens_obs" checked={itens_obs === "S"} required />
+                              <label htmlFor="itens_obs_sim" className="form-check-label">Sim</label>
+                            </div>
+                            <div className="form-check"> 
+                              <input onChange={e => setItensObs("N")} type="radio" className="form-check-input" id="itens_obs_nao" name="itens_obs" checked={itens_obs === "N"} required />
+                              <label htmlFor="itens_obs_nao" className="form-check-label">Não</label>
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
 
                       <div className="col-sm-6">
                         Imagem do Produto:<br/>
-                        <img className="ref" src={ url_imagem || "https://via.placeholder.com/500" } alt="Imagem do Produto" width="320" />
+                        <img className="ref" src={ url_imagem || "https://placehold.co/450" } alt="Imagem do Produto" width="320" />
                       </div>
+
                     </div>
                     {msg.length > 0 ? <div className="alert alert-danger mt-2" role="alert">{msg}</div> : null}
                     {success === 'S' ? <Navigate to="/app/produtos" replace={true} /> : null}
