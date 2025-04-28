@@ -3,10 +3,11 @@
  */
 
 import Axios from "axios";
-const URL = process.env.REACT_APP_BASE_URL; // "http://192.168.0.2:3357"; // "http://localhost:3357"; 
+
+const URL_API = process.env.REACT_APP_API_URL || "http://localhost:3357" || "http://srv.deliverybairro.com";
 
 const api = Axios.create({
-  baseURL: URL,
+  baseURL: URL_API,
   headers: {
     'Content-Type':'application/json',
     'Accept': '*/*'
