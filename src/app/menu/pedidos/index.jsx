@@ -59,7 +59,7 @@ export default function Pedidos() {
 
         <div className="col py-3 me-3">
             <h1>FILA DE PEDIDOS - {vID} {vDelivery}</h1>
-            <button onClick={ListarPedidos} className="btn m-2 btn-dark">ATUALIZAR</button>
+            <button onClick={ListarPedidos} className="btn m-2 btn-warning">ATUALIZAR</button>
             <div className="m-2 mt-2">
               {
                 pedidos?.map((pedido) => {

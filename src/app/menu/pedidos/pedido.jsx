@@ -66,25 +66,29 @@ export default function Pedido(props) {
           {status === 'PREPARANDO' && <span className='badge bg-secondary mr-2'>PREPARANDO</span>}
           {status === 'PRONTO_PARA_RETIRADA' && <span className='badge bg-success mr-2'>PRONTO PARA RETIRADA</span>}
           {status === 'SAIU_PARA_ENTREGA' && <span className='badge bg-primary mr-2'>SAIU PARA ENTREGA</span>}
-          {status === 'RECEBIDO' && <span className='badge bg-dark mr-2'>RECEBIDO</span>}
-          {status === 'FINALIZADO' && <span className='badge bg-success mr-2'>FINALIZADO</span>}
-          {status === 'CANCELADO' && <span className='badge bg-danger mr-2'>CANCELADO</span>}
+          {status === 'ENTREGUE' && <span className='badge bg-dark mr-2'>PEDIDO ENTREGUE</span>}
+          {status === 'PGTO_PENDENTE' && <span className='badge bg-danger mr-2'>PAGTO PENDENTE</span>}
+          {status === 'RGTO_OK' && <span className='badge bg-success mr-2'>PAGTO OK</span>}
+          {status === 'FINALIZADO' && <span className='badge bg-dark mr-2'>FINALIZADO</span>}
+          {status === 'CANCELADO' && <span className='badge bg-secondary mr-2'>CANCELADO</span>}
         </div>
 
         <div className="col-2">
           <div className='dropdown'>
-            <a className='btn btn-primary dropdown-toggle' href='#status' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
+            <a className='btn btn-dark dropdown-toggle' href='#status' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>
               <i className='bi bi-pin-angle'></i> STATUS
             </a>
             <ul className='dropdown-menu' aria-labelledby='dropdownMenuLink'>
-            <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item' style={{ color: 'red', fontSize: 18 }}><MdNotificationAdd /> NOVO</a></li>
+              <li><a href='#novo' onClick={() => AlterarStatus('NOVO')} className='dropdown-item' style={{ color: 'red', fontSize: 18 }}><MdNotificationAdd /> NOVO PEDIDO</a></li>
               <li><a href='#aguardando' onClick={() => AlterarStatus('AGUARDANDO')} className='dropdown-item' style={{ color: 'orange', fontSize: 18 }}><BsClockHistory /> AGUARDANDO...</a></li>
               <li><a href='#preparando' onClick={() => AlterarStatus('PREPARANDO')} className='dropdown-item' style={{ color: 'gray', fontSize: 18 }}><GiCook /> PREPARANDO...</a></li>
               <li><a href='#retirada' onClick={() => AlterarStatus('PRONTO_PARA_RETIRADA')} className='dropdown-item' style={{ color: 'green', fontSize: 18 }}><HiMiniShoppingBag /> PRONTO PARA RETIRADA</a></li>
               <li><a href='#entrega' onClick={() => AlterarStatus('SAIU_PARA_ENTREGA')} className='dropdown-item' style={{ color: '#019FF5', fontSize: 18 }}><RiEBikeFill /> SAIU PARA ENTREGA...</a></li>
-              <li><a href='#recebido' onClick={() => AlterarStatus('RECEBIDO')} className='dropdown-item' style={{ color: 'black', fontSize: 18 }}><IoBagCheckSharp /> ENTREGE E RECEBIDO</a></li>
-              <li><a href='#finalizado' onClick={() => AlterarStatus('FINALIZADO')} className='dropdown-item' style={{ color: 'green', fontSize: 18 }}><FiCheckCircle /> FINALIZADO</a></li>
-              <li><a href='#cancelado' onClick={() => AlterarStatus('CANCELADO')} className='dropdown-item' style={{ color: 'red', fontSize: 18 }}><AiOutlineStop /> CANCELADO</a></li>            </ul>
+              <li><a href='#recebido' onClick={() => AlterarStatus('ENTREGUE')} className='dropdown-item' style={{ color: 'black', fontSize: 18 }}><IoBagCheckSharp /> PEDIDO ENTREGUE</a></li>
+              <li><a href='#pendente' onClick={() => AlterarStatus('PGTO_PENDENTE')} className='dropdown-item' style={{ color: 'red', fontSize: 18 }}><AiOutlineStop /> PAGAMENTO PENDENTE</a></li>
+              <li><a href='#ok' onClick={() => AlterarStatus('PGTO_OK')} className='dropdown-item' style={{ color: 'green', fontSize: 18 }}><FiCheckCircle /> PAGAMENTO OK</a></li>
+              <li><a href='#finalizado' onClick={() => AlterarStatus('FINALIZADO')} className='dropdown-item' style={{ color: 'black', fontSize: 18 }}><FiCheckCircle /> FINALIZADO</a></li>
+              <li><a href='#cancelado' onClick={() => AlterarStatus('CANCELADO')} className='dropdown-item' style={{ color: 'gray', fontSize: 18 }}><AiOutlineStop /> CANCELADO</a></li>            </ul>
           </div>
         </div>
 
