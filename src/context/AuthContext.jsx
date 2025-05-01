@@ -40,7 +40,6 @@ function AuthProvider({children}){
 
   function signIn(email, password) {
     setMessage('');
-    // console.log(email, password);
     signInWithEmailAndPassword(auth, email, password).then(async(result) => {
       const id = result.user.uid; 
 
@@ -54,10 +53,11 @@ function AuthProvider({children}){
       });
 
       try {
-        const response = await api.post('/api/authenticate', { USER_ID: id, CHV: 1 });
-        // console.log({ USER_ID: id, CHV: 1 });
+        const response = await api.post('/api/authenticate', { 
+          "USER_ID": id, "CHV": 1 , "timezoneOffset": new Date().getTimezoneOffset(),
+        });
+
         const token = response.data?.token; // Verifica se 'data' e 'token' estão definidos
-        // console.log(`Tamanho do token: ${token.length}`);
         if (token) {
           localStorage.setItem('token', JSON.stringify(token));
           api.defaults.headers.Authorization = `Bearer ${token}`;
