@@ -2,7 +2,7 @@
  * src/app/extras/index.jsx (acrécimos de pedido)
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { Impressao } from './impressao';
 import './index.css';
@@ -31,61 +31,107 @@ export default function Extras() {
   const [descricao, setDescricao] = useState('');
   const [vr_unitario, setVrUnitario] = useState(0.00);
 
+  const atualizarListagem = useCallback(async () => {
+    try {
+      const response = await api.get(`/api/listar/extras/delivery/${vID}`);
+      if (response.data.length > 0) {
+        const listagem = response.data.map((snapshot) => ({
+          "EXTRA_ID": snapshot.EXTRA_ID,
+          "DELIVERY_ID": snapshot.DELIVERY_ID,
+          "DESCRICAO": snapshot.DESCRICAO,
+          "VR_UNITARIO": snapshot.VR_UNITARIO,
+        }));
+        setExtras(listagem);
+        setMsg(''); // Limpa a mensagem caso existam itens
+      } else {
+        setExtras([]);
+        setMsg('Nenhum item extra cadastrado para este delivery.');
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 404) {
+        setMsg('Nenhum item extra cadastrado para este delivery.');
+      } else {
+        setMsg('Erro ao carregar itens extras. Tente novamente mais tarde.');
+      }
+    }
+  }, [vID]); // Inclua as dependências necessárias
+
   useEffect(() => {
-    let listagem = []; 
-    api.get(`/api/listar/extras/delivery/${vID}`).then(function (result) {
-      result.data.forEach(snapshot => {
-        if (snapshot.DESCRICAO.indexOf(busca) >= 0) {
-          listagem.push({
-            "EXTRA_ID": snapshot.EXTRA_ID,
-            "DELIVERY_ID": snapshot.DELIVERY_ID,
-            "DESCRICAO": snapshot.DESCRICAO,
-            "VR_UNITARIO": snapshot.VR_UNITARIO
-          });
-        }
-      });
-      setExtras(listagem);
-    })
-  }, [busca, excluido, success, vID]);
+    atualizarListagem();
+  }, [atualizarListagem, busca, excluido, success, vID]);
 
   async function Cadastrar() {
-    if (descricao.length === 0) {
-      setMsg('Favor preencher o campo Nome do Produto.');
-    } else {
-      const info = {
-        "EXTRA_ID": null, 
-        "DELIVERY_ID": vID,
-        "DESCRICAO": descricao, 
-        "VR_UNITARIO": vr_unitario
+    if (descricao.trim().length === 0) {
+      setMsg('Favor preencher o campo Descrição.');
+      return;
+    }
+  
+    if (isNaN(parseFloat(vr_unitario))) {
+      setMsg('Favor preencher o campo Valor Unitário com um número válido.');
+      return;
+    }
+  
+    const info = {
+      "EXTRA_ID": null,
+      "DELIVERY_ID": vID,
+      "DESCRICAO": descricao.trim(),
+      "VR_UNITARIO": parseFloat(vr_unitario.toString().replace(',', '.')) // Converte vírgula para ponto
+    };
+  
+    try {
+      await api.post('/api/add/extra', info);
+      setMsg('Item de Acréscimo cadastrado com sucesso!');
+      setSuccess('S');
+      setDescricao(''); // Limpa o campo de descrição
+      setVrUnitario(0.00); // Reseta o valor unitário
+      atualizarListagem(); // Atualiza a listagem após o cadastro
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 400) {
+        setMsg('Erro de validação: Verifique os dados informados.');
+      } else if (error.response && error.response.status === 500) {
+        setMsg('Erro no servidor: Não foi possível cadastrar o item.');
+      } else {
+        setMsg('Erro desconhecido: Tente novamente mais tarde.');
       }
-      await api.post('/api/add/extra', info).then(() => {
-        setMsg('Item de Acréscimo cadastrado com sucesso!');
-        setSuccess('S');
-      }).catch((error) => {
-        setMsg(error.message);
-        setSuccess("N");
-      })
+      setSuccess('N');
     }
   }
 
   function Editar() {
-    if (descricao.length === 0) {
+    if (descricao.trim().length === 0) {
       setMsg('Favor preencher a descrição do Item de Acréscimo.');
-    } else {
-      let info = { 
-        "EXTRA_ID": extra_id, 
-        "DELIVERY_ID": delivery_id,
-        "DESCRICAO": descricao, 
-        "VR_UNITARIO": vr_unitario
-      }
-      api.put(`/api/update/extra/${extra_id}`, info).then(() => {
-        setMsg('');
-        setSuccess("S");
-      }).catch((error) =>{
-        setMsg(error.message);
-        setSuccess("N");
-      })
+      return;
     }
+
+    if (isNaN(parseFloat(vr_unitario))) {
+      setMsg('Favor preencher o campo Valor Unitário com um número válido.');
+      return;
+    }
+
+    const info = {
+      "EXTRA_ID": extra_id,
+      "DELIVERY_ID": delivery_id,
+      "DESCRICAO": descricao.trim(),
+      "VR_UNITARIO": parseFloat(vr_unitario.toString().replace(',', '.')) // Converte vírgula para ponto
+    };
+
+    api.put(`/api/update/extra/${extra_id}`, info).then(() => {
+      setMsg('Item de Acréscimo atualizado com sucesso!');
+      setSuccess("S");
+      atualizarListagem(); // Atualiza a listagem após a edição
+    }).catch((error) => {
+      console.error(error);
+      if (error.response && error.response.status === 400) {
+        setMsg('Erro de validação: Verifique os dados informados.');
+      } else if (error.response && error.response.status === 500) {
+        setMsg('Erro no servidor: Não foi possível atualizar o item.');
+      } else {
+        setMsg('Erro desconhecido: Tente novamente mais tarde.');
+      }
+      setSuccess("N");
+    });
   }
 
   function selectById(id){
@@ -128,10 +174,22 @@ export default function Extras() {
   }
 
   async function VisualizarPDF() {
-    console.log('report', extras);
-    const classeImpressao = new Impressao(extras);
-    const documento = await classeImpressao.PreparaDocumento();
-    pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
+    console.log('Dados para impressão:', extras); // Log para verificar os dados
+  
+    if (!extras || extras.length === 0) {
+      Swal.fire('Aviso', 'Nenhum item extra disponível para gerar o PDF.', 'info');
+      return;
+    }
+  
+    try {
+      const classeImpressao = new Impressao(extras);
+      const documento = await classeImpressao.PreparaDocumento();
+      console.log('Documento gerado:', documento); // Log para verificar o documento gerado
+      pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
+    } catch (error) {
+      console.error('Erro ao gerar o PDF:', error);
+      Swal.fire('Erro', 'Não foi possível gerar o PDF. Tente novamente mais tarde.', 'error');
+    }
   }
 
   function Listagem(props) {
@@ -195,6 +253,9 @@ export default function Extras() {
           </div>
 
           <Listagem array={extras} select={selectById} delete={confirmaExclusao} />
+          <div>
+            {msg.length > 0 && <div className="alert alert-info mt-2">{msg}</div>}
+          </div>
 
           {/* md_novo */}
 

@@ -278,9 +278,7 @@ export default function Produtos() {
           <div className="row">
             <div className="col-6">
               <div className="mt-2">
-                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novoproduto">
-                  <i className="fas fa-address-book"></i> NOVO PRODUTO
-                </button>
+                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#md_novoproduto"><i className="fas fa-address-book"></i> NOVO PRODUTO</button>
                 <button onClick={VisualizarPDF} className="btn btn-warning"><i className="fas fa-file-pdf"></i> PDF</button>
               </div>
             </div>
