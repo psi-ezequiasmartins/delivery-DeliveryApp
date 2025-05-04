@@ -4,7 +4,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { Impressao } from './impressao';
+import { imprimirListagemDeItensAcrescimo } from './impressao';
 import './index.css';
 
 import pdfMake from "pdfmake/build/pdfmake";
@@ -174,17 +174,13 @@ export default function Extras() {
   }
 
   async function VisualizarPDF() {
-    console.log('Dados para impressão:', extras); // Log para verificar os dados
-  
     if (!extras || extras.length === 0) {
-      Swal.fire('Aviso', 'Nenhum item extra disponível para gerar o PDF.', 'info');
+      Swal.fire('Aviso', 'Nenhum pedido em aberto disponível para gerar o PDF.', 'info');
       return;
     }
-  
     try {
-      const classeImpressao = new Impressao(extras);
-      const documento = await classeImpressao.PreparaDocumento();
-      console.log('Documento gerado:', documento); // Log para verificar o documento gerado
+      console.log('report', extras);
+      const documento = imprimirListagemDeItensAcrescimo(extras); 
       pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
     } catch (error) {
       console.error('Erro ao gerar o PDF:', error);

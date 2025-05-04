@@ -3,8 +3,8 @@
  */
 
 import { useState, useEffect } from "react";
+import { imprimirListagemDePedidos } from './impressao';
 import Menu from "../../../components/menu";
-import { gerarDocumentoPedidos } from './impressao';
 import Pedido from "./pedido";
 import './index.css';
 
@@ -74,7 +74,7 @@ export default function Pedidos() {
     }
     try {
       console.log('report', pedidos);
-      const documento = gerarDocumentoPedidos(pedidos); // Chama a função diretamente
+      const documento = imprimirListagemDePedidos(pedidos); 
       pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
     } catch (error) {
       console.error('Erro ao gerar o PDF:', error);

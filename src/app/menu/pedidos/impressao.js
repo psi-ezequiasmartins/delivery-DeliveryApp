@@ -1,4 +1,4 @@
-export function gerarDocumentoPedidos(dadosParaImpressao) {
+export function imprimirListagemDePedidos(dadosParaImpressao) {
   if (!dadosParaImpressao || dadosParaImpressao.length === 0) {
     console.warn('Nenhum dado disponível para criar o corpo do documento.');
     return [{ text: 'Nenhum pedido em aberto.', style: 'noData' }];

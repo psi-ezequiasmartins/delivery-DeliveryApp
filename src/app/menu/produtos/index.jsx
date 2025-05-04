@@ -4,15 +4,16 @@
 
 import { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { Impressao } from './impressao';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { firebase_app } from "../../../config/apiFirebase";
+import { imprimirListagemDeProdutos } from './impressao';
+import Menu from '../../../components/menu';
 import './index.css';
 
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
-import Menu from '../../../components/menu';
+
 import api from '../../../config/apiAxios';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -222,10 +223,18 @@ export default function Produtos() {
   }
 
   async function VisualizarPDF() {
-    console.log('report', produtos);
-    const classeImpressao = new Impressao(produtos);
-    const documento = await classeImpressao.PreparaDocumento();
-    pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
+    if (!produtos || produtos.length === 0) {
+      Swal.fire('Aviso', 'Nenhum pedido em aberto disponível para gerar o PDF.', 'info');
+      return;
+    }
+    try {
+      console.log('report', produtos);
+      const documento = imprimirListagemDeProdutos(produtos); 
+      pdfMake.createPdf(documento).open({}, window.open('', '_blank'));
+    } catch (error) {
+      console.error('Erro ao gerar o PDF:', error);
+      Swal.fire('Erro', 'Não foi possível gerar o PDF. Tente novamente mais tarde.', 'error');
+    }
   }
 
   function Listagem(props) {
