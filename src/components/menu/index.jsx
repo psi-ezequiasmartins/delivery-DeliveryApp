@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext.jsx';
-import { FaStore, FaSignOutAlt } from 'react-icons/fa';
+import { FaStore, FaSignOutAlt, FaMoneyCheck } from 'react-icons/fa';
 import { IoFastFood } from 'react-icons/io5';
 import { GiShoppingBag } from 'react-icons/gi';
 import { BiFoodMenu } from 'react-icons/bi';
@@ -64,6 +64,12 @@ export default function Menu(props) {
         <Link to="/app/delivery" className={props.page === "delivery" ? activeLink : inactiveLink}>
           <FaStore size={24} className="icon" />
           {!isTabbar && <span className="ms-1 d-none d-sm-inline">Delivery</span>}
+        </Link>
+      </li>
+      <li className={`nav-item ${isTabbar ? 'text-center' : ''}`}>
+        <Link to="/app/cheques" className={props.page === "cheques" ? activeLink : inactiveLink}>
+          <FaMoneyCheck size={24} className="icon" />
+          {!isTabbar && <span className="ms-1 d-none d-sm-inline">Cheques</span>}
         </Link>
       </li>
       <hr className={!isTabbar ? '' : 'd-none'} />

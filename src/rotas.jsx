@@ -17,6 +17,7 @@ import Pedidos from "./app/menu/pedidos";
 import Produtos from "./app/menu/produtos/index.jsx";
 import Extras from "./app/menu/extras/index.jsx";
 import Delivery from "./app/menu/delivery/index.jsx";
+import Cheques from './app/menu/cheques';
 
 import SecureRoute from "./components/route/protected.js";
 
@@ -49,6 +50,11 @@ export default function Rotas() {
                         <Delivery/>
                     </SecureRoute>
                 } />
+                <Route path="/app/cheques" element={
+                    <SecureRoute>
+                        <Cheques />
+                    </SecureRoute>
+                } />                
                 {/* SecureRoutes */}
                 </Routes>
         </BrowserRouter>

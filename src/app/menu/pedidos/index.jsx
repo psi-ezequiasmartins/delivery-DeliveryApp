@@ -9,12 +9,12 @@ import Pedido from "./pedido";
 import './index.css';
 
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
 
 import api from "../../../config/apiAxios";
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Pedidos() {
   const vDelivery = localStorage.getItem("vDelivery");

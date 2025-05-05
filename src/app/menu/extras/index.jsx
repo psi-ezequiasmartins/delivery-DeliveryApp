@@ -8,13 +8,13 @@ import { imprimirListagemDeItensAcrescimo } from './impressao';
 import './index.css';
 
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
 import Swal from 'sweetalert2';
 import Menu from "../../../components/menu";
 
 import api from '../../../config/apiAxios';
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Extras() {
   const vDelivery = localStorage.getItem("vDelivery"); 
