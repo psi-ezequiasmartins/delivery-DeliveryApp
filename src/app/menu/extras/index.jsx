@@ -175,7 +175,7 @@ export default function Extras() {
 
   async function VisualizarPDF() {
     if (!extras || extras.length === 0) {
-      Swal.fire('Aviso', 'Nenhum pedido em aberto disponível para gerar o PDF.', 'info');
+      Swal.fire('Aviso', 'Não há itens extras cadastrados para gerar o PDF.', 'info');
       return;
     }
     try {
