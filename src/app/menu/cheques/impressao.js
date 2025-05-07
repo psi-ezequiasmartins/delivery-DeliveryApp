@@ -29,9 +29,9 @@ export function imprimirChequeAoPortador(dadosParaImpressao) {
         fontSize: 12
       }
     ],
-    defaultStyle: {
-      font: 'Helvetica'
-    }
+    // defaultStyle: {
+    //   font: 'Helvetica'
+    // }
   };
 
   return documento;

@@ -4,9 +4,9 @@ import { PrinterOutlined } from '@ant-design/icons';
 import { imprimirChequeAoPortador } from './impressao';
 import Menu from "../../../components/menu";
 import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+// import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+// pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const { Title } = Typography;
 
