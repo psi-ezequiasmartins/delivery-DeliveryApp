@@ -6,14 +6,14 @@ import React, { createContext, useState, useEffect } from 'react';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 import { firebase_app } from '../config/apiFirebase';
-
 import api from '../config/apiAxios';
+
+const auth = getAuth(firebase_app);
+const db = getDatabase();
 
 const AuthContext = createContext();
 
 function AuthProvider({children}){
-  const auth = getAuth(firebase_app);
-  const db = getDatabase();
   const [ authenticated, setAuthenticated ] = useState(false);
   const [ loading, setLoading ] = useState(false);
   const [ msg, setMessage ] = useState('');
