@@ -52,12 +52,11 @@ function AuthProvider({children}){
         localStorage.setItem("vMail", data.DeliveryMail);
       });
 
-      const user_id = localStorage.getItem("vID");
+      const vID = localStorage.getItem("vID");
       
-      try {
-        
+      try {        
         const response = await api.post('/api/authenticate', { 
-          "USER_ID": user_id, "CHV": 1 , "timezoneOffset": new Date().getTimezoneOffset(),
+          "USER_ID": vID, "CHV": 1 , "timezoneOffset": new Date().getTimezoneOffset(),
         });
 
         const token = response.data?.token; // Verifica se 'data' e 'token' estão definidos
