@@ -4,7 +4,7 @@
 
 import Axios from "axios";
 
-const URL_API = process.env.REACT_APP_BASEURL || "http://srv.deliverybairro.com" || "http://localhost:3357" ;
+const URL_API = process.env.REACT_APP_BASEURL || "https://srv.deliverybairro.com" || "http://localhost:3357" ;
 
 const api = Axios.create({
   baseURL: URL_API,
