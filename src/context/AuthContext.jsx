@@ -56,7 +56,7 @@ function AuthProvider({children}){
       
       try {        
         const response = await api.post('/api/authenticate', { 
-          "USER_ID": vID, "CHV": 1 , "timezoneOffset": new Date().getTimezoneOffset(),
+          "USER_ID": vID, "CHV": "1", "timezoneOffset": new Date().getTimezoneOffset(),
         });
 
         const token = response.data?.token; // Verifica se 'data' e 'token' estão definidos
