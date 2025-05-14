@@ -53,7 +53,7 @@ function AuthProvider({children}){
       });
 
       const vID = parseFloat(localStorage.getItem("vID"));
-
+      console.log ()
       try {
         const response = await api.post('/api/delivery/authenticate', {
           USER_ID: vID, // certifique-se que vID é um número
