@@ -4,6 +4,6 @@
 # production
 /build
 # misc
-#.env
+.env
 .zip
 .txt
