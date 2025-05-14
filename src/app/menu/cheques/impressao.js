@@ -3,7 +3,6 @@ export function imprimirChequeAoPortador(dadosParaImpressao) {
     console.warn('Nenhum dado disponível para criar o cheque.');
     return null;
   }
-
   // Função para formatar a data
   function formatarData(data) {
     const meses = [
