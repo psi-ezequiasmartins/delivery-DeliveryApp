@@ -1,10 +1,11 @@
-// import { useState } from 'react';
-import { Card, Form, Input, Button, Row, Col, Typography } from 'antd';
-import { PrinterOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { Card, Form, Input, Button, Row, Col, Typography, Modal, Table } from 'antd';
+import { PrinterOutlined, UserOutlined } from '@ant-design/icons';
 import { imprimirChequeAoPortador } from './impressao';
 import Menu from "../../../components/menu";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import api from '../../../config/apiAxios';
 
 pdfMake.vfs = pdfFonts.vfs
 
@@ -12,6 +13,12 @@ const { Title } = Typography;
 
 export default function Cheques() {
   const [form] = Form.useForm();
+  const [favorecidos, setFavorecidos] = useState([]);
+  const [filteredFavorecidos, setFilteredFavorecidos] = useState([]);
+  const [busca, setBusca] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loadingFavorecidos, setLoadingFavorecidos] = useState(false);
+
   const initialValues = {
     valor: '',
     valorPorExtenso: '',
@@ -20,6 +27,70 @@ export default function Cheques() {
     pagueA: ''
   };
 
+  async function fetchFavorecidos() {
+    setLoadingFavorecidos(true);
+    try {
+     const response = await api.get('/api/favorecidos');
+     setFavorecidos(response.data);
+     setFilteredFavorecidos(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar favorecidos: ', error);      
+    } finally {
+      setLoadingFavorecidos(false);
+    }
+  }
+
+  useEffect(()=>{
+    const searchLower = busca.toLowerCase();
+    const listagem = favorecidos.filter((snapshot)=>
+      snapshot.FAVORECIDO.toLowerCase().includes(searchLower) ||
+      snapshot.CPPJ?.toLowerCase().includes(searchLower) ||
+      snapshot.CPF?.toLowerCase().includes(searchLower)
+    );
+    setFilteredFavorecidos(listagem);
+    // console.log(filteredFavorecidos);
+  }, [busca, favorecidos]);
+
+  function handleOpenModal() {
+    fetchFavorecidos();
+    setModalVisible(true);
+  }
+
+  function handleCloseModal() {
+    setModalVisible(false);
+  }
+
+  function handleSelectFavorecido(record) {
+    form.setFieldsValue({ pagueA: record.FAVORECIDO.toUpperCase() });
+    setModalVisible(false);
+  }
+
+  const columns = [
+    {
+      title: 'Nome',
+      dataIndex: 'FAVORECIDO',
+      key: 'FAVORECIDO',
+    },
+    {
+      title: 'CNPJ',
+      dataIndex: 'CNPJ',
+      key: 'CNPJ',
+    },
+    {
+      title: 'CPF',
+      dataIndex: 'CPF',
+      key: 'CPF',
+    },
+    {
+      title: 'Ação',
+      key: 'action',
+      render: (_, record) => (
+        <Button type="link" onClick={() => handleSelectFavorecido(record)}>
+          Selecionar
+        </Button>
+      ),
+    },
+  ];
 
   function convertToFullSTRING(valor) {
     if (!valor || isNaN(valor)) return "zero reais";
@@ -167,13 +238,23 @@ export default function Cheques() {
               </Row>
 
               <Row gutter={16}>
-                <Col span={24}>
+                <Col span={20}>
                   <Form.Item
                     name="pagueA"
                     label="Pague a"
                   >
                     <Input placeholder="Deixe em branco para 'AO PORTADOR'" />
                   </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Button
+                    type="primary"
+                    icon={<UserOutlined />}
+                    onClick={handleOpenModal}
+                    style={{ marginTop: '30px' }}
+                  >
+                    FAVORECIDOS
+                  </Button>
                 </Col>
               </Row>
 
@@ -192,5 +273,36 @@ export default function Cheques() {
 
       </div>
     </div>
+
+    {/* Modal para exibir a lista de favorecidos */}
+    <Modal
+      title="Selecionar Favorecido"
+      visible={modalVisible}
+      onCancel={handleCloseModal}
+      footer={null}
+      centered
+      width={800}
+    >
+      {/* Campo de busca */}
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Buscar favorecido"
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+        />
+      </div>
+
+      {/* Tabela de favorecidos */}
+      <Table
+        dataSource={filteredFavorecidos}
+        columns={columns}
+        rowKey="ID"
+        loading={loadingFavorecidos}
+        pagination={{ pageSize: 5 }}
+      />
+    </Modal>
+
   </>;
 }
