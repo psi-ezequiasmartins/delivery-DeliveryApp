@@ -58,7 +58,7 @@ function AuthProvider({children}){
       try {
         const response = await api.post('/api/delivery/authenticate', {
           USER_ID: vID, // certifique-se que vID é um número
-          CHV: "1",
+          CHV: 1,
           timezoneOffset: new Date().getTimezoneOffset()
         });
 
