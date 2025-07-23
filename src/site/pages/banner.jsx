@@ -1,3 +1,7 @@
+/**
+ * src/site/pages/banner.jsx
+ */
+
 import React, { useState, useEffect } from 'react';
 import banner from '../../assets/banner.jpg';
 import './banner.css'

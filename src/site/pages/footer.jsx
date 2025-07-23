@@ -1,3 +1,6 @@
+/**
+ * src/site/pages/footer.jsx
+ */
 import React from 'react';
 
 function Footer() {

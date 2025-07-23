@@ -1,3 +1,7 @@
+/**
+ * src/site/pages/menu.jsx
+ */
+
 import React from 'react';
 import logomarca from '../../assets/logomarca.png'
 
